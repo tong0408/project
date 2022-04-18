@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="images/favicon.jpg" rel="icon" type="image/x-icon" />
+    <title>創造營2021</title>
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">                   
+    <link href="css/bootstrap-3.3.7.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  </head>
+  
+  <style type="text/css">
+  	*{padding: 0;margin: 0;font-family: "微軟正黑體";cursor: url(http://cur.cursors-4u.net/nature/nat-11/nat1033.ani), url(http://cur.cursors-4u.net/nature/nat-11/nat1033.gif), auto !important;}
+	.top{
+		width: 100%;
+		height: 90px;
+		background: rgba(255,255,255,0.7);
+		z-index: 999;
+		position: fixed;
+	}
+	.logo{
+		width: 300px;
+		display: inline-block;
+		padding: 10px;
+	}
+	
+	.tag{
+		border-bottom: #CCC solid 1px;
+		border-top: #CCC solid 1px;
+		font-size: 23px;
+		transition: ease-in 0.5s;
+		padding: 10px;
+		margin: 20px 40px;
+		display: inline-block;
+		color: 	#FF2400;
+	}
+	
+	.tag:hover{
+		background: #FF2400;
+		color: #FFF;
+		font-size: 25px;
+	}
+	.icon{
+		width: 30px;
+		height: 30px;
+		border-radius: 30px;
+		text-align: center;
+		border: #000000 solid 1px;
+		color: #FF2400;
+		line-height: 30px;
+		transition: ease-in 0.5s;
+		font-size: 23px;
+		display: inline-block;
+	}
+	
+	.f:hover{background: #0D47FF; border: #0D47FF; color: #FFF; solid 1px;}
+	.l:hover{background: #039E02; border: #039E02; color: #FFF; solid 1px;}
+	
+	.mine{
+		width: 100%;
+		height: 12vh;
+	}
+	
+	iframe{
+		width: 100%;
+		border: none;
+	}
+  </style>
+  
+  <body>
+
+	<div class="top">
+	<!--設定logo連結-->
+		<a href="#home">
+		<div class="logo">
+			<img src="images/logo.png" width="350" height="80"> 
+		</div></a>
+		<ul style="width: 80%; float: right;">
+			<!--導覽列文字前面的圖片來自於Bootstrap Glyphicon Components-->
+			<a href="#about"><li class="tag"><i class="glyphicon glyphicon-bell"></i>關於創造營</li></a>	
+			<a href="#vote"><li class="tag"><i class="glyphicon glyphicon-heart-empty"></i>選手投票通道</li></a>
+			<a href="#preview"><li class="tag"><i class="glyphicon glyphicon-film"></i>精彩預告</li></a>	
+			<a href="#performance"><li class="tag"><i class="glyphicon glyphicon-music"></i>舞台公演</li></a>	
+			<a href="#message"><li class="tag"><i class="glyphicon glyphicon-comment"></i>粉絲留言版</li></a>
+			<a href="http://www.facebook.com"><li class="tag"><div class="icon f">F</div></li></a> 
+			<a href="http://line.me"><li class="tag"><div class="icon l">L</div></li></a>
+		</ul>
+	</div>
+
+	<div class="mine" id="home"></div>
+	<section style="height: 90vh">
+		<img src="images/pic1.jpg" class="img-responsive">
+	</section>
+
+	<div id="about"></div>
+	<section style="height: 100vh">
+		<iframe style="height: 100vh" src="about.php"></iframe>
+	</section>
+	 
+	<div id="vote"></div>
+	<section style="height: 100vh">
+		<iframe style="height: 100vh" src="vote.php"></iframe>
+	</section>
+	
+	<div id="preview"></div>
+	<section style="height: 100vh">
+		<iframe style="height: 100vh" src="preview.php"></iframe>
+	</section>
+
+    <div id="performance"></div>
+	<section style="height: 100vh">
+		<iframe style="height: 100vh" src="performance.php"></iframe>
+	</section>
+	 
+	<div id="message"></div>
+	<section style="height: 100vh">
+		<iframe style="height: 100vh" src="message.php"></iframe>
+	</section>
+  
+  </body>
+
+</html>
