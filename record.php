@@ -54,7 +54,12 @@
 	.btn:hover{
 		background-color: #FFB03B;
 	}
+	
 	td{height:80px;}
+	
+	tbody:hover {
+		background-color: rgba(200,200,200,0.5);
+	}
 </style>
 </head>
 <body>
@@ -65,7 +70,7 @@
 			日期：<input type="date" name="get_date" value="<?php echo date('Y-m-d'); ?>" required >
 			<input type="submit" class="btn" value="查詢" style="margin:10px 10px 10px 10px;">
 		</form>	
-		<table style="margin:auto; width:80%; text-align:center;">
+		<table style="margin:auto; width:80%; text-align:center;"  border="1px solid #CCC">
 			<tr><td>時間</td><td>菜名</td><td>食材</td><td>分類</td><td>份量</td></tr>
 			<?PHP
 
@@ -91,7 +96,7 @@
 					$count_rows=$count->rowCount(); 
 					
 					//顯示結果
-					echo '<tr>'.
+					echo '<tbody><tr>'.
 					//時間
 					'<td style="height:50px;" rowspan="'.$count_rows.'">'.$row["time"].'</td>';
 					
@@ -133,7 +138,7 @@
 							}						
 						}
 					}
-				
+					echo '</tbody>';
 			
 			?>
 		</table>
