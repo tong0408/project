@@ -14,33 +14,9 @@
 <link href="image/logo.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
-	
-	body, html {
-		height: 100%;
-		line-height: 1.8;
-	}
-	input[type=text]{margin:10px 0px 10px 0px; width:50%;}
-	button{margin:0px 10px 0px 10px;}
-	.form1{
-		background-color: #FFD79B;
-		border-radius:30px;
-		width:70%;
-		margin:auto;
-		padding:30px 0px;
-		text-align:center;
-	}
-	
-	.btn{
-		border-radius:10px;
-		background-color: #FFF;
-	}
-	
-	.btn:hover{
-		background-color: #FFB03B;
-	}
 	td{height:50px;}
 </style>
 </head>
