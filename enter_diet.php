@@ -29,6 +29,6 @@
 	}
 	
 	
-	header("Location: index.html#record");
+	header("Location: record.php");
 		
   ?>
