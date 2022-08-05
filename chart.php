@@ -86,8 +86,40 @@
 <?php
     //連接歷史紀錄資料表（限制日期）
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT * FROM `history` WHERE `UID`='$userID' and `date`='$get_date'";
+    $query = "SELECT  RIGHT(`date`,5) as date,`dishID` FROM `history` WHERE `UID`='$userID' limit 7";
     $result = $link->query($query);	
+    $i=0;
+    foreach($result as $row){
+        if($row["date"]!=null){
+			$dishID = $row['dishID'];
+            $date[$i]=$row["date"];//要放入JS的日期
+        }
+    //取得所有需要的資料
+		
+		//取得菜ID使用的食材ID
+		$query = "SELECT iID FROM recipe where dishID='$dishID'";
+		$re = $link->query($query);
+		foreach ($re as $r){
+			$dish_iID=$r['iID'];
+
+			//從食材ID取得食材類別ID和食材名稱<使用>
+			$query = "SELECT NID FROM ingredients where iID='$dish_iID'";
+			$re = $link->query($query);
+			foreach ($re as $r){
+				$iID_NID=$r['NID'];
+
+				//從食材類別ID取得食材類別名稱<使用>
+				$query = "SELECT * FROM nutrient where NID='$iID_NID'";
+				$re = $link->query($query);
+				foreach ($re as $r){
+					$iID_NID_Name=$r['category'];
+									
+				}							
+			}						
+		}
+		$i=$i+1;
+	}
+	
 ?>
 <script>
 //日期自動變化
