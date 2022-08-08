@@ -86,24 +86,22 @@
 <?php
     //連接歷史紀錄資料表（限制日期）
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT  RIGHT(`date`,5) as date,`dishID` FROM `history` WHERE `UID`='$userID' limit 7";
+    $query = "SELECT `dishID` FROM `history` WHERE `UID`='$userID' limit 7";
     $result = $link->query($query);	
-    $i=0;
     foreach($result as $row){
         if($row["date"]!=null){
 			$dishID = $row['dishID'];
-            $date[$i]=$row["date"];//要放入JS的日期
         }
     //取得所有需要的資料
 		
 		//取得菜ID使用的食材ID
-		$query = "SELECT iID FROM recipe where dishID='$dishID'";
+		$query = "SELECT `iID`, `portion` FROM recipe where dishID='$dishID'";
 		$re = $link->query($query);
 		foreach ($re as $r){
-			$dish_iID=$r['iID'];
+			$iID=$r['iID'];
 
 			//從食材ID取得食材類別ID和食材名稱<使用>
-			$query = "SELECT NID FROM ingredients where iID='$dish_iID'";
+			$query = "SELECT NID FROM ingredients where iID='$iID'";
 			$re = $link->query($query);
 			foreach ($re as $r){
 				$iID_NID=$r['NID'];
@@ -112,26 +110,30 @@
 				$query = "SELECT * FROM nutrient where NID='$iID_NID'";
 				$re = $link->query($query);
 				foreach ($re as $r){
-					$iID_NID_Name=$r['category'];
-									
+					$iID_NID_Name=$r['category'];	
 				}							
-			}						
+			}
 		}
-		$i=$i+1;
 	}
-	
 ?>
 <script>
 //日期自動變化
 var Today=new Date();
+var month=Today.getMonth()+1;
+var d=Today.getDate();
+var date=[];
+for(var i=1;i<32;i++){
+	date.push(i);
+}
+//改善的地方為:如果是1號與31號 怎麼半?
+	var mmdd1=Today.getMonth()+1+'/'+(Today.getDate()-6);
+	var mmdd2=Today.getMonth()+1+'/'+(Today.getDate()-5);
+	var mmdd3=Today.getMonth()+1+'/'+(Today.getDate()-4);
+	var mmdd4=Today.getMonth()+1+'/'+(Today.getDate()-3);
+	var mmdd5=Today.getMonth()+1+'/'+(Today.getDate()-2);
+	var mmdd6=Today.getMonth()+1+'/'+(Today.getDate()-1);
+	var mmdd7=Today.getMonth()+1+'/'+Today.getDate();
 
-var mmdd1=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd2=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd3=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd4=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd5=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd6=Today.getMonth()+1+'/'+Today.getDate();
-var mmdd7=Today.getMonth()+1+'/'+Today.getDate();
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
