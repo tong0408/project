@@ -24,9 +24,7 @@
 		min-height: 100%;
 	}
 	
-	.w3-bar .w3-button {
-		padding: 16px;
-	}
+	
 	
 	.top{
 		font-size:16px;
@@ -85,21 +83,79 @@
 		width:100%;
 		border:none;
 	}
+	ul { /* 取消ul預設的內縮及樣式 */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+	
+
+    ul.drop-down-menu {
+        display: inline-block;
+    }
+
+    ul.drop-down-menu li {
+        position: relative;
+        white-space: nowrap;   }    
+
+    ul.drop-down-menu > li {
+        float: left; /* 只有第一層是靠左對齊*/
+    }
+
+     ul.drop-down-menu a {
+        background-color: #fff;
+        display: block;
+        padding: 0 30px;
+        text-decoration: none;
+        line-height: 56px;
+
+    }
+    
+    ul.drop-down-menu li:hover > a { /* 滑鼠移入次選單上層按鈕保持變色*/
+        background-color: #CCC;
+    }
+	 ul.drop-down-menu ul {
+        position: absolute;
+        z-index: 99;
+        left: -1px;
+        top: 100%;
+       min-width: 180px;
+    }   
+
+    ul.drop-down-menu ul ul { /*第三層以後的選單出現位置與第二層不同*/
+        z-index: 999;
+        top: 10px;
+        left: 90%;
+    }
+	  ul.drop-down-menu ul { /*隱藏次選單*/
+        display: none;
+    }
+
+    ul.drop-down-menu li:hover > ul { /* 滑鼠滑入展開次選單*/
+        display: block;
+    }
 </style>
 </head>
 <body>
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
-  <div class="w3-bar w3-white w3-card" id="myNavbar">
+  <div class="w3-white w3-card" id="myNavbar">
     <a href="#home" class="w3-bar-item w3-button w3-wide"><img src="image/logo.png" height='40px'/></a>
     <!-- Right-sided navbar links -->
 	
     <div class="w3-right w3-hide-small top">
-      <a href="#record" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-cutlery"></i>每日飲食紀錄</a>
-      <a href="#chart" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-search"></i>營養素圖表</a>
-      <a href="#menu" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-book"></i>推薦菜單</a>   
-      <a href="#profile" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-user"></i>個人檔案</a>
+	<ul class="drop-down-menu">
+      <li><a href="#record" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-cutlery"></i>每日飲食紀錄</a></li>
+      <li><a href="#chart" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-search"></i>營養素圖表</a></li>
+      <li><a href="#menu" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-book"></i>推薦菜單</a></li>   
+      <li><a class="w3-bar-item w3-button"><i class="glyphicon glyphicon-user"></i>個人檔案</a>
+		<ul>
+			<li><a href="user_user.php" class="w3-bar-item w3-button">修改檔案</a></li>
+			<li><a href="user_logout.php" class="w3-bar-item w3-button">登出</a></li>
+		</ul>
+	  </li>
+	</ul>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -115,7 +171,8 @@
   <a href="#record" onclick="w3_close()" class="w3-bar-item w3-button">每日飲食紀錄</a>
   <a href="#chart" onclick="w3_close()" class="w3-bar-item w3-button">營養素圖表</a>
   <a href="#menu" onclick="w3_close()" class="w3-bar-item w3-button">推薦菜單</a>
-  <a href="#profile" onclick="w3_close()" class="w3-bar-item w3-button">個人檔案</a>
+  <a href="user_user.php" onclick="w3_close()" class="w3-bar-item w3-button">個人檔案</a>
+  <a href="user_logout.php" onclick="w3_close()" class="w3-bar-item w3-button">登出</a>
 </nav>
 
 <!-- Header with full-height image -->
@@ -149,7 +206,7 @@
 	<i class="glyphicon glyphicon-thumbs-up"></i>協助控制疾病所需攝取的基本營養
 	<i class="glyphicon glyphicon-thumbs-up"></i>以圖表化的方式呈現飲食軌跡<br><br>	
 	</span>
-    <p><a href="#about" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">開啟養身之旅</a></p>
+    <p><a href="#record" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">開啟養身之旅</a></p>
   </div> 
   <!--
   <div class="w3-display-bottomleft w3-large" style="padding:24px 48px">
@@ -161,11 +218,13 @@
 </header>
 
 <!-- record Section -->
-<div class="w3-container" style="padding:128px 16px; height:100vh;" id="record">  
-  <div class="w3-row-padding w3-center">
-    <iframe style="height: 100vh" src="daily_diet.html">
-	</iframe>
-  </div>
+<div class="w3-container" style="padding:128px 0px; height:120vh;" id="record"> 
+    <iframe style="height: 100vh" src="daily_diet.html"></iframe> 
+</div>
+
+<!-- chart Section -->
+<div class="w3-container" style="padding:128px 0px; height:120vh;" id="chart"> 
+    <iframe style="height: 90vh" src="chart.php"></iframe> 
 </div>
 
 <!-- Promo Section - "We know design" -->
