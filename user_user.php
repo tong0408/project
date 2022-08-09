@@ -33,7 +33,7 @@
         <!--登出-->
         <button type="buttom" onclick="location.href='user_logout.php'">登出</button>
         
-        會員帳號：[ <?php echo $Account ;?> ]
+        會員帳號：[ <?php echo $userid ;?> ]
         <br>
         <!--如果有需要修改任何會員的資料庫內資料，從這裡下去修改，語法基本上一樣-->
         修改：<br>
