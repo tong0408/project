@@ -83,21 +83,30 @@
 <canvas id="myChart" ></canvas>
 </div>
 </div>
+<script>
+var sqldate=[];
+var sqlportion=[];
+var iID_NID=[];
+var count=0;
+</script>
 <?php
     //連接歷史紀錄資料表
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT `dishID` FROM `history` WHERE `UID`='$userID' limit 7";
+    $query = "SELECT COUNT(`ID`),`dishID` ,right(`date`,5) as date FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
     $result = $link->query($query);
+	$count = $result->fetchColumn();
 	
     foreach($result as $row){
         
 		$dishID = $row['dishID'];
+		$sqldate=$row['date'];
 
     //取得所有需要的資料
 		
 		//取得dishID使用的iID&portion
 		$query = "SELECT `iID`, `portion` FROM recipe where dishID='$dishID'";
 		$re = $link->query($query);
+		
 		foreach ($re as $r){
 			$iID=$r['iID'];
 			$portion=$r['portion'];
@@ -106,39 +115,181 @@
 			$query = "SELECT NID FROM ingredients where iID='$iID'";
 			$re = $link->query($query);
 			foreach ($re as $r){
-				$iID_NID=$r['NID'];						
+				$iID_NID=$r['NID'];
+				
+?>
+<script>
+sqldate.push('<?php echo $sqldate;?>');
+sqlportion.push('<?php echo $portion;?>');
+iID_NID.push('<?php echo $iID_NID;?>');
+count='<? php echo $count;?>';
+</script>
+<?php
 			}
 		}
 	}
 ?>
 <script>
-
 //日期自動變化
 var Today=new Date();
 var month=Today.getMonth()+1;
 var d=Today.getDate();
 var date=[];
+var mmdd=[];
+var portion=[];
+
 for(var i=1;i<32;i++){
 	date.push(i);
 }
+//weekly
 //改善的地方為:如果是1號與31號 怎麼半?
-	var mmdd1=Today.getMonth()+1+'-'+(Today.getDate()-6);
-	var mmdd2=Today.getMonth()+1+'-'+(Today.getDate()-5);
-	var mmdd3=Today.getMonth()+1+'-'+(Today.getDate()-4);
-	var mmdd4=Today.getMonth()+1+'-'+(Today.getDate()-3);
-	var mmdd5=Today.getMonth()+1+'-'+(Today.getDate()-2);
-	var mmdd6=Today.getMonth()+1+'-'+(Today.getDate()-1);
-	var mmdd7=Today.getMonth()+1+'-'+Today.getDate();
+if(month<10){
+	if(d<10){
+		mmdd.push('0'+month+'-'+'0'+d);
+		mmdd.push('0'+month+'-'+'0'+(d-1));
+		mmdd.push('0'+month+'-'+'0'+(d-2));
+		mmdd.push('0'+month+'-'+'0'+(d-3));
+		mmdd.push('0'+month+'-'+'0'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==10){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+'0'+(d-1));
+		mmdd.push('0'+month+'-'+'0'+(d-2));
+		mmdd.push('0'+month+'-'+'0'+(d-3));
+		mmdd.push('0'+month+'-'+'0'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==11){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+(d-1));
+		mmdd.push('0'+month+'-'+'0'+(d-2));
+		mmdd.push('0'+month+'-'+'0'+(d-3));
+		mmdd.push('0'+month+'-'+'0'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==12){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+(d-1));
+		mmdd.push('0'+month+'-'+(d-2));
+		mmdd.push('0'+month+'-'+'0'+(d-3));
+		mmdd.push('0'+month+'-'+'0'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==13){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+(d-1));
+		mmdd.push('0'+month+'-'+(d-2));
+		mmdd.push('0'+month+'-'+(d-3));
+		mmdd.push('0'+month+'-'+'0'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==14){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+(d-1));
+		mmdd.push('0'+month+'-'+(d-2));
+		mmdd.push('0'+month+'-'+(d-3));
+		mmdd.push('0'+month+'-'+(d-4));
+		mmdd.push('0'+month+'-'+'0'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else if(d==15){
+		mmdd.push('0'+month+'-'+d);
+		mmdd.push('0'+month+'-'+(d-1));
+		mmdd.push('0'+month+'-'+(d-2));
+		mmdd.push('0'+month+'-'+(d-3));
+		mmdd.push('0'+month+'-'+(d-4));
+		mmdd.push('0'+month+'-'+(d-5));
+		mmdd.push('0'+month+'-'+'0'+(d-6));
+	}else{
+		mmdd.push('0'+month+'-'+Today.getDate());
+		mmdd.push('0'+month+'-'+(Today.getDate()-1));
+		mmdd.push('0'+month+'-'+(Today.getDate()-2));
+		mmdd.push('0'+month+'-'+(Today.getDate()-3));
+		mmdd.push('0'+month+'-'+(Today.getDate()-4));
+		mmdd.push('0'+month+'-'+(Today.getDate()-5));
+		mmdd.push('0'+month+'-'+(Today.getDate()-6));
+	}
 
-function show(){
+}else{
+	if(d<10){
+		mmdd.push(month+'-'+'0'+d);
+		mmdd.push(month+'-'+'0'+(d-1));
+		mmdd.push(month+'-'+'0'+(d-2));
+		mmdd.push(month+'-'+'0'+(d-3));
+		mmdd.push(month+'-'+'0'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==10){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+'0'+(d-1));
+		mmdd.push(month+'-'+'0'+(d-2));
+		mmdd.push(month+'-'+'0'+(d-3));
+		mmdd.push(month+'-'+'0'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==11){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+(d-1));
+		mmdd.push(month+'-'+'0'+(d-2));
+		mmdd.push(month+'-'+'0'+(d-3));
+		mmdd.push(month+'-'+'0'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==12){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+(d-1));
+		mmdd.push(month+'-'+(d-2));
+		mmdd.push(month+'-'+'0'+(d-3));
+		mmdd.push(month+'-'+'0'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==13){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+(d-1));
+		mmdd.push(month+'-'+(d-2));
+		mmdd.push(month+'-'+(d-3));
+		mmdd.push(month+'-'+'0'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==14){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+(d-1));
+		mmdd.push(month+'-'+(d-2));
+		mmdd.push(month+'-'+(d-3));
+		mmdd.push(month+'-'+(d-4));
+		mmdd.push(month+'-'+'0'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else if(d==15){
+		mmdd.push(month+'-'+d);
+		mmdd.push(month+'-'+(d-1));
+		mmdd.push(month+'-'+(d-2));
+		mmdd.push(month+'-'+(d-3));
+		mmdd.push(month+'-'+(d-4));
+		mmdd.push(month+'-'+(d-5));
+		mmdd.push(month+'-'+'0'+(d-6));
+	}else{
+		mmdd.push(Today.getMonth()+1+'-'+Today.getDate());
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-1));
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-2));
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-3));
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-4));
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-5));
+		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-6));
+	}
+}
+	
+
+//切換
+function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
+
 	const ctx = document.getElementById('myChart').getContext('2d');
 	const myChart = new Chart(ctx, {
 		type: 'bar',
 		data: {
-			labels: [mmdd1, mmdd2, mmdd3, mmdd4, mmdd5, mmdd6,mmdd7 ],//改日期
+			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 			datasets: [{
 				label: '營養素圖表',
-				data: [12, 19, 13, 5, 12, 13,15],//改數值
+				data: [obj1,obj2,obj3,obj4,obj5,obj6,obj7],//改數值
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
@@ -180,7 +331,25 @@ window.onload=function(){
 	var n6=document.getElementById("6");
 	
 	n1.onclick=function(){
-		show();
+
+		for(var m=0;m<count;m++){
+			if(iID_NID[m]==1){
+				for(var i=0;i<7;i++){
+					var s=0;
+					if(mmdd[i]==sqldate[i]){
+						portion[i]=sqlportion[i];
+						s=1;
+						continue;
+					}else{
+						s=0;
+					}
+					if(s==0){
+						portion[i]=0;
+					}
+				}
+			}
+		}
+		show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
 		return false;
 	}
 	n2.onclick=function(){
@@ -204,8 +373,6 @@ window.onload=function(){
 		return false;
 	}
 }
-			
-
 </script>
 </body>
 </html>
