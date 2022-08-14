@@ -166,8 +166,10 @@ var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().repl
 
 var mmdd=[];
 var portion=[];
+var sum=0;
 
 //切換
+//問題2:切換月or週我不知道如何切換
 
 window.onload=function(){
 	//onclick button
@@ -181,6 +183,7 @@ window.onload=function(){
 	var b2=document.getElementById("week");
 	
 	b1.onclick=function(){
+		//放日期
 		mmdd.push(m1.substr(5,1));
 		mmdd.push(m2.substr(5,1));
 		mmdd.push(m3.substr(5,1));
@@ -196,13 +199,14 @@ window.onload=function(){
 					if(mmdd[i]==sqldate[i].substr(6,1)){
 						for(var m=0;m<count;m++){
 							if(iID_NID[m]==1){
+								
+								//問題1:無法加總
 								if(portion[i]==null){
 									portion[i]=sqlportion[m];
 								}else{
 									portion[i]=portion[i]+sqlportion[m];
 								}
-								document.write(portion[0]+'==');
-								continue;
+								document.write(portion[0]);
 							}
 						}
 					}
@@ -210,19 +214,18 @@ window.onload=function(){
 					if(mmdd[i]==sqldate[i]){
 						for(var m=0;m<count;m++){
 							if(iID_NID[m]==1){
+								
+								//問題1:無法加總
 								if(portion[i]==null){
 									portion[i]=sqlportion[m];
 								}else{
 									portion[i]=portion[m]+sqlportion[m];
 								}
-								continue;
 							}
 						}
 					}
 				}
 			}
-			
-			
 			show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
 			return false;
 		}
@@ -257,11 +260,12 @@ window.onload=function(){
 		mmdd.push(t6);
 		mmdd.push(t7);
 
+		//問題3:跑不出來
 		n1.onclick=function(){
 			for(var i=0;i<7;i++){
 				if(mmdd[i]<10){
-					document.write(sqldate[i].substr(6,4));
-					if(mmdd[i]==sqldate[i].substr(6,4)){
+					if(mmdd[i].substr(5,4)==sqldate[i].substr(6,4)){
+						document.write(mmdd[i].substr(5,4));
 						for(var m=0;m<count;m++){
 							if(iID_NID[m]==1){
 								if(portion[i]==null){
@@ -269,8 +273,6 @@ window.onload=function(){
 								}else{
 									portion[i]=portion[i]+sqlportion[m];
 								}
-								document.write(portion[i]+'==');
-								continue;
 							}
 						}
 					}
@@ -281,9 +283,8 @@ window.onload=function(){
 								if(portion[i]==null){
 									portion[i]=sqlportion[m];
 								}else{
-									portion[i]=portion[m]+sqlportion[m];
+									portion[i]=portion[i]+sqlportion[m];
 								}
-								continue;
 							}
 						}
 					}
