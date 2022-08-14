@@ -25,6 +25,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.2/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/weekday.min.js"></script>
 <style>
 	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
@@ -71,8 +72,8 @@
 </head>
 <body>
 <div style="display:inline-block;">
-<button class="btn">月</button>
-<button class="btn">周</button>
+<button class="btn" id="month">月</button>
+<button class="btn" id="week">周</button>
 <div class="container1">
 <button class="btn2" id="1">全榖雜糧類</button>
 <button class="btn2" id="2">豆魚蛋肉類</button>
@@ -92,7 +93,7 @@ var count=0;
 <?php
     //連接歷史紀錄資料表
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT COUNT(`ID`),`dishID` ,right(`date`,5) as date FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
+    $query = "SELECT COUNT(`ID`),`dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
     $result = $link->query($query);
 	$count = $result->fetchColumn();
 	
@@ -131,9 +132,24 @@ count='<? php echo $count;?>';
 ?>
 <script>
 //日期自動變化
-var Today=new Date();
-var month=Today.getMonth()+1;
-var d=Today.getDate();
+var Today = new Date();
+var t1 = new Date(Today.setDate(Today.getDate())).toLocaleDateString().replaceAll("/","-");
+var t2 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+var t3 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+var t4 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+var t5 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+var t6 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+var t7 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
+
+var Today1 = new Date();
+var m1 =new Date(Today1.setMonth(Today1.getMonth())).toLocaleDateString().replaceAll("/","-");
+var m2 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+var m3 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+var m4 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+var m5 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+var m6 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
+
 var date=[];
 var mmdd=[];
 var portion=[];
@@ -141,185 +157,7 @@ var portion=[];
 for(var i=1;i<32;i++){
 	date.push(i);
 }
-//weekly
-//改善的地方為:如果是1號與31號 怎麼半?
-if(month<10){
-	if(d<10){
-		mmdd.push('0'+month+'-'+'0'+d);
-		mmdd.push('0'+month+'-'+'0'+(d-1));
-		mmdd.push('0'+month+'-'+'0'+(d-2));
-		mmdd.push('0'+month+'-'+'0'+(d-3));
-		mmdd.push('0'+month+'-'+'0'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==10){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+'0'+(d-1));
-		mmdd.push('0'+month+'-'+'0'+(d-2));
-		mmdd.push('0'+month+'-'+'0'+(d-3));
-		mmdd.push('0'+month+'-'+'0'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==11){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+(d-1));
-		mmdd.push('0'+month+'-'+'0'+(d-2));
-		mmdd.push('0'+month+'-'+'0'+(d-3));
-		mmdd.push('0'+month+'-'+'0'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==12){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+(d-1));
-		mmdd.push('0'+month+'-'+(d-2));
-		mmdd.push('0'+month+'-'+'0'+(d-3));
-		mmdd.push('0'+month+'-'+'0'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==13){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+(d-1));
-		mmdd.push('0'+month+'-'+(d-2));
-		mmdd.push('0'+month+'-'+(d-3));
-		mmdd.push('0'+month+'-'+'0'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==14){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+(d-1));
-		mmdd.push('0'+month+'-'+(d-2));
-		mmdd.push('0'+month+'-'+(d-3));
-		mmdd.push('0'+month+'-'+(d-4));
-		mmdd.push('0'+month+'-'+'0'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else if(d==15){
-		mmdd.push('0'+month+'-'+d);
-		mmdd.push('0'+month+'-'+(d-1));
-		mmdd.push('0'+month+'-'+(d-2));
-		mmdd.push('0'+month+'-'+(d-3));
-		mmdd.push('0'+month+'-'+(d-4));
-		mmdd.push('0'+month+'-'+(d-5));
-		mmdd.push('0'+month+'-'+'0'+(d-6));
-	}else{
-		mmdd.push('0'+month+'-'+Today.getDate());
-		mmdd.push('0'+month+'-'+(Today.getDate()-1));
-		mmdd.push('0'+month+'-'+(Today.getDate()-2));
-		mmdd.push('0'+month+'-'+(Today.getDate()-3));
-		mmdd.push('0'+month+'-'+(Today.getDate()-4));
-		mmdd.push('0'+month+'-'+(Today.getDate()-5));
-		mmdd.push('0'+month+'-'+(Today.getDate()-6));
-	}
-
-}else{
-	if(d<10){
-		mmdd.push(month+'-'+'0'+d);
-		mmdd.push(month+'-'+'0'+(d-1));
-		mmdd.push(month+'-'+'0'+(d-2));
-		mmdd.push(month+'-'+'0'+(d-3));
-		mmdd.push(month+'-'+'0'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==10){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+'0'+(d-1));
-		mmdd.push(month+'-'+'0'+(d-2));
-		mmdd.push(month+'-'+'0'+(d-3));
-		mmdd.push(month+'-'+'0'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==11){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+(d-1));
-		mmdd.push(month+'-'+'0'+(d-2));
-		mmdd.push(month+'-'+'0'+(d-3));
-		mmdd.push(month+'-'+'0'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==12){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+(d-1));
-		mmdd.push(month+'-'+(d-2));
-		mmdd.push(month+'-'+'0'+(d-3));
-		mmdd.push(month+'-'+'0'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==13){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+(d-1));
-		mmdd.push(month+'-'+(d-2));
-		mmdd.push(month+'-'+(d-3));
-		mmdd.push(month+'-'+'0'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==14){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+(d-1));
-		mmdd.push(month+'-'+(d-2));
-		mmdd.push(month+'-'+(d-3));
-		mmdd.push(month+'-'+(d-4));
-		mmdd.push(month+'-'+'0'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else if(d==15){
-		mmdd.push(month+'-'+d);
-		mmdd.push(month+'-'+(d-1));
-		mmdd.push(month+'-'+(d-2));
-		mmdd.push(month+'-'+(d-3));
-		mmdd.push(month+'-'+(d-4));
-		mmdd.push(month+'-'+(d-5));
-		mmdd.push(month+'-'+'0'+(d-6));
-	}else{
-		mmdd.push(Today.getMonth()+1+'-'+Today.getDate());
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-1));
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-2));
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-3));
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-4));
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-5));
-		mmdd.push(Today.getMonth()+1+'-'+(Today.getDate()-6));
-	}
-}
-	
-
 //切換
-function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
-
-	const ctx = document.getElementById('myChart').getContext('2d');
-	const myChart = new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
-			datasets: [{
-				label: '營養素圖表',
-				data: [obj1,obj2,obj3,obj4,obj5,obj6,obj7],//改數值
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)',
-					'rgba(220, 31, 224, 0.2)'
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(220, 31, 224, 1)'
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
-}
 
 window.onload=function(){
 	//onclick button
@@ -329,6 +167,28 @@ window.onload=function(){
 	var n4=document.getElementById("4");
 	var n5=document.getElementById("5");
 	var n6=document.getElementById("6");
+	var b1=document.getElementById("month");
+	var b2=document.getElementById("week");
+	
+	b1.onclick=function(){
+		mmdd.push(m1.substr(5,1));
+		mmdd.push(m2.substr(5,1));
+		mmdd.push(m3.substr(5,1));
+		mmdd.push(m4.substr(5,1));
+		mmdd.push(m5.substr(5,1));
+		mmdd.push(m6.substr(5,1));
+		mmdd.push(m7.substr(5,1));
+	}
+	
+	b2.onclick=function(){
+		mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));
+		mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));
+		mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));
+		mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));
+		mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,4));
+		mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,4));
+		mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,4));
+	}                           
 	
 	n1.onclick=function(){
 
@@ -372,6 +232,46 @@ window.onload=function(){
 		show();
 		return false;
 	}
+}
+function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
+
+	const ctx = document.getElementById('myChart').getContext('2d');
+	const myChart = new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+			datasets: [{
+				label: '營養素圖表',
+				data: [obj1,obj2,obj3,obj4,obj5,obj6,obj7],//改數值
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)',
+					'rgba(220, 31, 224, 0.2)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+					'rgba(220, 31, 224, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
 }
 </script>
 </body>
