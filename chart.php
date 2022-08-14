@@ -88,26 +88,30 @@
 var sqldate=[];
 var sqlportion=[];
 var iID_NID=[];
-var count=0;
 </script>
 <?php
     //連接歷史紀錄資料表
+	$count=0;
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT COUNT(`ID`),`dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
+    $query = "SELECT `dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
     $result = $link->query($query);
-	$count = $result->fetchColumn();
 	
     foreach($result as $row){
         
 		$dishID = $row['dishID'];
 		$sqldate=$row['date'];
-
+		
     //取得所有需要的資料
+		$query = "SELECT count(`ID`),`iID`, `portion` FROM recipe where dishID='$dishID'";
+		$res = $link->query($query);
+		$c = $res->fetchColumn();
+		
+		$count+=$c;
 		
 		//取得dishID使用的iID&portion
 		$query = "SELECT `iID`, `portion` FROM recipe where dishID='$dishID'";
 		$re = $link->query($query);
-		
+			
 		foreach ($re as $r){
 			$iID=$r['iID'];
 			$portion=$r['portion'];
@@ -119,18 +123,28 @@ var count=0;
 				$iID_NID=$r['NID'];
 				
 ?>
-<script>
-sqldate.push('<?php echo $sqldate;?>');
-sqlportion.push('<?php echo $portion;?>');
-iID_NID.push('<?php echo $iID_NID;?>');
-count='<? php echo $count;?>';
-</script>
+				<script>
+				iID_NID.push('<?php echo $iID_NID;?>');
+				</script>
 <?php
 			}
+?>
+			<script>
+			sqlportion.push('<?php echo $portion;?>');
+			</script>
+<?php
 		}
+?>
+		<script>
+		sqldate.push('<?php echo $sqldate;?>');
+		</script>
+<?php
 	}
 ?>
 <script>
+var count='<?=$count?>';
+//document.write(count+'===');
+
 //日期自動變化
 var Today = new Date();
 var t1 = new Date(Today.setDate(Today.getDate())).toLocaleDateString().replaceAll("/","-");
@@ -150,13 +164,9 @@ var m5 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().repl
 var m6 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
 var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
 
-var date=[];
 var mmdd=[];
 var portion=[];
 
-for(var i=1;i<32;i++){
-	date.push(i);
-}
 //切換
 
 window.onload=function(){
@@ -178,59 +188,130 @@ window.onload=function(){
 		mmdd.push(m5.substr(5,1));
 		mmdd.push(m6.substr(5,1));
 		mmdd.push(m7.substr(5,1));
-	}
-	
-	b2.onclick=function(){
-		mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));
-		mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));
-		mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));
-		mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));
-		mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,4));
-		mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,4));
-		mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,4));
-	}                           
-	
-	n1.onclick=function(){
-
-		for(var m=0;m<count;m++){
-			if(iID_NID[m]==1){
-				for(var i=0;i<7;i++){
-					var s=0;
-					if(mmdd[i]==sqldate[i]){
-						portion[i]=sqlportion[i];
-						s=1;
-						continue;
-					}else{
-						s=0;
+		
+		n1.onclick=function(){
+			//date equal
+			for(var i=0;i<7;i++){
+				if(mmdd[i]<10){
+					if(mmdd[i]==sqldate[i].substr(6,1)){
+						for(var m=0;m<count;m++){
+							if(iID_NID[m]==1){
+								if(portion[i]==null){
+									portion[i]=sqlportion[m];
+								}else{
+									portion[i]=portion[i]+sqlportion[m];
+								}
+								document.write(portion[0]+'==');
+								continue;
+							}
+						}
 					}
-					if(s==0){
-						portion[i]=0;
+				}else{
+					if(mmdd[i]==sqldate[i]){
+						for(var m=0;m<count;m++){
+							if(iID_NID[m]==1){
+								if(portion[i]==null){
+									portion[i]=sqlportion[m];
+								}else{
+									portion[i]=portion[m]+sqlportion[m];
+								}
+								continue;
+							}
+						}
 					}
 				}
 			}
+			
+			
+			show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
+			return false;
 		}
-		show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
-		return false;
+		n2.onclick=function(){
+			show();
+			return false;
+		}
+		n3.onclick=function(){
+			show();
+			return false;
+		}
+		n4.onclick=function(){
+			show();
+			return false;
+		}
+		n5.onclick=function(){
+			show();
+			return false;
+		}
+		n6.onclick=function(){
+			show();
+			return false;
+		}
 	}
-	n2.onclick=function(){
-		show();
-		return false;
-	}
-	n3.onclick=function(){
-		show();
-		return false;
-	}
-	n4.onclick=function(){
-		show();
-		return false;
-	}
-	n5.onclick=function(){
-		show();
-		return false;
-	}
-	n6.onclick=function(){
-		show();
-		return false;
+	
+	b2.onclick=function(){
+		mmdd.push(t1);
+		mmdd.push(t2);
+		mmdd.push(t3);
+		mmdd.push(t4);
+		mmdd.push(t5);
+		mmdd.push(t6);
+		mmdd.push(t7);
+
+		n1.onclick=function(){
+			for(var i=0;i<7;i++){
+				if(mmdd[i]<10){
+					document.write(sqldate[i].substr(6,4));
+					if(mmdd[i]==sqldate[i].substr(6,4)){
+						for(var m=0;m<count;m++){
+							if(iID_NID[m]==1){
+								if(portion[i]==null){
+									portion[i]=sqlportion[m];
+								}else{
+									portion[i]=portion[i]+sqlportion[m];
+								}
+								document.write(portion[i]+'==');
+								continue;
+							}
+						}
+					}
+				}else{
+					if(mmdd[i]==sqldate[i]){
+						for(var m=0;m<count;m++){
+							if(iID_NID[m]==1){
+								if(portion[i]==null){
+									portion[i]=sqlportion[m];
+								}else{
+									portion[i]=portion[m]+sqlportion[m];
+								}
+								continue;
+							}
+						}
+					}
+				}
+			}
+			show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
+			return false;
+		}
+		n2.onclick=function(){
+			show();
+			return false;
+		}
+		n3.onclick=function(){
+			show();
+			return false;
+		}
+		n4.onclick=function(){
+			show();
+			return false;
+		}
+		n5.onclick=function(){
+			show();
+			return false;
+		}
+		n6.onclick=function(){
+			show();
+			return false;
+		}
 	}
 }
 function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
