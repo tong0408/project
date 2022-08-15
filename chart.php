@@ -24,8 +24,13 @@
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--boostrap css-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.2/dist/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/weekday.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+
 <style>
 	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
@@ -70,261 +75,98 @@
 	}
 </style>
 </head>
+
 <body>
-<div style="display:inline-block;">
-<button class="btn" id="month">月</button>
-<button class="btn" id="week">周</button>
-<div class="container1">
-<button class="btn2" id="1">全榖雜糧類</button>
-<button class="btn2" id="2">豆魚蛋肉類</button>
-<button class="btn2" id="3">乳品類</button>
-<button class="btn2" id="4">蔬菜類</button>
-<button class="btn2" id="5">水果類</button>
-<button class="btn2" id="6">油脂與堅果種子類</button>
-<canvas id="myChart" ></canvas>
+
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+	 <!--<div style="display:inline-block;">這個語法會讓切換失效，排版定位可能要找別的方法，或是把boostrap裡面tab切換的css寫進我們自己的css-->
+		<button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#nav-month" type="button" role="tab" aria-controls="nav-month" onclick="clickMonth()">月</button>
+		<button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#nav-week" type="button" role="tab" aria-controls="nav-week" onclick="clickWeek()">週</button>
+		<div class="container1">
+			<button class="btn2">全榖雜糧類</button>
+			<button class="btn2">豆魚蛋肉類</button>
+			<button class="btn2">乳品類</button>
+			<button class="btn2">蔬菜類</button>
+			<button class="btn2">水果類</button>
+			<button class="btn2">油脂與堅果種子類</button>
+			<canvas id="myChart" ></canvas>
+		</div>
+	</div>
 </div>
-</div>
-<script>
-var sqldate=[];
-var sqlportion=[];
-var iID_NID=[];
-</script>
-<?php
-    //連接歷史紀錄資料表
-	$count=0;
-    $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT `dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
-    $result = $link->query($query);
-	
-    foreach($result as $row){
-        
-		$dishID = $row['dishID'];
-		$sqldate=$row['date'];
-		
-    //取得所有需要的資料
-		$query = "SELECT count(`ID`),`iID`, `portion` FROM recipe where dishID='$dishID'";
-		$res = $link->query($query);
-		$c = $res->fetchColumn();
-		
-		$count+=$c;
-		
-		//取得dishID使用的iID&portion
-		$query = "SELECT `iID`, `portion` FROM recipe where dishID='$dishID'";
-		$re = $link->query($query);
+
+
+<div class="tab-content" id="nav-tabContent">
+	<div class="tab-pane fade show active" id="nav-month" role="tabpanel" aria-labelledby="nav-cookie0-tab">
+	月的圖表
+	<?php
+		//連接歷史紀錄資料表（限制日期）
+		$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+		$query = "SELECT `dishID` FROM `history` WHERE `UID`='$userID' limit 7";
+		$result = $link->query($query);	
+		foreach($result as $row){
+			if($row["date"]!=null){
+				$dishID = $row['dishID'];
+			}
+		//取得所有需要的資料
 			
-		foreach ($re as $r){
-			$iID=$r['iID'];
-			$portion=$r['portion'];
-			
-			//從iID取得NID和食材名稱<使用>
-			$query = "SELECT NID FROM ingredients where iID='$iID'";
+			//取得菜ID使用的食材ID
+			$query = "SELECT `iID`, `portion` FROM recipe where dishID='$dishID'";
 			$re = $link->query($query);
 			foreach ($re as $r){
-				$iID_NID=$r['NID'];
-				
-?>
-				<script>
-				iID_NID.push('<?php echo $iID_NID;?>');
-				</script>
-<?php
+				$iID=$r['iID'];
+
+				//從食材ID取得食材類別ID和食材名稱<使用>
+				$query = "SELECT NID FROM ingredients where iID='$iID'";
+				$re = $link->query($query);
+				foreach ($re as $r){
+					$iID_NID=$r['NID'];
+
+					//從食材類別ID取得食材類別名稱<使用>
+					$query = "SELECT * FROM nutrient where NID='$iID_NID'";
+					$re = $link->query($query);
+					foreach ($re as $r){
+						$iID_NID_Name=$r['category'];	
+					}							
+				}
 			}
-?>
-			<script>
-			sqlportion.push('<?php echo $portion;?>');
-			</script>
-<?php
 		}
-?>
-		<script>
-		sqldate.push('<?php echo $sqldate;?>');
-		</script>
-<?php
-	}
-?>
+	?>
+	</div>
+	<div class="tab-pane fade show active" id="nav-week" role="tabpanel" aria-labelledby="nav-cookie0-tab">
+	週ㄉ圖表
+	</div>
+</div>
+
+
 <script>
-var count='<?=$count?>';
-//document.write(count+'===');
-
-//日期自動變化
-var Today = new Date();
-var t1 = new Date(Today.setDate(Today.getDate())).toLocaleDateString().replaceAll("/","-");
-var t2 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-var t3 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-var t4 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-var t5 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-var t6 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-var t7 =new Date(Today.setDate(Today.getDate()-1)).toLocaleDateString().replaceAll("/","-");
-
-var Today1 = new Date();
-var m1 =new Date(Today1.setMonth(Today1.getMonth())).toLocaleDateString().replaceAll("/","-");
-var m2 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-var m3 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-var m4 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-var m5 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-var m6 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
-
-var mmdd=[];
-var portion=[];
-var sum=0;
-
-//切換
-//問題2:切換月or週我不知道如何切換
-
-window.onload=function(){
-	//onclick button
-	var n1=document.getElementById("1");
-	var n2=document.getElementById("2");
-	var n3=document.getElementById("3");
-	var n4=document.getElementById("4");
-	var n5=document.getElementById("5");
-	var n6=document.getElementById("6");
-	var b1=document.getElementById("month");
-	var b2=document.getElementById("week");
-	
-	b1.onclick=function(){
-		//放日期
-		mmdd.push(m1.substr(5,1));
-		mmdd.push(m2.substr(5,1));
-		mmdd.push(m3.substr(5,1));
-		mmdd.push(m4.substr(5,1));
-		mmdd.push(m5.substr(5,1));
-		mmdd.push(m6.substr(5,1));
-		mmdd.push(m7.substr(5,1));
-		
-		n1.onclick=function(){
-			//date equal
-			for(var i=0;i<7;i++){
-				if(mmdd[i]<10){
-					if(mmdd[i]==sqldate[i].substr(6,1)){
-						for(var m=0;m<count;m++){
-							if(iID_NID[m]==1){
-								
-								//問題1:無法加總
-								if(portion[i]==null){
-									portion[i]=sqlportion[m];
-								}else{
-									portion[i]=portion[i]+sqlportion[m];
-								}
-								document.write(portion[0]);
-							}
-						}
-					}
-				}else{
-					if(mmdd[i]==sqldate[i]){
-						for(var m=0;m<count;m++){
-							if(iID_NID[m]==1){
-								
-								//問題1:無法加總
-								if(portion[i]==null){
-									portion[i]=sqlportion[m];
-								}else{
-									portion[i]=portion[m]+sqlportion[m];
-								}
-							}
-						}
-					}
-				}
-			}
-			show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
-			return false;
-		}
-		n2.onclick=function(){
-			show();
-			return false;
-		}
-		n3.onclick=function(){
-			show();
-			return false;
-		}
-		n4.onclick=function(){
-			show();
-			return false;
-		}
-		n5.onclick=function(){
-			show();
-			return false;
-		}
-		n6.onclick=function(){
-			show();
-			return false;
-		}
+//clickMouth
+function clickMonth(){
+	//日期自動變化
+	var Today=new Date();
+	var month=Today.getMonth()+1;
+	var d=Today.getDate();
+	var date=[];
+	for(var i=1;i<32;i++){
+		date.push(i);
 	}
-	
-	b2.onclick=function(){
-		mmdd.push(t1);
-		mmdd.push(t2);
-		mmdd.push(t3);
-		mmdd.push(t4);
-		mmdd.push(t5);
-		mmdd.push(t6);
-		mmdd.push(t7);
+	//改善的地方為:如果是1號與31號 怎麼半?
+	var mmdd1=Today.getMonth()+1+'/'+(Today.getDate()-6);
+	var mmdd2=Today.getMonth()+1+'/'+(Today.getDate()-5);
+	var mmdd3=Today.getMonth()+1+'/'+(Today.getDate()-4);
+	var mmdd4=Today.getMonth()+1+'/'+(Today.getDate()-3);
+	var mmdd5=Today.getMonth()+1+'/'+(Today.getDate()-2);
+	var mmdd6=Today.getMonth()+1+'/'+(Today.getDate()-1);
+	var mmdd7=Today.getMonth()+1+'/'+Today.getDate();
 
-		//問題3:跑不出來
-		n1.onclick=function(){
-			for(var i=0;i<7;i++){
-				if(mmdd[i]<10){
-					if(mmdd[i].substr(5,4)==sqldate[i].substr(6,4)){
-						document.write(mmdd[i].substr(5,4));
-						for(var m=0;m<count;m++){
-							if(iID_NID[m]==1){
-								if(portion[i]==null){
-									portion[i]=sqlportion[m];
-								}else{
-									portion[i]=portion[i]+sqlportion[m];
-								}
-							}
-						}
-					}
-				}else{
-					if(mmdd[i]==sqldate[i]){
-						for(var m=0;m<count;m++){
-							if(iID_NID[m]==1){
-								if(portion[i]==null){
-									portion[i]=sqlportion[m];
-								}else{
-									portion[i]=portion[i]+sqlportion[m];
-								}
-							}
-						}
-					}
-				}
-			}
-			show(portion[0],portion[1],portion[2],portion[3],portion[4],portion[5],portion[6]);
-			return false;
-		}
-		n2.onclick=function(){
-			show();
-			return false;
-		}
-		n3.onclick=function(){
-			show();
-			return false;
-		}
-		n4.onclick=function(){
-			show();
-			return false;
-		}
-		n5.onclick=function(){
-			show();
-			return false;
-		}
-		n6.onclick=function(){
-			show();
-			return false;
-		}
-	}
-}
-function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
 
 	const ctx = document.getElementById('myChart').getContext('2d');
-	const myChart = new Chart(ctx, {
+	const myChartMonth = new Chart(ctx, {
 		type: 'bar',
 		data: {
-			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+			labels: [mmdd1, mmdd2, mmdd3, mmdd4, mmdd5, mmdd6,mmdd7 ],//改日期
 			datasets: [{
-				label: '營養素圖表',
-				data: [obj1,obj2,obj3,obj4,obj5,obj6,obj7],//改數值
+				label: '營養素圖表-月',
+				data: [12, 19, 13, 5, 12, 13,15],//改數值
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
@@ -354,7 +196,70 @@ function show(obj1,obj2,obj3,obj4,obj5,obj6,obj7){
 			}
 		}
 	});
+	myChartMonth.render();
 }
+
+//clickWeek
+function clickWeek(){
+
+	//日期自動變化
+	var Today=new Date();
+	var month=Today.getMonth()+1;
+	var d=Today.getDate();
+	var date=[];
+	for(var i=1;i<32;i++){
+		date.push(i);
+	}
+	//改善的地方為:如果是1號與31號 怎麼半?
+		var mmdd1=Today.getMonth()+1+'/'+(Today.getDate()-6);
+		var mmdd2=Today.getMonth()+1+'/'+(Today.getDate()-5);
+		var mmdd3=Today.getMonth()+1+'/'+(Today.getDate()-4);
+		var mmdd4=Today.getMonth()+1+'/'+(Today.getDate()-3);
+		var mmdd5=Today.getMonth()+1+'/'+(Today.getDate()-2);
+		var mmdd6=Today.getMonth()+1+'/'+(Today.getDate()-1);
+		var mmdd7=Today.getMonth()+1+'/'+Today.getDate();
+
+
+	const ctx = document.getElementById('myChart').getContext('2d');
+	const myChartWeek = new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: [mmdd1, mmdd2, mmdd3, mmdd4, mmdd5, mmdd6,mmdd7 ],//改日期
+			datasets: [{
+				label: '營養素圖表-週',
+				data: [20, 19, 1, 6, 3, 9,15],//改數值
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)',
+					'rgba(220, 31, 224, 0.2)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)',
+					'rgba(220, 31, 224, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+	myChartWeek.render();
+}
+
 </script>
 </body>
 </html>
