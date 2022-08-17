@@ -8,10 +8,10 @@
         echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
     }
     else{
-        $session_userid=$_SESSION['userID'];
+        $userid=$_SESSION['userID'];
         $link = new PDO('mysql:host='.$hostname.';dbname='.$database.';charset=utf8', $username, $password);
 
-        $query = "SELECT * FROM `user` WHERE `userID`='$session_userid'";
+        $query = "SELECT * FROM `user` WHERE `userID`='$userid'";
         $result = $link->query($query);
     
         #獲取現在登入者的資訊
@@ -30,48 +30,68 @@
 <!doctype html>
 <html>
     <head>
-            <title>會員檔案</title>
+		<title>個人檔案</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="image/logo.png" rel="icon" type="image/x-icon" />
+		<link rel="stylesheet" href="css/w3.css">
+		<link rel="stylesheet" href="css/mine.css">
+		<link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-
+	<style>
+		input[type=text]{margin:10px 0px 10px 0px; width:100%;}
+		input[type=number]{margin:10px 0px 10px 0px; width:100%;}
+		select{margin:10px 0px 10px 0px; width:100%; height:35px;}			
+		img{margin:10px 0px 10px 0px;}
+		tr{height:60px;}
+	</style>
     <body>
         <!--登出-->
-        <button type="buttom" onclick="location.href='user_logout.php'">登出</button>
-        <br />
-        會員帳號：[ <?php echo $userid ;?> ]
-        <br>
-        <!--如果有需要修改任何會員的資料庫內資料，從這裡下去修改，語法基本上一樣-->
-        修改：<br>
-        <form method="POST" action="">
-            修改年齡：
-            <input type="text" class="form-control" name="new_age" value="<?php echo $age;?>" >
-            <br />
-            修改身高（公分cm）：
-            <input type="text" class="form-control" name="new_height" value="<?php echo $height;?>" >
-            <br />
-            修改體重（公斤kg）：
-            <input type="text" class="form-control" name="new_weight" value="<?php echo $weight;?>">
-            <br />
-            修改活動強度：<!--也是用下拉式選單-->
-            <select name="new_sport" >
-            <option <?php $n="selected='selected'";if($sport=="輕度活動"){echo $n;}?>value="1">輕度活動</option>
-            <option <?php $n="selected='selected'";if($sport=="中度活動"){echo $n;}?>value="2">中度活動</option>
-            <option <?php $n="selected='selected'";if($sport=="重度活動"){echo $n;}?>value="3">重度活動</option>
-            </select><br />
-            修改疾病： <!--疾病這邊是用下拉式選單-->
-            <select name="new_disease">
-            <option <?php $n="selected='selected'";if($disease=="肺炎"){echo $n;}?>value="1">肺炎</option>
-            <option <?php $n="selected='selected'";if($disease=="糖尿病"){echo $n;}?>value="2">糖尿病</option>
-            <option <?php $n="selected='selected'";if($disease=="高血壓"){echo $n;}?>value="3">高血壓</option>
-            <option <?php $n="selected='selected'";if($disease=="慢性下呼吸道疾病"){echo $n;}?>value="4">慢性下呼吸道疾病</option>
-            <option <?php $n="selected='selected'";if($disease=="慢性腎臟疾病"){echo $n;}?>value="5">慢性腎臟疾病</option>
-            <option <?php $n="selected='selected'";if($disease=="肝硬化"){echo $n;}?>value="6">肝硬化</option>
-            </select>
-            <br>
-            請輸入身分證做確認：
-            <input type="text" class="form-control" name="g_userid" >
-            <br>
-            <button type="submit" class="btn btn-outline-light" >確認修改</button>
-        </form>
+        
+        <br><a href="index.html"><button class="btn1 return">返回</button></a><br><br><br><br>
+		<div class="form1" style="width:50%;">
+			<form method="POST" action="">
+				<table style="margin:auto;">
+				<tr><td>會員帳號：</td>
+				<td>[ <?php echo $userid ;?> ]</td>
+				</tr>
+				<tr><td>年齡：</td>
+				<td><input type="text" name="new_age" value="<?php echo $age;?>" ></td>
+				</tr>
+				<tr><td>身高（公分cm）：</td>
+				<td><input type="text" name="new_height" value="<?php echo $height;?>" ></td>
+				</tr>
+				<tr><td>體重（公斤kg）：</td>
+				<td><input type="text" name="new_weight" value="<?php echo $weight;?>"></td>
+				</tr>
+				<tr><td>活動強度：</td><!--也是用下拉式選單-->
+				<td><select name="new_sport" >
+				<option <?php $n="selected='selected'";if($sport=="輕度活動"){echo $n;}?>value="1">輕度活動</option>
+				<option <?php $n="selected='selected'";if($sport=="中度活動"){echo $n;}?>value="2">中度活動</option>
+				<option <?php $n="selected='selected'";if($sport=="重度活動"){echo $n;}?>value="3">重度活動</option>
+				</select></td>
+				</tr>
+				<tr><td>疾病： </td><!--疾病這邊是用下拉式選單-->
+				<td><select name="new_disease">
+				<option <?php $n="selected='selected'";if($disease=="肺炎"){echo $n;}?>value="1">肺炎</option>
+				<option <?php $n="selected='selected'";if($disease=="糖尿病"){echo $n;}?>value="2">糖尿病</option>
+				<option <?php $n="selected='selected'";if($disease=="高血壓"){echo $n;}?>value="3">高血壓</option>
+				<option <?php $n="selected='selected'";if($disease=="慢性下呼吸道疾病"){echo $n;}?>value="4">慢性下呼吸道疾病</option>
+				<option <?php $n="selected='selected'";if($disease=="慢性腎臟疾病"){echo $n;}?>value="5">慢性腎臟疾病</option>
+				<option <?php $n="selected='selected'";if($disease=="肝硬化"){echo $n;}?>value="6">肝硬化</option>
+				</select></td>
+				</tr>
+				<tr><td>請輸入身分證做確認：</td>
+				<td><input type="text" name="g_userid" required></td>
+				</tr>
+				<tr><td colspan="2"><button type="submit" class="btn" >修改</button></td>
+				</tr>
+				</table>				
+			</form>
+			
+		</div>
+		<br>
         <br><br><br>
 
         <!--修改資料的PHP-->
