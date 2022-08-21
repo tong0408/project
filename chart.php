@@ -70,30 +70,6 @@
 		cursor:pointer;
 	}
 </style>
-</head>
-<body>
-<div class="nav nav-tabs" id="nav-tab" role="tablist">
-	 <!--<div style="display:inline-block;">這個語法會讓切換失效，排版定位可能要找別的方法，或是把boostrap裡面tab切換的css寫進我們自己的css-->
-		<button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#nav-month" type="button" role="tab" aria-controls="nav-month" onclick="clickMonth()">月</button>
-		<button class="btn nav-link" data-bs-toggle="tab" data-bs-target="#nav-week" type="button" role="tab" aria-controls="nav-week" onclick="clickWeek()">週</button>
-		<div class="container1">
-			<button class="btn2" onclick="click1()" id="1">全榖雜糧類</button>
-			<button class="btn2" onclick="click2()" id="2">豆魚蛋肉類</button>
-			<button class="btn2" onclick="click3()" id="3">乳品類</button>
-			<button class="btn2" onclick="click4()" id="4">蔬菜類</button>
-			<button class="btn2" onclick="click5()" id="5">水果類</button>
-			<button class="btn2" onclick="click6()" id="6">油脂與堅果種子類</button>
-				<div class="tab-pane fade show active" id="nav-month" role="tabpanel" aria-labelledby="nav-cookie0-tab" display="none">
-					<canvas id="myChart" ></canvas>
-					月的圖表
-				</div>
-				<div class="tab-pane fade show active" id="nav-week" role="tabpanel" aria-labelledby="nav-cookie0-tab" display="block">
-					<canvas id="myChart" ></canvas>
-					週ㄉ圖表
-				</div>
-		</div>
-	<!--</div>-->
-</div>
 <script>
 var sqldate=[];
 var sqlportion=[];
@@ -154,7 +130,6 @@ var iID_NID=[];
 
 <script>
 var count='<?=$count?>';
-//document.write(count+'===');
 
 //日期自動變化
 var Today = new Date();
@@ -177,35 +152,169 @@ var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().repl
 
 var mmdd=[];
 var portion=[];
-var sum=0;
+var s=0;
 
 //切換
 //問題2:切換月or週&營養素
-
-//clickMouth
-function clickMonth(){
-	//放日期
-	mmdd.push(m1.substr(5,1));
-	mmdd.push(m2.substr(5,1));
-	mmdd.push(m3.substr(5,1));
-	mmdd.push(m4.substr(5,1));
-	mmdd.push(m5.substr(5,1));
-	mmdd.push(m6.substr(5,1));
-	mmdd.push(m7.substr(5,1));
-	function click1(){
+window.onload=function(){
+	//buttonid
+	var bmonth=document.getElementById("month");
+	var bweek=document.getElementById("week");
+	var b1=document.getElementById("1");
+	var b2=document.getElementById("2");
+	var b3=document.getElementById("3");
+	var b4=document.getElementById("4");
+	var b5=document.getElementById("5");
+	var b6=document.getElementById("6");
+	//divid-month
+	var divmonth=document.getElementById("divmonth");
+	var divm1=document.getElementById("divm1");
+	var divm2=document.getElementById("divm2");
+	var divm3=document.getElementById("divm3");
+	var divm4=document.getElementById("divm4");
+	var divm5=document.getElementById("divm5");
+	var divm6=document.getElementById("divm6");
+	//divid-week
+	var divweek=document.getElementById("divweek");
+	var divw1=document.getElementById("divw1");
+	var divw2=document.getElementById("divw2");
+	var divw3=document.getElementById("divw3");
+	var divw4=document.getElementById("divw4");
+	var divw5=document.getElementById("divw5");
+	var divw6=document.getElementById("divw6");
+	
+	//monthonclick
+	bmonth.onclick=function(){
+		s=1;
+		mmdd.push(m1.substr(5,1));
+		mmdd.push(m2.substr(5,1));
+		mmdd.push(m3.substr(5,1));
+		mmdd.push(m4.substr(5,1));
+		mmdd.push(m5.substr(5,1));
+		mmdd.push(m6.substr(5,1));
+		mmdd.push(m7.substr(5,1));
+		Show_hide(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6);
+		return false;
+	}
+	//weekonclick
+	bweek.onclick=function(){
+		s=2;
+		mmdd.push(t1);
+		mmdd.push(t2);
+		mmdd.push(t3);
+		mmdd.push(t4);
+		mmdd.push(t5);
+		mmdd.push(t6);
+		mmdd.push(t7);
+		Show_hide(divweek,divmonth,divw1,divw2,divw3,divw4,divw5,divw6,divm1,divm2,divm3,divm4,divm5,divm6);
+		return false;
+	}
+	b1.onclick=function(){
+		Show_div(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6,s);
+		return false;
+	}
+	b2.onclick=function(){
+		Show_div(divmonth,divweek,divm2,divm1,divm3,divm4,divm5,divm6,divw2,divw1,divw3,divw4,divw5,divw6,s);
+		return false;
+	}
+	b3.onclick=function(){
+		Show_div(divmonth,divweek,divm3,divm2,divm1,divm4,divm5,divm6,divw3,divw2,divw1,divw4,divw5,divw6,s);
+		return false;
+	}
+	b4.onclick=function(){
+		Show_div(divmonth,divweek,divm4,divm2,divm3,divm1,divm5,divm6,divw4,divw2,divw3,divw1,divw5,divw6,s);
+		return false;
+	}
+	b5.onclick=function(){
+		Show_div(divmonth,divweek,divm5,divm2,divm3,divm4,divm1,divm6,divw5,divw2,divw3,divw4,divw1,divw6,s);
+		return false;
+	}
+	b6.onclick=function(){
+		Show_div(divmonth,divweek,divm6,divm2,divm3,divm4,divm5,divm1,divw6,divw2,divw3,divw4,divw5,divw1,s);
+		return false;
+	}
+}
+//show or hide month and week div
+function Show_hide(s1,h2,showdiv,divh1,divh2,divh3,divh4,divh5,divh6,divh7,divh8,divh9,divh10,divh11){
+	if(s1.style.display='block'){
+		showdiv.style.display='block';
+		h2.style.display='none';
+		divh1.style.display='none';
+		divh2.style.display='none';
+		divh3.style.display='none';
+		divh4.style.display='none';
+		divh5.style.display='none';
+		divh6.style.display='none';
+		divh7.style.display='none';
+		divh8.style.display='none';
+		divh9.style.display='none';
+		divh10.style.display='none';
+		divh11.style.display='none';
+	}else if (s1.style.display='none'){
+		s1.style.display='block';
+		showdiv.style.display='block';
+		h2.style.display='none';
+		divh1.style.display='none';
+		divh2.style.display='none';
+		divh3.style.display='none';
+		divh4.style.display='none';
+		divh5.style.display='none';
+		divh6.style.display='none';
+		divh7.style.display='none';
+		divh8.style.display='none';
+		divh9.style.display='none';
+		divh10.style.display='none';
+		divh11.style.display='none';
+	}
+}
+//divmonth,divweek,divm6,divm2,divm3,divm4,divm5,divm1,divw6,divw2,divw3,divw4,divw5,divw1
+//show button
+function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,divw3,divw4,divw5,divw6,s){
+	if(s==1){
+		if(bm1.style.display='block'){
+			bw2.style.display='none';
+			showmdiv.style.display='block';
+			divm6.style.display='none';
+			divm2.style.display='none';
+			divm3.style.display='none';
+			divm4.style.display='none';
+			divm5.style.display='none';
+			showwdiv.style.display='none';
+			divw6.style.display='none';
+			divw2.style.display='none';
+			divw3.style.display='none';
+			divw4.style.display='none';
+			divw5.style.display='none';
+		}
+	}else{
+		if(bw2.style.display='block'){
+			bm1.style.display='none';
+			showmdiv.style.display='none';
+			divm6.style.display='none';
+			divm2.style.display='none';
+			divm3.style.display='none';
+			divm4.style.display='none';
+			divm5.style.display='none';
+			showwdiv.style.display='block';
+			divw6.style.display='none';
+			divw2.style.display='none';
+			divw3.style.display='none';
+			divw4.style.display='none';
+			divw5.style.display='none';
+		}
+	}
+	
+	
 		for(var i=0;i<7;i++){
 			if(mmdd[i]<10){
 				if(mmdd[i]==sqldate[i].substr(6,1)){
 					for(var m=0;m<count;m++){
 						if(iID_NID[m]==1){
-							
-							//問題1:無法加總
 							if(portion[i]==null){
-								portion[i]=sqlportion[m];
+								portion[i]=parseInt(sqlportion[m]);
 							}else{
-								portion[i]=portion[i]+sqlportion[m];
+								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
 							}
-							document.write(portion[0]);
 						}
 					}
 				}
@@ -213,37 +322,19 @@ function clickMonth(){
 				if(mmdd[i]==sqldate[i]){
 					for(var m=0;m<count;m++){
 						if(iID_NID[m]==1){
-							
-							//問題1:無法加總
 							if(portion[i]==null){
-								portion[i]=sqlportion[m];
+								portion[i]=parseInt(sqlportion[m]);
 							}else{
-								portion[i]=portion[m]+sqlportion[m];
+								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
 							}
 						}
 					}
 				}
 			}
 		}
-	}
-	function click2(){
-		
-	}
-	function click3(){
-		
-	}
-	function click4(){
-		
-	}
-	function click5(){
-		
-	}
-	function click6(){
-		
-	}
 
-	const ctx = document.getElementById('myChart').getContext('2d');
-	const myChartMonth = new Chart(ctx, {
+	//var ctx = document.getElementById('myChart').getContext('2d');
+	var myChartMonth = new CanvasJS.Chart("divm1", {
 		type: 'bar',
 		data: {
 			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
@@ -284,62 +375,37 @@ function clickMonth(){
 
 //clickWeek
 function clickWeek(){
-
-	mmdd.push(t1);
-	mmdd.push(t2);
-	mmdd.push(t3);
-	mmdd.push(t4);
-	mmdd.push(t5);
-	mmdd.push(t6);
-	mmdd.push(t7);
-	function click1(){
 		for(var i=0;i<7;i++){
-			if(mmdd[i]<10){
+			if(mmdd[i].substr(5,1)<10){
 				if(mmdd[i].substr(5,4)==sqldate[i].substr(6,4)){
-					document.write(mmdd[i].substr(5,4));
 					for(var m=0;m<count;m++){
 						if(iID_NID[m]==1){
 							if(portion[i]==null){
-								portion[i]=sqlportion[m];
+								portion[i]=parseInt(sqlportion[m]);
 							}else{
-								portion[i]=portion[i]+sqlportion[m];
+								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
 							}
 						}
 					}
 				}
+				
 			}else{
 				if(mmdd[i]==sqldate[i]){
 					for(var m=0;m<count;m++){
 						if(iID_NID[m]==1){
 							if(portion[i]==null){
-								portion[i]=sqlportion[m];
+								portion[i]=parseInt(sqlportion[m]);
 							}else{
-								portion[i]=portion[i]+sqlportion[m];
+								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
 							}
 						}
 					}
 				}
 			}
 		}
-	}
-	function click2(){
-		
-	}
-	function click3(){
-		
-	}
-	function click4(){
-		
-	}
-	function click5(){
-		
-	}
-	function click6(){
-		
-	}
 
-	const ctx = document.getElementById('myChart').getContext('2d');
-	const myChartWeek = new Chart(ctx, {
+	var ctx = document.getElementById('myChart1').getContext('2d');
+	var myChartWeek = new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
@@ -378,5 +444,75 @@ function clickWeek(){
 	myChartWeek.render();
 }
 </script>
+</head>
+<body>
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+	 <!--<div style="display:inline-block;">這個語法會讓切換失效，排版定位可能要找別的方法，或是把boostrap裡面tab切換的css寫進我們自己的css-->
+		<button class="btn2" type="button" id="month">月</button>
+		<button class="btn2" type="button" id="week">週</button>
+		<div class="container1">
+			<button class="btn2" id="1">全榖雜糧類</button>
+			<button class="btn2" id="2">豆魚蛋肉類</button>
+			<button class="btn2" id="3">乳品類</button>
+			<button class="btn2" id="4">蔬菜類</button>
+			<button class="btn2" id="5">水果類</button>
+			<button class="btn2" id="6">油脂與堅果種子類</button>
+			<div id="divmonth" style="display:block;">
+				<div id="divm1" style="display:block;">
+					<canvas id="myChart" ></canvas>
+					1的圖表
+				</div>
+				<div id="divm2" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					2的圖表
+				</div>
+				<div id="divm3" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					3的圖表
+				</div>
+				<div id="divm4" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					4的圖表
+				</div>
+				<div id="divm5" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					5的圖表
+				</div>
+				<div id="divm6" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					6的圖表
+				</div>
+			</div>
+			<div id="divweek" style="display:none;">
+				<div id="divw1" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周1的圖表
+				</div>
+				<div id="divw2" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周2的圖表
+				</div>
+				<div id="divw3" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周3的圖表
+				</div>
+				<div id="divw4" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周4的圖表
+				</div>
+				<div id="divw5" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周5的圖表
+				</div>
+				<div id="divw6" style="display:none;">
+					<canvas id="myChart" ></canvas>
+					周6的圖表
+				</div>
+			</div>
+			
+		</div>
+	<!--</div>-->
+</div>
+
 </body>
 </html>
