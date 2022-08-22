@@ -318,10 +318,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 						
 						//放這個圖表就顯示不出來
 						for(var i=0;i<7;i++){
-							if(mmdd[i]<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+							if(mmdd[i]<10){//判斷月份
+								if(mmdd[i]==sqldate[i].substr(6,1)){//判斷月份相符
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==1){//營養素ID
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
