@@ -954,7 +954,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [10, 6, 20, 6, 3, 5,15],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -998,6 +998,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 						mmdd.push(t5);
 						mmdd.push(t6);
 						mmdd.push(t7);
+						
 						var ctx = document.getElementById('myChartw5').getContext('2d');
 						var myChartWeek = new Chart(ctx, {
 							type: 'bar',
@@ -1049,6 +1050,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 						mmdd.push(t5);
 						mmdd.push(t6);
 						mmdd.push(t7);
+						
 						var ctx = document.getElementById('myChartw6').getContext('2d');
 						var myChartWeek = new Chart(ctx, {
 							type: 'bar',
