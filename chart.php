@@ -186,26 +186,12 @@ window.onload=function(){
 	//monthonclick
 	bmonth.onclick=function(){
 		s=1;
-		mmdd.push(m1.substr(5,1));
-		mmdd.push(m2.substr(5,1));
-		mmdd.push(m3.substr(5,1));
-		mmdd.push(m4.substr(5,1));
-		mmdd.push(m5.substr(5,1));
-		mmdd.push(m6.substr(5,1));
-		mmdd.push(m7.substr(5,1));
 		Show_hide(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6);
 		return false;
 	}
 	//weekonclick
 	bweek.onclick=function(){
 		s=2;
-		mmdd.push(t1);
-		mmdd.push(t2);
-		mmdd.push(t3);
-		mmdd.push(t4);
-		mmdd.push(t5);
-		mmdd.push(t6);
-		mmdd.push(t7);
 		Show_hide(divweek,divmonth,divw1,divw2,divw3,divw4,divw5,divw6,divm1,divm2,divm3,divm4,divm5,divm6);
 		return false;
 	}
@@ -286,7 +272,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 			divw4.style.display='none';
 			divw5.style.display='none';
 		}
-	}else{
+	}else if(s==2){
 		if(bw2.style.display='block'){
 			bm1.style.display='none';
 			showmdiv.style.display='none';
@@ -303,145 +289,6 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 			divw5.style.display='none';
 		}
 	}
-	
-	
-		for(var i=0;i<7;i++){
-			if(mmdd[i]<10){
-				if(mmdd[i]==sqldate[i].substr(6,1)){
-					for(var m=0;m<count;m++){
-						if(iID_NID[m]==1){
-							if(portion[i]==null){
-								portion[i]=parseInt(sqlportion[m]);
-							}else{
-								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
-							}
-						}
-					}
-				}
-			}else{
-				if(mmdd[i]==sqldate[i]){
-					for(var m=0;m<count;m++){
-						if(iID_NID[m]==1){
-							if(portion[i]==null){
-								portion[i]=parseInt(sqlportion[m]);
-							}else{
-								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
-							}
-						}
-					}
-				}
-			}
-		}
-
-	//var ctx = document.getElementById('myChart').getContext('2d');
-	var myChartMonth = new CanvasJS.Chart("divm1", {
-		type: 'bar',
-		data: {
-			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
-			datasets: [{
-				label: '營養素圖表-月',
-				data: [12, 19, 13, 5, 12, 13,15],//改數值
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)',
-					'rgba(220, 31, 224, 0.2)'
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(220, 31, 224, 1)'
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
-	myChartMonth.render();
-}
-
-//clickWeek
-function clickWeek(){
-		for(var i=0;i<7;i++){
-			if(mmdd[i].substr(5,1)<10){
-				if(mmdd[i].substr(5,4)==sqldate[i].substr(6,4)){
-					for(var m=0;m<count;m++){
-						if(iID_NID[m]==1){
-							if(portion[i]==null){
-								portion[i]=parseInt(sqlportion[m]);
-							}else{
-								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
-							}
-						}
-					}
-				}
-				
-			}else{
-				if(mmdd[i]==sqldate[i]){
-					for(var m=0;m<count;m++){
-						if(iID_NID[m]==1){
-							if(portion[i]==null){
-								portion[i]=parseInt(sqlportion[m]);
-							}else{
-								portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
-							}
-						}
-					}
-				}
-			}
-		}
-
-	var ctx = document.getElementById('myChart1').getContext('2d');
-	var myChartWeek = new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
-			datasets: [{
-				label: '營養素圖表-週',
-				data: [20, 19, 1, 6, 3, 9,15],//改數值
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)',
-					'rgba(220, 31, 224, 0.2)'
-				],
-				borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(220, 31, 224, 1)'
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
-	myChartWeek.render();
 }
 </script>
 </head>
@@ -459,53 +306,788 @@ function clickWeek(){
 			<button class="btn2" id="6">油脂與堅果種子類</button>
 			<div id="divmonth" style="display:block;">
 				<div id="divm1" style="display:block;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm1" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						//放這個圖表就顯示不出來
+						for(var i=0;i<7;i++){
+							if(mmdd[i]<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						var ctx = document.getElementById('myChartm1').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					1的圖表
 				</div>
 				<div id="divm2" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm2" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						for(var i=0;i<7;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==2){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						var ctx = document.getElementById('myChartm2').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					2的圖表
 				</div>
 				<div id="divm3" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm3" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						for(var i=0;i<7;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==3){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						var ctx = document.getElementById('myChartm3').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					3的圖表
 				</div>
 				<div id="divm4" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm4" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						for(var i=0;i<7;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==4){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						var ctx = document.getElementById('myChartm4').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					4的圖表
 				</div>
 				<div id="divm5" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm5" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						for(var i=0;i<7;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==5){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						var ctx = document.getElementById('myChartm5').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					5的圖表
 				</div>
 				<div id="divm6" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartm6" ></canvas>
+					<script>
+						mmdd.push(m1.substr(5,1));
+						mmdd.push(m2.substr(5,1));
+						mmdd.push(m3.substr(5,1));
+						mmdd.push(m4.substr(5,1));
+						mmdd.push(m5.substr(5,1));
+						mmdd.push(m6.substr(5,1));
+						mmdd.push(m7.substr(5,1));
+						
+						for(var i=0;i<7;i++){
+							document.write(mmdd[i].substr(5,1));
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqldate[i].substr(6,1)){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==6){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqldate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
+						var ctx = document.getElementById('myChartm6').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								datasets: [{
+									label: '營養素圖表-月',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					6的圖表
 				</div>
 			</div>
 			<div id="divweek" style="display:none;">
 				<div id="divw1" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw1" ></canvas>
+					<script>
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw1').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周1的圖表
 				</div>
 				<div id="divw2" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw2" ></canvas>
+					<script>
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw2').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周2的圖表
 				</div>
 				<div id="divw3" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw3" ></canvas>
+					<script>						
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw3').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周3的圖表
 				</div>
 				<div id="divw4" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw4" ></canvas>
+					<script>						
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw4').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周4的圖表
 				</div>
 				<div id="divw5" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw5" ></canvas>
+					<script>						
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw5').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周5的圖表
 				</div>
 				<div id="divw6" style="display:none;">
-					<canvas id="myChart" ></canvas>
+					<canvas id="myChartw6" ></canvas>
+					<script>						
+						mmdd.push(t1);
+						mmdd.push(t2);
+						mmdd.push(t3);
+						mmdd.push(t4);
+						mmdd.push(t5);
+						mmdd.push(t6);
+						mmdd.push(t7);
+						var ctx = document.getElementById('myChartw6').getContext('2d');
+						var myChartWeek = new Chart(ctx, {
+							type: 'bar',
+							data: {
+								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								datasets: [{
+									label: '營養素圖表-周',
+									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									backgroundColor: [
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(255, 206, 86, 0.2)',
+										'rgba(75, 192, 192, 0.2)',
+										'rgba(153, 102, 255, 0.2)',
+										'rgba(255, 159, 64, 0.2)',
+										'rgba(220, 31, 224, 0.2)'
+									],
+									borderColor: [
+										'rgba(255, 99, 132, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(255, 206, 86, 1)',
+										'rgba(75, 192, 192, 1)',
+										'rgba(153, 102, 255, 1)',
+										'rgba(255, 159, 64, 1)',
+										'rgba(220, 31, 224, 1)'
+									],
+									borderWidth: 1
+								}]
+							},
+							options: {
+								scales: {
+									y: {
+										beginAtZero: true
+									}
+								}
+							}
+						});
+						myChartWeek.render();
+					</script>
 					周6的圖表
 				</div>
 			</div>
