@@ -48,9 +48,9 @@
 	</style>
     <body>
         <!--登出-->
-        
-        <br><a href="index.html"><button class="btn1 return">返回</button></a><br><br><br><br>
-		<div class="form1" style="width:50%;">
+        <br>
+	<div class="form1" style="width:50%;">
+		<a href="index.html"><button class="btn" style="position: absolute; left: 350px; border-radius:20px;">返回</button></a><br>			
 			<form method="POST" action="">
 				<table style="margin:auto;">
 				<tr><td>會員帳號：</td>
