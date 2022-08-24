@@ -382,7 +382,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm1.render();
 					</script>
 					1的圖表
 				</div>
@@ -461,7 +461,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm2.render();
 					</script>
 					2的圖表
 				</div>
@@ -540,7 +540,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm3.render();
 					</script>
 					3的圖表
 				</div>
@@ -619,7 +619,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm4.render();
 					</script>
 					4的圖表
 				</div>
@@ -698,7 +698,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm5.render();
 					</script>
 					5的圖表
 				</div>
@@ -778,7 +778,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartm6.render();
 					</script>
 					6的圖表
 				</div>
@@ -831,7 +831,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw1.render();
 					</script>
 					周1的圖表
 				</div>
@@ -882,7 +882,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw2.render();
 					</script>
 					周2的圖表
 				</div>
@@ -933,7 +933,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw3.render();
 					</script>
 					周3的圖表
 				</div>
@@ -984,7 +984,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw4.render();
 					</script>
 					周4的圖表
 				</div>
@@ -1036,7 +1036,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw5.render();
 					</script>
 					周5的圖表
 				</div>
@@ -1088,7 +1088,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 								}
 							}
 						});
-						myChartWeek.render();
+						myChartw6.render();
 					</script>
 					周6的圖表
 				</div>
