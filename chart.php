@@ -71,7 +71,8 @@
 	}
 </style>
 <script>
-var sqldate=[];
+var sqlmmddate=[];
+var sqlwdate=[];
 var sqlportion=[];
 var iID_NID=[];
 </script>
@@ -122,7 +123,8 @@ var iID_NID=[];
 		}
 ?>
 		<script>
-		sqldate.push('<?php echo $sqldate;?>');
+		sqlmmddate.push('<?php echo substr($sqldate,6,1 );?>');
+		sqlwdate.push('<?php echo substr($sqldate,6,4 );?>');
 		</script>
 <?php
 	}
@@ -153,6 +155,21 @@ var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().repl
 var mmdd=[];
 var portion=[];
 var s=0;
+mmdd.push(m1.substr(5,1));
+mmdd.push(m2.substr(5,1));
+mmdd.push(m3.substr(5,1));
+mmdd.push(m4.substr(5,1));
+mmdd.push(m5.substr(5,1));
+mmdd.push(m6.substr(5,1));
+mmdd.push(m7.substr(5,1));
+mmdd.push(t1);
+mmdd.push(t2);
+mmdd.push(t3);
+mmdd.push(t4);
+mmdd.push(t5);
+mmdd.push(t6);
+mmdd.push(t7);
+
 
 //切換
 //問題2:切換月or週&營養素
@@ -255,11 +272,11 @@ function Show_hide(s1,h2,showdiv,divh1,divh2,divh3,divh4,divh5,divh6,divh7,divh8
 }
 //divmonth,divweek,divm6,divm2,divm3,divm4,divm5,divm1,divw6,divw2,divw3,divw4,divw5,divw1
 //show button
-function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,divw3,divw4,divw5,divw6,s){
+function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,divw3,divw4,divw5,divw6,s){
 	if(s==1){
 		if(bm1.style.display='block'){
 			bw2.style.display='none';
-			showmdiv.style.display='block';
+			showmmddiv.style.display='block';
 			divm6.style.display='none';
 			divm2.style.display='none';
 			divm3.style.display='none';
@@ -275,7 +292,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 	}else if(s==2){
 		if(bw2.style.display='block'){
 			bm1.style.display='none';
-			showmdiv.style.display='none';
+			showmmddiv.style.display='none';
 			divm6.style.display='none';
 			divm2.style.display='none';
 			divm3.style.display='none';
@@ -308,18 +325,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm1" style="display:block;">
 					<canvas id="myChartm1" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
-						
 						//放這個圖表就顯示不出來
 						for(var i=0;i<7;i++){
 							if(mmdd[i]<10){//判斷月份
-								if(mmdd[i]==sqldate[i].substr(6,1)){//判斷月份相符
+								if(mmdd[i]==sqlmmddate[i]){//判斷月份相符
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){//營養素ID
 											if(portion[i]==null){
@@ -331,7 +340,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -346,13 +355,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 						}
 						
 						var ctx = document.getElementById('myChartm1').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm1 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -389,17 +398,9 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm2" style="display:none;">
 					<canvas id="myChartm2" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
-						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==2){
 											if(portion[i]==null){
@@ -411,7 +412,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -425,13 +426,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 							}
 						}
 						var ctx = document.getElementById('myChartm2').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm2 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -468,17 +469,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm3" style="display:none;">
 					<canvas id="myChartm3" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==3){
 											if(portion[i]==null){
@@ -490,7 +484,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -504,13 +498,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 							}
 						}
 						var ctx = document.getElementById('myChartm3').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm3 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -547,17 +541,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm4" style="display:none;">
 					<canvas id="myChartm4" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==4){
 											if(portion[i]==null){
@@ -569,7 +556,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -583,13 +570,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 							}
 						}
 						var ctx = document.getElementById('myChartm4').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm4 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -626,17 +613,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm5" style="display:none;">
 					<canvas id="myChartm5" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==5){
 											if(portion[i]==null){
@@ -648,7 +628,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -662,13 +642,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 							}
 						}
 						var ctx = document.getElementById('myChartm5').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm5 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -705,18 +685,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divm6" style="display:none;">
 					<canvas id="myChartm6" ></canvas>
 					<script>
-						mmdd.push(m1.substr(5,1));
-						mmdd.push(m2.substr(5,1));
-						mmdd.push(m3.substr(5,1));
-						mmdd.push(m4.substr(5,1));
-						mmdd.push(m5.substr(5,1));
-						mmdd.push(m6.substr(5,1));
-						mmdd.push(m7.substr(5,1));
 						
 						for(var i=0;i<7;i++){
-							document.write(mmdd[i].substr(5,1));
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqldate[i].substr(6,1)){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==6){
 											if(portion[i]==null){
@@ -728,7 +700,7 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 									}
 								}
 							}else{
-								if(mmdd[i]==sqldate[i]){
+								if(mmdd[i]==sqlmmddate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -742,13 +714,13 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 							}
 						}
 						var ctx = document.getElementById('myChartm6').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartm6 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -787,21 +759,43 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divw1" style="display:none;">
 					<canvas id="myChartw1" ></canvas>
 					<script>
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+
+						document.write(mmdd[13]);
+						for(var i=0;i<7;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==6){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}else{
+								if(mmdd[i]==sqlmmddate[i]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw1').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw1 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -838,21 +832,15 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divw2" style="display:none;">
 					<canvas id="myChartw2" ></canvas>
 					<script>
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+
 						var ctx = document.getElementById('myChartw2').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw2 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -889,21 +877,15 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				<div id="divw3" style="display:none;">
 					<canvas id="myChartw3" ></canvas>
 					<script>						
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+
 						var ctx = document.getElementById('myChartw3').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw3 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -939,16 +921,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				</div>
 				<div id="divw4" style="display:none;">
 					<canvas id="myChartw4" ></canvas>
-					<script>						
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+					<script>
+
 						var ctx = document.getElementById('myChartw4').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw4 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
@@ -990,17 +966,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				</div>
 				<div id="divw5" style="display:none;">
 					<canvas id="myChartw5" ></canvas>
-					<script>						
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+					<script>
 						
 						var ctx = document.getElementById('myChartw5').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw5 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
@@ -1042,17 +1011,10 @@ function Show_div(bm1,bw2,showmdiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,
 				</div>
 				<div id="divw6" style="display:none;">
 					<canvas id="myChartw6" ></canvas>
-					<script>						
-						mmdd.push(t1);
-						mmdd.push(t2);
-						mmdd.push(t3);
-						mmdd.push(t4);
-						mmdd.push(t5);
-						mmdd.push(t6);
-						mmdd.push(t7);
+					<script>
 						
 						var ctx = document.getElementById('myChartw6').getContext('2d');
-						var myChartWeek = new Chart(ctx, {
+						var myChartw6 = new Chart(ctx, {
 							type: 'bar',
 							data: {
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
