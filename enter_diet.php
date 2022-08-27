@@ -10,25 +10,33 @@
 	$dishname = isset($_POST["dish"]) ? $_POST["dish"] : null; //菜名
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //份量
 	
-	//這個要等整合才能拿掉註解
 	$userid= $_SESSION['userID'];
-
+	
 	FOR($i=0;$i<count($dishname);$i++){
-		echo $dishname[$i].$new_portion[$i];
+		
 		//搜尋相對應的dishID
-		$query = "SELECT ID FROM `dish` WHERE `dishName`='$dishname[$i]'";
+		$query = "SELECT `ID` FROM `dish` WHERE `dishName`='$dishname[$i]'";
 		$result = $link->query($query);
 		
 		foreach($result as $row){
 			$dishID=$row["ID"];
+			
+			if($dishID==0){
+				//新增至使用者history
+				$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
+				VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$i])";
+				$count = $link->exec($query);
+			}else{
+				$n=$dishID-1;
+				//新增至使用者history
+				$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
+				VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$n])";
+				$count = $link->exec($query);
+			}
+			
 		}
-		//新增至使用者history
-		$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
-		VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$i])";
-		$count = $link->exec($query);
 	}
 	
-	
-	header("Location: record.php");
+	header("Location: index.html#record");
 		
   ?>
