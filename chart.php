@@ -71,7 +71,7 @@
 	}
 </style>
 <script>
-var sqlmmddate=[];
+var sqlmdate=[];
 var sqlwdate=[];
 var sqlportion=[];
 var iID_NID=[];
@@ -123,8 +123,8 @@ var iID_NID=[];
 		}
 ?>
 		<script>
-		sqlmmddate.push('<?php echo substr($sqldate,6,1 );?>');
-		sqlwdate.push('<?php echo substr($sqldate,6,4 );?>');
+		sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
+		sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,4);?>');
 		</script>
 <?php
 	}
@@ -169,7 +169,6 @@ mmdd.push(t4);
 mmdd.push(t5);
 mmdd.push(t6);
 mmdd.push(t7);
-
 
 //切換
 //問題2:切換月or週&營養素
@@ -328,7 +327,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						//放這個圖表就顯示不出來
 						for(var i=0;i<7;i++){
 							if(mmdd[i]<10){//判斷月份
-								if(mmdd[i]==sqlmmddate[i]){//判斷月份相符
+								if(mmdd[i]==sqlmdate[i]){//判斷月份相符
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){//營養素ID
 											if(portion[i]==null){
@@ -340,7 +339,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -393,14 +392,13 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm1.render();
 					</script>
-					1的圖表
 				</div>
 				<div id="divm2" style="display:none;">
 					<canvas id="myChartm2" ></canvas>
 					<script>
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==2){
 											if(portion[i]==null){
@@ -412,9 +410,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==2){
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
@@ -464,7 +462,6 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm2.render();
 					</script>
-					2的圖表
 				</div>
 				<div id="divm3" style="display:none;">
 					<canvas id="myChartm3" ></canvas>
@@ -472,7 +469,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==3){
 											if(portion[i]==null){
@@ -484,9 +481,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==3){
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
@@ -536,7 +533,6 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm3.render();
 					</script>
-					3的圖表
 				</div>
 				<div id="divm4" style="display:none;">
 					<canvas id="myChartm4" ></canvas>
@@ -544,7 +540,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==4){
 											if(portion[i]==null){
@@ -556,9 +552,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==4){
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
@@ -608,7 +604,6 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm4.render();
 					</script>
-					4的圖表
 				</div>
 				<div id="divm5" style="display:none;">
 					<canvas id="myChartm5" ></canvas>
@@ -616,7 +611,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==5){
 											if(portion[i]==null){
@@ -628,9 +623,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==5){
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
@@ -680,7 +675,6 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm5.render();
 					</script>
-					5的圖表
 				</div>
 				<div id="divm6" style="display:none;">
 					<canvas id="myChartm6" ></canvas>
@@ -688,7 +682,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						
 						for(var i=0;i<7;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==6){
 											if(portion[i]==null){
@@ -700,9 +694,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlmdate[i]){
 									for(var m=0;m<count;m++){
-										if(iID_NID[m]==1){
+										if(iID_NID[m]==6){
 											if(portion[i]==null){
 												portion[i]=parseInt(sqlportion[m]);
 											}else{
@@ -752,30 +746,16 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartm6.render();
 					</script>
-					6的圖表
 				</div>
 			</div>
 			<div id="divweek" style="display:none;">
 				<div id="divw1" style="display:none;">
 					<canvas id="myChartw1" ></canvas>
 					<script>
-
-						document.write(mmdd[13]);
-						for(var i=0;i<7;i++){
+						var n=0;
+						for(var i=7;i<14;i++){
 							if(mmdd[i].substr(5,1)<10){
-								if(mmdd[i]==sqlwdate[i]){
-									for(var m=0;m<count;m++){
-										if(iID_NID[m]==6){
-											if(portion[i]==null){
-												portion[i]=parseInt(sqlportion[m]);
-											}else{
-												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
-											}
-										}
-									}
-								}
-							}else{
-								if(mmdd[i]==sqlmmddate[i]){
+								if(mmdd[i]==sqlwdate[n]){
 									for(var m=0;m<count;m++){
 										if(iID_NID[m]==1){
 											if(portion[i]==null){
@@ -785,6 +765,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==1){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
 								}
 							}
 						}
@@ -795,7 +790,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -827,12 +822,41 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw1.render();
 					</script>
-					周1的圖表
 				</div>
 				<div id="divw2" style="display:none;">
 					<canvas id="myChartw2" ></canvas>
 					<script>
-
+						var n=0;
+						for(var i=7;i<14;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==2){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==2){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw2').getContext('2d');
 						var myChartw2 = new Chart(ctx, {
 							type: 'bar',
@@ -840,7 +864,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -872,12 +896,41 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw2.render();
 					</script>
-					周2的圖表
 				</div>
 				<div id="divw3" style="display:none;">
 					<canvas id="myChartw3" ></canvas>
 					<script>						
-
+						var n=0;
+						for(var i=7;i<14;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==3){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==3){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw3').getContext('2d');
 						var myChartw3 = new Chart(ctx, {
 							type: 'bar',
@@ -885,7 +938,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -917,12 +970,41 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw3.render();
 					</script>
-					周3的圖表
 				</div>
 				<div id="divw4" style="display:none;">
 					<canvas id="myChartw4" ></canvas>
 					<script>
-
+						var n=0;
+						for(var i=7;i<14;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==4){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==4){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw4').getContext('2d');
 						var myChartw4 = new Chart(ctx, {
 							type: 'bar',
@@ -930,7 +1012,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [10, 6, 20, 6, 3, 5,15],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -962,12 +1044,41 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw4.render();
 					</script>
-					周4的圖表
 				</div>
 				<div id="divw5" style="display:none;">
 					<canvas id="myChartw5" ></canvas>
 					<script>
-						
+						var n=0;
+						for(var i=7;i<14;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==5){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==5){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw5').getContext('2d');
 						var myChartw5 = new Chart(ctx, {
 							type: 'bar',
@@ -975,7 +1086,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -1007,12 +1118,42 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw5.render();
 					</script>
-					周5的圖表
 				</div>
 				<div id="divw6" style="display:none;">
 					<canvas id="myChartw6" ></canvas>
 					<script>
-						
+						var n=0;
+						for(var i=7;i<14;i++){
+							if(mmdd[i].substr(5,1)<10){
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==6){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									
+									n=n+1;
+								}
+								
+							}else{
+								if(mmdd[i]==sqlwdate[n]){
+									for(var m=0;m<count;m++){
+										if(iID_NID[m]==6){
+											if(portion[i]==null){
+												portion[i]=parseInt(sqlportion[m]);
+											}else{
+												portion[i]=parseInt(portion[i])+parseInt(sqlportion[m]);
+											}
+										}
+									}
+									n=n+1;
+								}
+							}
+						}
 						var ctx = document.getElementById('myChartw6').getContext('2d');
 						var myChartw6 = new Chart(ctx, {
 							type: 'bar',
@@ -1020,7 +1161,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [20, 19, 1, 6, 3, 9,15],//改數值
+									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
@@ -1052,7 +1193,6 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						});
 						myChartw6.render();
 					</script>
-					周6的圖表
 				</div>
 			</div>
 			
