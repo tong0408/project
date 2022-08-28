@@ -70,6 +70,7 @@
 		cursor:pointer;
 	}
 </style>
+
 <script>
 var sqlmdate=[];
 var sqlwdate=[];
@@ -183,6 +184,8 @@ window.onload=function(){
 	var b4=document.getElementById("4");
 	var b5=document.getElementById("5");
 	var b6=document.getElementById("6");
+	document.getElementById("month").style.backgroundColor = "#FFB03B"; 
+	document.getElementById("1").style.backgroundColor = "#FFB03B"; 
 	//divid-month
 	var divmonth=document.getElementById("divmonth");
 	var divm1=document.getElementById("divm1");
@@ -204,36 +207,76 @@ window.onload=function(){
 	bmonth.onclick=function(){
 		s=1;
 		Show_hide(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6);
+		document.getElementById("month").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("week").style.backgroundColor = "#FFF"; 
 		return false;
 	}
 	//weekonclick
 	bweek.onclick=function(){
 		s=2;
 		Show_hide(divweek,divmonth,divw1,divw2,divw3,divw4,divw5,divw6,divm1,divm2,divm3,divm4,divm5,divm6);
+		document.getElementById("month").style.backgroundColor = "#FFF"; 
+		document.getElementById("week").style.backgroundColor = "#FFB03B"; 
 		return false;
 	}
 	b1.onclick=function(){
 		Show_div(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6,s);
+		document.getElementById("1").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("2").style.backgroundColor = "#FFF"; 
+		document.getElementById("3").style.backgroundColor = "#FFF"; 
+		document.getElementById("4").style.backgroundColor = "#FFF"; 
+		document.getElementById("5").style.backgroundColor = "#FFF"; 
+		document.getElementById("6").style.backgroundColor = "#FFF"; 
 		return false;
 	}
 	b2.onclick=function(){
 		Show_div(divmonth,divweek,divm2,divm1,divm3,divm4,divm5,divm6,divw2,divw1,divw3,divw4,divw5,divw6,s);
+		document.getElementById("1").style.backgroundColor = "#FFF"; 
+		document.getElementById("2").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("3").style.backgroundColor = "#FFF"; 
+		document.getElementById("4").style.backgroundColor = "#FFF"; 
+		document.getElementById("5").style.backgroundColor = "#FFF"; 
+		document.getElementById("6").style.backgroundColor = "#FFF"; 
 		return false;
 	}
 	b3.onclick=function(){
 		Show_div(divmonth,divweek,divm3,divm2,divm1,divm4,divm5,divm6,divw3,divw2,divw1,divw4,divw5,divw6,s);
+		document.getElementById("1").style.backgroundColor = "#FFF"; 
+		document.getElementById("2").style.backgroundColor = "#FFF"; 
+		document.getElementById("3").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("4").style.backgroundColor = "#FFF"; 
+		document.getElementById("5").style.backgroundColor = "#FFF"; 
+		document.getElementById("6").style.backgroundColor = "#FFF";
 		return false;
 	}
 	b4.onclick=function(){
 		Show_div(divmonth,divweek,divm4,divm2,divm3,divm1,divm5,divm6,divw4,divw2,divw3,divw1,divw5,divw6,s);
+		document.getElementById("1").style.backgroundColor = "#FFF"; 
+		document.getElementById("2").style.backgroundColor = "#FFF"; 
+		document.getElementById("3").style.backgroundColor = "#FFF"; 
+		document.getElementById("4").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("5").style.backgroundColor = "#FFF"; 
+		document.getElementById("6").style.backgroundColor = "#FFF";
 		return false;
 	}
 	b5.onclick=function(){
 		Show_div(divmonth,divweek,divm5,divm2,divm3,divm4,divm1,divm6,divw5,divw2,divw3,divw4,divw1,divw6,s);
+		document.getElementById("1").style.backgroundColor = "#FFF"; 
+		document.getElementById("2").style.backgroundColor = "#FFF"; 
+		document.getElementById("3").style.backgroundColor = "#FFF"; 
+		document.getElementById("4").style.backgroundColor = "#FFF"; 
+		document.getElementById("5").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("6").style.backgroundColor = "#FFF";
 		return false;
 	}
 	b6.onclick=function(){
 		Show_div(divmonth,divweek,divm6,divm2,divm3,divm4,divm5,divm1,divw6,divw2,divw3,divw4,divw5,divw1,s);
+		document.getElementById("1").style.backgroundColor = "#FFF"; 
+		document.getElementById("2").style.backgroundColor = "#FFF"; 
+		document.getElementById("3").style.backgroundColor = "#FFF"; 
+		document.getElementById("4").style.backgroundColor = "#FFF"; 
+		document.getElementById("5").style.backgroundColor = "#FFF"; 
+		document.getElementById("6").style.backgroundColor = "#FFB03B";
 		return false;
 	}
 }
@@ -308,12 +351,14 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 	}
 }
 </script>
+
 </head>
 <body>
 <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
 	 <!--<div style="display:inline-block;">這個語法會讓切換失效，排版定位可能要找別的方法，或是把boostrap裡面tab切換的css寫進我們自己的css-->
-		<button class="btn2" type="button" id="month">月</button>
-		<button class="btn2" type="button" id="week">週</button>
+		<button class="btn2" type="button" id="month" >月</button>
+		<button class="btn2" type="button" id="week" >週</button>
 		<div class="container1">
 			<button class="btn2" id="1">全榖雜糧類</button>
 			<button class="btn2" id="2">豆魚蛋肉類</button>
