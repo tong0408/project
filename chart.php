@@ -80,15 +80,21 @@ var iID_NID=[];
     //連接歷史紀錄資料表
 	$count=0;
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT `dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `ID` DESC";
+    $query = "SELECT `dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `date` DESC";
     $result = $link->query($query);
 	
     foreach($result as $row){
         
 		$dishID = $row['dishID'];
 		$sqldate=$row['date'];
-		
-    //取得所有需要的資料
+?>
+		<script>
+		sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
+		sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,4);?>');
+		document.write(sqlwdate);
+		</script>
+<?php
+		//取得所有需要的資料
 		$query = "SELECT count(`ID`),`iID`, `portion` FROM recipe where dishID='$dishID'";
 		$res = $link->query($query);
 		$c = $res->fetchColumn();
@@ -121,12 +127,7 @@ var iID_NID=[];
 			</script>
 <?php
 		}
-?>
-		<script>
-		sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
-		sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,4);?>');
-		</script>
-<?php
+		//echo $sqldate;
 	}
 ?>
 
@@ -357,27 +358,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm1 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -427,27 +428,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm2 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -498,27 +499,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm3 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -569,27 +570,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm4 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -640,27 +641,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm5 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -711,27 +712,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartm6 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[0],mmdd[1], mmdd[2], mmdd[3], mmdd[4], mmdd[5], mmdd[6]],//改日期
+								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
 									label: '營養素圖表-月',
-									data: [portion[0], portion[1], portion[2], portion[3], portion[4], portion[5],portion[6]],//改數值
+									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
-										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)',
+										'rgba(255, 99, 132, 0.2)'
 									],
 									borderColor: [
 										'rgba(255, 99, 132, 1)',
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)',
+										'rgba(255, 99, 132, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -782,32 +783,34 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									n=n+1;
 								}
 							}
+							//document.write(mmdd[i]);
+							//document.write(sqlwdate[n]);
 						}
 						var ctx = document.getElementById('myChartw1').getContext('2d');
 						var myChartw1 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -861,27 +864,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartw2 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -935,27 +938,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartw3 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -1009,27 +1012,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartw4 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -1083,27 +1086,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartw5 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
@@ -1158,27 +1161,27 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var myChartw6 = new Chart(ctx, {
 							type: 'bar',
 							data: {
-								labels: [mmdd[7],mmdd[8], mmdd[9], mmdd[10], mmdd[11], mmdd[12], mmdd[13]],//改日期
+								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
 									label: '營養素圖表-周',
-									data: [portion[7], portion[8], portion[9], portion[10], portion[11], portion[12],portion[13]],//改數值
+									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
 										'rgba(54, 162, 235, 0.2)',
-										'rgba(255, 206, 86, 0.2)',
-										'rgba(75, 192, 192, 0.2)',
-										'rgba(153, 102, 255, 0.2)',
-										'rgba(255, 159, 64, 0.2)',
-										'rgba(220, 31, 224, 0.2)'
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)',
+										'rgba(54, 162, 235, 0.2)'
 									],
 									borderColor: [
-										'rgba(255, 99, 132, 1)',
 										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-										'rgba(153, 102, 255, 1)',
-										'rgba(255, 159, 64, 1)',
-										'rgba(220, 31, 224, 1)'
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)',
+										'rgba(54, 162, 235, 1)'
 									],
 									borderWidth: 1
 								}]
