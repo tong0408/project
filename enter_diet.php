@@ -20,18 +20,16 @@
 		
 		foreach($result as $row){
 			$dishID=$row["ID"];
-			
-			if($dishID==0){
-				//新增至使用者history
-				$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
-				VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$i])";
-				$count = $link->exec($query);
-			}else{
-				$n=$dishID-1;
-				//新增至使用者history
-				$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
-				VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$n])";
-				$count = $link->exec($query);
+			for($m=0;$m<10;$m++){
+				if($new_portion[$m]!=null){
+					//新增至使用者history
+					$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
+					VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$m])";
+					$count = $link->exec($query);
+					break;
+				}else{
+					continue;
+				}
 			}
 			
 		}

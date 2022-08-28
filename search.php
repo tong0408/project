@@ -77,13 +77,16 @@
 							//判斷使用者是否有輸入
 							if (isset($_GET['s'])) {
 								$s = $_GET['s'];
+								$n=0;
 								foreach ($result as $row) {
 								//透過strpos函數判斷是否包含使用者輸入
 									if (strpos($row["dishName"], $s) !== false) {
 										echo "<tr>";
 										echo '<td style="text-align:left;"><input type="checkbox" id="checkbox' . $row['ID'] . '" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 										echo "</tr>";
+										$n++;
 									}
+									if ($n == 10) break;
 								}
 							} else {
 								$i = 0;
