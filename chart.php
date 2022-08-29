@@ -154,9 +154,10 @@ var m5 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().repl
 var m6 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
 var m7 =new Date(Today1.setMonth(Today1.getMonth()-1)).toLocaleDateString().replaceAll("/","-");
 
+//日期
 var mmdd=[];
 var portion=[];
-var s=0;
+var s=1;
 mmdd.push(m1.substr(5,1));
 mmdd.push(m2.substr(5,1));
 mmdd.push(m3.substr(5,1));
@@ -282,35 +283,116 @@ window.onload=function(){
 }
 //show or hide month and week div
 function Show_hide(s1,h2,showdiv,divh1,divh2,divh3,divh4,divh5,divh6,divh7,divh8,divh9,divh10,divh11){
-	if(s1.style.display='block'){
-		showdiv.style.display='block';
-		h2.style.display='none';
-		divh1.style.display='none';
-		divh2.style.display='none';
-		divh3.style.display='none';
-		divh4.style.display='none';
-		divh5.style.display='none';
-		divh6.style.display='none';
-		divh7.style.display='none';
-		divh8.style.display='none';
-		divh9.style.display='none';
-		divh10.style.display='none';
-		divh11.style.display='none';
-	}else if (s1.style.display='none'){
+	if(s1.style.display=='block'){
+		if(showdiv.style.display=='block'){
+			divh1.style.display='none';
+			divh2.style.display='none';
+			divh3.style.display='none';
+			divh4.style.display='none';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}else if(divh1.style.display=='block'){
+			divh1.style.display='block';
+			divh2.style.display='none';
+			divh3.style.display='none';
+			divh4.style.display='none';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}else if(divh2.style.display=='block'){
+			divh1.style.display='none';
+			divh2.style.display='block';
+			divh3.style.display='none';
+			divh4.style.display='none';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}else if(divh3.style.display=='block'){
+			divh1.style.display='none';
+			divh2.style.display='none';
+			divh3.style.display='block';
+			divh4.style.display='none';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}else if(divh4.style.display=='block'){
+			divh1.style.display='none';
+			divh2.style.display='none';
+			divh3.style.display='none';
+			divh4.style.display='block';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}else if(divh5.style.display=='block'){
+			divh1.style.display='none';
+			divh2.style.display='none';
+			divh3.style.display='none';
+			divh4.style.display='none';
+			divh5.style.display='block';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}
+		
+	}else if (s1.style.display=='none'){
 		s1.style.display='block';
-		showdiv.style.display='block';
-		h2.style.display='none';
-		divh1.style.display='none';
-		divh2.style.display='none';
-		divh3.style.display='none';
-		divh4.style.display='none';
-		divh5.style.display='none';
-		divh6.style.display='none';
-		divh7.style.display='none';
-		divh8.style.display='none';
-		divh9.style.display='none';
-		divh10.style.display='none';
-		divh11.style.display='none';
+		if(divh6.style.display=='block'){
+			divh6.style.display='none';
+			showdiv.style.display='block';
+		}else if(divh7.style.display=='block'){
+			divh7.style.display='none'
+			divh1.style.display='block';
+		}else if(divh8.style.display=='block'){
+			divh8.style.display='none';
+			divh2.style.display='block';
+		}else if(divh9.style.display=='block'){
+			divh9.style.display='none';
+			divh3.style.display='block';
+		}else if(divh10.style.display=='block'){
+			divh10.style.display='none';
+			divh4.style.display='block';
+		}else if(divh11.style.display=='block'){
+			divh11.style.display='none';
+			divh5.style.display='block';
+		}else{
+			showdiv.style.display='block';
+			divh1.style.display='none';
+			divh2.style.display='none';
+			divh3.style.display='none';
+			divh4.style.display='none';
+			divh5.style.display='none';
+			divh6.style.display='none';
+			divh7.style.display='none';
+			divh8.style.display='none';
+			divh9.style.display='none';
+			divh10.style.display='none';
+			divh11.style.display='none';
+		}
+		
 	}
 }
 //divmonth,divweek,divm6,divm2,divm3,divm4,divm5,divm1,divw6,divw2,divw3,divw4,divw5,divw1
@@ -331,9 +413,39 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 			divw3.style.display='none';
 			divw4.style.display='none';
 			divw5.style.display='none';
+		}else if(bm1.style.display='none'){
+			bm1.style.display='block';
+			bw2.style.display='none';
+			showmmddiv.style.display='block';
+			divm6.style.display='none';
+			divm2.style.display='none';
+			divm3.style.display='none';
+			divm4.style.display='none';
+			divm5.style.display='none';
+			showwdiv.style.display='none';
+			divw6.style.display='none';
+			divw2.style.display='none';
+			divw3.style.display='none';
+			divw4.style.display='none';
+			divw5.style.display='none';
 		}
 	}else if(s==2){
 		if(bw2.style.display='block'){
+			bm1.style.display='none';
+			showmmddiv.style.display='none';
+			divm6.style.display='none';
+			divm2.style.display='none';
+			divm3.style.display='none';
+			divm4.style.display='none';
+			divm5.style.display='none';
+			showwdiv.style.display='block';
+			divw6.style.display='none';
+			divw2.style.display='none';
+			divw3.style.display='none';
+			divw4.style.display='none';
+			divw5.style.display='none';
+		}else if(bw2.style.display='none'){
+			bw2.style.display='block';
 			bm1.style.display='none';
 			showmmddiv.style.display='none';
 			divm6.style.display='none';
