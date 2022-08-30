@@ -57,7 +57,7 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-							$diD = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
+							$diD []= isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
 							if ($diD!= null) { // 如果user有新增食物
 								$dishID=$_SESSION['dID'];
 								$query = "SELECT * FROM dish WHERE ID ='$dishID'";
@@ -65,11 +65,24 @@
 							
 								// 搜尋有資料時顯示搜尋結果
 								foreach($result as $row){
+                                    $rid='checkbox'+$row['ID'];
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+									echo '<td style="text-align:left;"><input type="checkbox" id="checkbox' . $row['ID'] . '" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
 									echo "</tr>";
 								}
 							}
+                        ?>
+                            <script>
+                            var rid= '<?=$rid?>';
+                            if($("#rid").attr('checked')){
+                                //如被勾選將做什麼事
+                                
+                            }else{
+                                //沒被勾選做什麼事
+
+                            }
+                            </script>
+                        <?php
 							//抓取全部dish
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
