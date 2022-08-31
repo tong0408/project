@@ -46,18 +46,17 @@
 </head>
 
 <body>
-
     <div class="form1">
 		<form method="POST" action="enter_diet.php">
 			<table style="margin:auto; width:80%;">
 				<tr><td>日期：</td><td><input type="date" name="date" required></td><td>時間：</td><td><input type="time" name="time" required></td></tr>
-				<tr><td colspan="4" style="text-align:left;"><button type="button" class="btn" onclick="location.href='new_recipe.html'">新增食譜</button></td></tr>
+				<tr><td colspan="4" style="text-align:left;"><button type="button" class="btn" id="add" onclick="location.href='new_recipe.html'">新增食譜</button></td></tr>
 				<tr><td colspan="4" style="text-align:left;">以下沒有，請自行新增食譜</td></tr>
 				<tr><td colspan="4">
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-							$diD []= isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
+							$diD[] = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
 							if ($diD!= null) { // 如果user有新增食物
 								$dishID=$_SESSION['dID'];
 								$query = "SELECT * FROM dish WHERE ID ='$dishID'";
@@ -65,24 +64,11 @@
 							
 								// 搜尋有資料時顯示搜尋結果
 								foreach($result as $row){
-                                    $rid='checkbox'+$row['ID'];
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="checkbox' . $row['ID'] . '" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
 									echo "</tr>";
 								}
 							}
-                        ?>
-                            <script>
-                            var rid= '<?=$rid?>';
-                            if($("#rid").attr('checked')){
-                                //如被勾選將做什麼事
-                                
-                            }else{
-                                //沒被勾選做什麼事
-
-                            }
-                            </script>
-                        <?php
 							//抓取全部dish
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
@@ -116,11 +102,33 @@
 					</table>
 				</td></tr>				
 			</table>
-			<input type="submit" class="btn" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
+			<input type="submit" class="btn" id="newbutton" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
 		</form>	
 	</div>
  <script>
-
+	var s=0;
+	var n=0;
+	window.onload=function(){
+		var add=document.getElementById("add");
+		var newbutton=document.getElementById("newbutton");
+		
+		add.onclick=function(){
+			if(n==0){
+				s=0;
+			}else{
+				s=s+1;
+			}
+			n=n+1;
+			return false;
+		}
+		//weekonclick
+		newbutton.onclick=function(){
+			s=0;
+			n=0;
+			return false;
+		}
+	}
+	
 </script>
 </body>
 </html>
