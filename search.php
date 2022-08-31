@@ -5,6 +5,7 @@
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	//這個要等整合才會有效
 	//$userid= $_SESSION['userID'];
+	//$m="<script>document.writeln(s);</script>";
 ?>
 <html>
 <head>
@@ -44,7 +45,31 @@
 	td{height:50px;}
 </style>
 </head>
-
+ <script>
+	var s=0;
+	var n=0;
+	window.onload=function(){
+		var add=document.getElementById("add");
+		var newbutton=document.getElementById("newbutton");
+		
+		add.onclick=function(){
+			if(n==0){
+				s=0;
+			}else{
+				s=s+1;
+			}
+			n=n+1;
+			return s;
+		}
+		document.write(s);
+		newbutton.onclick=function(){
+			s=0;
+			n=0;
+			return s;
+		}
+	}
+	
+</script>
 <body>
     <div class="form1">
 		<form method="POST" action="enter_diet.php">
@@ -56,17 +81,33 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-							$diD[] = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
-							if ($diD!= null) { // 如果user有新增食物
-								$dishID=$_SESSION['dID'];
-								$query = "SELECT * FROM dish WHERE ID ='$dishID'";
-								$result = $link->query($query);
-							
-								// 搜尋有資料時顯示搜尋結果
-								foreach($result as $row){
-									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
-									echo "</tr>";
+
+							$diD[$m] = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
+							if ($diD[$m]!= null) { // 如果user有新增食物
+								if($m==0){
+									$dishID=$_SESSION['dID'];
+									$query = "SELECT * FROM dish WHERE ID ='$dishID'";
+									$result = $link->query($query);
+								
+									// 搜尋有資料時顯示搜尋結果
+									foreach($result as $row){
+										echo "<tr>";
+										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+										echo "</tr>";
+									}
+								}else{
+									for($a=0;$a<$m;$a++){
+										$dishID=$diD[$m];
+										$query = "SELECT * FROM dish WHERE ID ='$dishID'";
+										$result = $link->query($query);
+									
+										// 搜尋有資料時顯示搜尋結果
+										foreach($result as $row){
+											echo "<tr>";
+											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+											echo "</tr>";
+										}
+									}
 								}
 							}
 							//抓取全部dish
@@ -105,30 +146,6 @@
 			<input type="submit" class="btn" id="newbutton" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
 		</form>	
 	</div>
- <script>
-	var s=0;
-	var n=0;
-	window.onload=function(){
-		var add=document.getElementById("add");
-		var newbutton=document.getElementById("newbutton");
-		
-		add.onclick=function(){
-			if(n==0){
-				s=0;
-			}else{
-				s=s+1;
-			}
-			n=n+1;
-			return false;
-		}
-		//weekonclick
-		newbutton.onclick=function(){
-			s=0;
-			n=0;
-			return false;
-		}
-	}
-	
-</script>
+
 </body>
 </html>
