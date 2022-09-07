@@ -31,6 +31,7 @@
 	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
 	body, html {
+		height: 100%;
 		line-height: 1.8;
 		text-align:center;
 		background-color:#FFD79B;
@@ -312,17 +313,20 @@ window.onload=function(){
 	//monthonclick
 	bmonth.onclick=function(){
 		s=1;
+		Show_div(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6,s);
 		Show_hide(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6);
 		document.getElementById("month").style.backgroundColor = "#FFB03B"; 
-		document.getElementById("week").style.backgroundColor = "#FFF"; 
+		document.getElementById("week").style.backgroundColor = "#FFF";
+
 		return false;
 	}
 	//weekonclick
 	bweek.onclick=function(){
 		s=2;
+		Show_div(divmonth,divweek,divm1,divm2,divm3,divm4,divm5,divm6,divw1,divw2,divw3,divw4,divw5,divw6,s);
 		Show_hide(divweek,divmonth,divw1,divw2,divw3,divw4,divw5,divw6,divm1,divm2,divm3,divm4,divm5,divm6);
 		document.getElementById("month").style.backgroundColor = "#FFF"; 
-		document.getElementById("week").style.backgroundColor = "#FFB03B"; 
+		document.getElementById("week").style.backgroundColor = "#FFB03B";
 		return false;
 	}
 	b1.onclick=function(){
@@ -536,7 +540,7 @@ function Show_hide(s1,h2,showdiv,divh1,divh2,divh3,divh4,divh5,divh6,divh7,divh8
 			divh10.style.display='none';
 			divh11.style.display='block';
 		}
-		s1.style.display='none';
+		
 		//h2.style.display='block';
 		
 	}else if (s1.style.display=='none'){
@@ -580,66 +584,76 @@ function Show_hide(s1,h2,showdiv,divh1,divh2,divh3,divh4,divh5,divh6,divh7,divh8
 //show button
 function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw2,divw3,divw4,divw5,divw6,s){
 	if(s==1){
-		if(bm1.style.display='block'){
-			bw2.style.display='none';
+		if(bm1.style.display=='block'){
 			showmmddiv.style.display='block';
 			divm6.style.display='none';
 			divm2.style.display='none';
 			divm3.style.display='none';
 			divm4.style.display='none';
 			divm5.style.display='none';
-			showwdiv.style.display='none';
 			divw6.style.display='none';
 			divw2.style.display='none';
 			divw3.style.display='none';
 			divw4.style.display='none';
 			divw5.style.display='none';
-		}else if(bm1.style.display='none'){
+		}else if(bm1.style.display=='none'){
 			bm1.style.display='block';
+			if(showwdiv.style.display=='block'){
+				showmmddiv.style.display='block';
+				showwdiv.style.display='none';
+			}else if(divw2.style.display=='block'){
+				divm2.style.display='block';
+				divw2.style.display='none';
+			}else if(divw3.style.display=='block'){
+				divm3.style.display='block';
+				divw3.style.display='none';
+			}else if(divw4.style.display=='block'){
+				divm4.style.display='block';
+				divw4.style.display='none';
+			}else if(divw5.style.display=='block'){
+				divm5.style.display='block';
+				divw5.style.display='none';
+			}else if(divw6.style.display=='block'){
+				divm6.style.display='block';
+				divw6.style.display='none';
+			}
 			bw2.style.display='none';
-			showmmddiv.style.display='block';
-			divm6.style.display='none';
-			divm2.style.display='none';
-			divm3.style.display='none';
-			divm4.style.display='none';
-			divm5.style.display='none';
-			showwdiv.style.display='none';
-			divw6.style.display='none';
-			divw2.style.display='none';
-			divw3.style.display='none';
-			divw4.style.display='none';
-			divw5.style.display='none';
 		}
 	}else if(s==2){
-		if(bw2.style.display='block'){
-			bm1.style.display='none';
-			showmmddiv.style.display='none';
+		if(bw2.style.display=='block'){
+			showwdiv.style.display='block';
 			divm6.style.display='none';
 			divm2.style.display='none';
 			divm3.style.display='none';
 			divm4.style.display='none';
 			divm5.style.display='none';
-			showwdiv.style.display='block';
 			divw6.style.display='none';
 			divw2.style.display='none';
 			divw3.style.display='none';
 			divw4.style.display='none';
 			divw5.style.display='none';
-		}else if(bw2.style.display='none'){
+		}else if(bw2.style.display=='none'){
 			bw2.style.display='block';
+			if(showmmddiv.style.display=='block'){
+				showwdiv.style.display='block';
+				showmmddiv.style.display='none';
+			}else if(divm2.style.display=='block'){
+				divw2.style.display='block';
+				divm2.style.display='none';
+			}else if(divm3.style.display=='block'){
+				divw3.style.display='block';
+				divm3.style.display='none';
+			}else if(divm4.style.display=='block'){
+				divw4.style.display='block';
+				divm4.style.display='none';
+			}else if(divm5.style.display=='block'){
+				divw5.style.display='block';
+				divm5.style.display='none';
+			}else if(divm6.style.display=='block'){
+				divw6.style.display='block';
+				divm6.style.display='none';
+			}
 			bm1.style.display='none';
-			showmmddiv.style.display='none';
-			divm6.style.display='none';
-			divm2.style.display='none';
-			divm3.style.display='none';
-			divm4.style.display='none';
-			divm5.style.display='none';
-			showwdiv.style.display='block';
-			divw6.style.display='none';
-			divw2.style.display='none';
-			divw3.style.display='none';
-			divw4.style.display='none';
-			divw5.style.display='none';
 		}
 	}
 }
