@@ -82,13 +82,14 @@ var iID_NID=[];
     //連接歷史紀錄資料表
 	$count=0;
     $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-    $query = "SELECT `dishID` ,`date` FROM `history` WHERE `UID`='$userID' ORDER BY `date` DESC";
+    $query = "SELECT `dishID` ,`date`,`portion` FROM `history` WHERE `UID`='$userID' ORDER BY `date` DESC";
     $result = $link->query($query);
 	
     foreach($result as $row){
         
 		$dishID = $row['dishID'];
 		$sqldate=$row['date'];
+		$hisportion=$row['portion'];
 ?>
 		<script>
 		sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
@@ -112,7 +113,8 @@ var iID_NID=[];
 <?php		
 		foreach ($re as $r){
 			$iID=$r['iID'];
-			$portion=$r['portion'];
+			$dishportion=$r['portion'];
+			$portion=$dishportion*$hisportion;
 			
 			//從iID取得NID和食材名稱<使用>
 			$query = "SELECT NID FROM ingredients where iID='$iID'";
