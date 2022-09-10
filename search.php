@@ -4,8 +4,9 @@
 	include("configure.php");
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	//這個要等整合才會有效
-	//$userid= $_SESSION['userID'];
-	//$m="<script>document.writeln(s);</script>";
+	$userid= $_SESSION['userID'];
+	
+	$_SESSION['mm']=0;
 ?>
 <html>
 <head>
@@ -70,6 +71,7 @@
 	}
 	
 </script>
+
 <body>
     <div class="form1">
 		<form method="POST" action="enter_diet.php">
@@ -81,7 +83,7 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-
+							//$m=isset($_SESSION['m']) ? $_SESSION['m'] : 0;
 							$diD[$m] = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
 							if ($diD[$m]!= null) { // 如果user有新增食物
 								if($m==0){
