@@ -66,7 +66,7 @@
 	$query = "SELECT * FROM `user` WHERE `userID`='$userID'"; #一開始session抓取的值
 	$result = $link->query($query);
 	
-	#獲取現在登入者的帳號密碼
+	#獲取現在登入者的身體資訊
 	foreach ($result as $row) {
         $user_weight = $row["weight"];
 		$user_BMI = $row["BMI"];
@@ -120,12 +120,176 @@
         }
     }
 
+
+	function function_category($user_cal){
+		global $category_1;
+		global $category_2;
+		global $category_3;
+		global $category_4;
+		global $category_5;
+		global $category_6;
+		global $category_7;
+		#設定使用者今天要攝取的六大類(單位:份)(全域變數)
+		# 1 = 全穀物雜糧類
+		# 2 = 蛋豆魚肉類
+		# 3 = 乳品類
+		# 4 = 蔬菜類
+		# 5 = 水果類
+		# 6 = 油脂類
+		# 7 = 堅果種子類
+		if($user_cal<1500){
+			#大卡數<1500
+			$category_1=1.5;
+			$category_2=3;
+			$category_3=1.5;
+			$category_4=3;
+			$category_5=2;
+			$category_6=3;
+			$category_7=1;
+		}
+		else if($user_cal<1800){
+			#1500<=大卡數<1800
+			$category_1=2.5;
+			$category_2=4;
+			$category_3=1.5;
+			$category_4=3;
+			$category_5=2;
+			$category_6=3;
+			$category_7=1;
+		}
+		else if($user_cal<2000){
+			#1800<=大卡數<2000
+			$category_1=3;
+			$category_2=5;
+			$category_3=1.5;
+			$category_4=3;
+			$category_5=2;
+			$category_6=4;
+			$category_7=1;		
+		}
+		else if($user_cal<2200){
+			#2000<=大卡數<2200
+			$category_1=3;
+			$category_2=6;
+			$category_3=1.5;
+			$category_4=4;
+			$category_5=3;
+			$category_6=5;
+			$category_7=1;		
+		}
+		else if($user_cal<2500){
+			#2200<=大卡數<2500
+			$category_1=3.5;
+			$category_2=6;
+			$category_3=1.5;
+			$category_4=4;
+			$category_5=3.5;
+			$category_6=5;
+			$category_7=1;	
+		}
+		else if($user_cal<2700){
+			#2500<=大卡數<2700
+			$category_1=4;
+			$category_2=7;
+			$category_3=1.5;
+			$category_4=5;
+			$category_5=4;
+			$category_6=6;
+			$category_7=1;	
+		}
+		else{
+			#大卡數>2700
+			$category_1=4;
+			$category_2=8;
+			$category_3=2;
+			$category_4=5;
+			$category_5=4;
+			$category_6=7;
+			$category_7=1;	
+		}
+	}
+	
+	function function_goal($hostname,$database,$username,$password,
+	$category_1,$category_2,$category_3,
+	$category_4,$category_5,$category_6,$category_7){
+		#抓取nutrient資料
+		$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+		$query = "SELECT * FROM `nutrient` "; 
+		$result = $link->query($query);
+		
+		#獲取六大類的醣類、脂質、蛋白質參數()
+		foreach ($result as $row) {
+			$sql_glyco[] = $row["glyco"];
+			$sql_fat[] = $row["fat"];
+			$sql_protein[] = $row["protein"];
+		}
+
+		global $goal_glyco;
+		global $goal_fat;
+		global $goal_protein;
+		#計算目標醣類 脂肪質 蛋白質
+		#目標醣類
+		$goal_glyco=($category_1*$sql_glyco[0])+($category_2*$sql_glyco[1])+($category_3*$sql_glyco[2])
+		+($category_4*$sql_glyco[3])+($category_5*$sql_glyco[4])+(($category_6+$category_7)*$sql_glyco[5]);
+		#目標脂質
+		$goal_fat=($category_1*$sql_fat[0])+($category_2*$sql_fat[1])+($category_3*$sql_fat[2])
+		+($category_4*$sql_fat[3])+($category_5*$sql_fat[4])+(($category_6+$category_7)*$sql_fat[5]);
+		#目標蛋白質
+		$goal_protein=($category_1*$sql_protein[0])+($category_2*$sql_protein[1])+($category_3*$sql_protein[2])
+		+($category_4*$sql_protein[3])+($category_5*$sql_protein[4])+(($category_6+$category_7)*$sql_protein[5]);
+	}
+	
+	#設定普通人的大卡數六大類份數與三大營養素目標
+	function_category($user_cal);
+	function_goal($hostname,$database,$username,$password,
+	$category_1,$category_2,$category_3,
+	$category_4,$category_5,$category_6,$category_7);
+	
+	#針對疾病及調整
+	if($user_disease=="肺炎"){
+		#大卡數調整 體重*35+250大卡
+		$user_cal=($user_weight*35)+250;
+		#重新計算大卡數所需六大類數值與目標值
+		function_category($user_cal);
+		function_goal($hostname,$database,$username,$password,
+		$category_1,$category_2,$category_3,
+		$category_4,$category_5,$category_6,$category_7);
+		#蛋白質調整 體重*1.5g
+		$goal_protein=$user_weight*1.5;
+	}
+	else if($user_disease=="糖尿病"){
+		#蛋白質調整 總熱量的20% g
+		$goal_protein=$user_cal*0.2;
+		#脂質調整 總熱量的20% g
+		$goal_fat=$user_cal*0.2;
+	}
+	else if($user_disease=="高血壓"){
+		#白肉代替紅肉
+		#低鈉飲食 每日食鹽量<6g
+	}
+	else if($user_disease=="慢性下呼吸道疾病"){
+		#蛋白質調整 體重*1.5g
+		$goal_protein=$user_weight*1.5;
+	}
+	else if($user_disease=="慢性腎臟疾病"){
+		#蛋白質調整 體重*0.6g
+		$goal_protein=$user_weight*0.6;
+	}
+	else if($user_disease=="肝硬化"){
+		#蛋白質調整 100g
+		$goal_protein=100;
+		#澱粉類攝取 450g 薯類60g
+		#蔬菜類攝取 黃綠色蔬菜100g 淺色蔬菜200g
+		#水果類調整 200g
+		#脂肪調整 總熱量的25%
+		$goal_fat=$user_cal*0.25;
+	}
+
     echo "<b>".$Name."您好！</b><br>
     您的疾病為：「".$user_disease."」，目前BMI為：".$user_BMI."，一天建議攝取".$user_cal."大卡。<br>
-    每日建議攝取量：全榖雜糧類：份  蛋豆魚肉類：份 乳品類：份  蔬菜類：份  水果類：份 油脂類：份  堅果種子類：份<br><br>
-    <b>目前已攝取的營養素為：全榖雜糧類：份  蛋豆魚肉類：份 乳品類：份  蔬菜類：份  水果類：份 油脂類：份  堅果種子類：份<br>
-    缺少的營養素為：全榖雜糧類：份  蛋豆魚肉類：份 乳品類：份  蔬菜類：份  水果類：份 油脂類：份  堅果種子類：份</b><br>
-    以下推薦幾道菜單讓您選擇！";
+    每日建議攝取量：全榖雜糧類：".$category_1."份  蛋豆魚肉類：".$category_2."份 乳品類：".$category_3."份  蔬菜類：".$category_4."份  水果類：".$category_5."份 油脂類：".$category_6."份  堅果種子類：".$category_7."份<br>
+    目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g，加起來是：".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."<br>
+	<b>以下推薦幾道菜單讓您選擇！";
 ?>
 	<table style="margin:auto; width:80%; text-align:center;"  border="1px solid #CCC">
 		<tr><td >菜名</td><td style="width:130px;">作法</td><td>食材</td><td>克數</td></tr>
