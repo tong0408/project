@@ -233,7 +233,6 @@ if(t1.length==8){
 	
 	
 }else if (t1.length==9){
-	document.write(1);
 	if(t1.substr(5,2)>=10){
 		mmdd.push(m1.substr(5,2));
 		mmdd.push(m2.substr(5,2));
@@ -251,7 +250,6 @@ if(t1.length==8){
 		mmdd.push(t7);
 	}else{
 		//t1=2022-09-10
-		document.write(t2.length);
 		mmdd.push(m1.substr(5,1));
 		mmdd.push(m2.substr(5,1));
 		mmdd.push(m3.substr(5,1));
@@ -260,7 +258,7 @@ if(t1.length==8){
 		mmdd.push(m6.substr(5,1));
 		mmdd.push(m7.substr(5,1));
 		if(t2.length==8){
-			mmdd.push(t1);
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));
 			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,2)+'0'+t2.substr(7,1));
 			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,2)+'0'+t3.substr(7,1));
 			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,2)+'0'+t4.substr(7,1));
@@ -268,53 +266,53 @@ if(t1.length==8){
 			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,2)+'0'+t6.substr(7,1));
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else if(t3.length==8){                      
-			mmdd.push(t1);                           
-			mmdd.push(t2);                           
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));                           
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));                           
 			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,2)+'0'+t3.substr(7,1));
 			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,2)+'0'+t4.substr(7,1));
 			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,2)+'0'+t5.substr(7,1));
 			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,2)+'0'+t6.substr(7,1));
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else if(t4.length==8){                      
-			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,2));
-			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,2));
-			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,2));
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));
+			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));
 			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,2)+'0'+t4.substr(7,1));
 			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,2)+'0'+t5.substr(7,1));
 			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,2)+'0'+t6.substr(7,1));
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else if(t5.length==8){                      
-			mmdd.push(t1);                           
-			mmdd.push(t2);                           
-			mmdd.push(t3);                           
-			mmdd.push(t4);                           
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));                           
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));                           
+			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));                           
+			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));                           
 			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,2)+'0'+t5.substr(7,1));
 			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,2)+'0'+t6.substr(7,1));
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else if(t6.length==8){                      
-			mmdd.push(t1);                           
-			mmdd.push(t2);                           
-			mmdd.push(t3);                           
-			mmdd.push(t4);                           
-			mmdd.push(t5);                           
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));                           
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));                           
+			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));                           
+			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));                           
+			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,4));                           
 			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,2)+'0'+t6.substr(7,1));
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else if(t7.length==8){
-			mmdd.push(t1);     
-			mmdd.push(t2);     
-			mmdd.push(t3);     
-			mmdd.push(t4);     
-			mmdd.push(t5);     
-			mmdd.push(t6);     
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));     
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));     
+			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));     
+			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));     
+			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,4));     
+			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,4));     
 			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,2)+'0'+t7.substr(7,1));
 		}else{
-			mmdd.push(t1);
-			mmdd.push(t2);
-			mmdd.push(t3);
-			mmdd.push(t4);
-			mmdd.push(t5);
-			mmdd.push(t6);
-			mmdd.push(t7);
+			mmdd.push(t1.substr(0,5)+'0'+t1.substr(5,4));
+			mmdd.push(t2.substr(0,5)+'0'+t2.substr(5,4));
+			mmdd.push(t3.substr(0,5)+'0'+t3.substr(5,4));
+			mmdd.push(t4.substr(0,5)+'0'+t4.substr(5,4));
+			mmdd.push(t5.substr(0,5)+'0'+t5.substr(5,4));
+			mmdd.push(t6.substr(0,5)+'0'+t6.substr(5,4));
+			mmdd.push(t7.substr(0,5)+'0'+t7.substr(5,4));
 		}
 	}
 }
@@ -1173,12 +1171,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<script>
 						portion.splice(7,7);
 						for(var i=7;i<14;i++){
-							document.write(mmdd[i]);
 							if(mmdd[i].substr(5,1)<10){
 								for(var z=0;z<sqlmdate.length;z++){
-									
 									if(mmdd[i]==sqlwdate[z]){
-										document.write(mmdd[i]);
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==1){
 												if(portion[i]==null){
