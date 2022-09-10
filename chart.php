@@ -114,7 +114,7 @@ var iID_NID=[];
 		foreach ($re as $r){
 			$iID=$r['iID'];
 			$dishportion=$r['portion'];
-			$portion=$dishportion;
+			$portion=$dishportion*$hisportion;
 			
 			//從iID取得NID和食材名稱<使用>
 			$query = "SELECT NID FROM ingredients where iID='$iID'";
