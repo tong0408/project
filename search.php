@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
 	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
@@ -150,4 +151,10 @@
 	</div>
 
 </body>
+<script>
+    $(function(){
+        var _h = $(document).height();//取得網頁高度
+        parent.postMessage({ h: _h}, '*');//將高度值，傳到父層
+    });
+</script>
 </html>

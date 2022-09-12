@@ -30,28 +30,97 @@
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-	body, html {		
-		background-color:#FFD79B;
-	}
-	
-	td{
-		width:50px;
-		padding:10px;
-	}
-	tbody:hover {
-		background-color: rgba(200,200,200,0.5);
-	}
-	.container1{
-		width:80%; 
-		height:auto; 
-		background:#FFF; 
-		margin:auto;
-		padding:30px;
-		border-radius:20px;
+<style type="text/css">	
+		body, html {		
+			background-color:#FFD79B;
+		}
+		table{
+			height: auto; 
+			margin: auto;
+			text-align:center;
+		}
+		td{
+			width: 50px; 
+			height: 50px;
+			border:solid 0px;
+		}
+		.dish{
+			color: #FFB03B;
+			font-size: 20px;
+			transition: ease-in 0.5s;
+			font-weight:bold;
+		}
 		
-	}	
-</style>
+		.dish:hover{
+			background: #FFB03B;
+			color: #FFF;
+			cursor: pointer;
+		}
+		
+		.box{
+			height: 500px;
+			display: inline-block;
+			color: #FFF;			
+		}
+		
+		#right{
+			background: #FFB03B;
+		}
+		
+		#getdish{
+			font-size: 36px;
+			height: 150px;
+			font-weight:bold;
+			line-height: 150px;
+		}
+		
+		#gettitle{
+			font-size: 20px;			
+		}
+		
+		.get{			
+			height: 300px;
+			width:400px;
+			overflow: auto;	
+			text-align:left;
+			padding:10px;
+			display:inline-block;
+		}		
+		.anima{
+			animation: anima 1s;
+		}
+		
+		@keyframes anima{
+			from{opacity: 0; transform: rotate(-720deg);}
+			to{opacity: 1; transform: rotate(0deg);}
+		}
+				
+		
+		
+		.container1{
+			width: 1100px; 
+			text-align:center;
+			background:#FFF; 
+			margin:auto;
+			padding:20px;
+			border-radius:20px;
+		}
+		
+		.container2{
+			width: 850px; 
+			text-align:center;
+			background:#FFB03B; 
+			margin:auto;
+			padding:20px;
+			border-radius:20px;
+			display:inline-block;
+		}
+		
+		#getid{
+			height:508px;
+			color:#FFF;
+		}
+	</style>
 </head>
 <body>
 中間上方<br>
@@ -289,62 +358,83 @@
     您的疾病為：「".$user_disease."」，目前BMI為：".$user_BMI."，一天建議攝取".$user_cal."大卡。<br>
     每日建議攝取量：全榖雜糧類：".$category_1."份  蛋豆魚肉類：".$category_2."份 乳品類：".$category_3."份  蔬菜類：".$category_4."份  水果類：".$category_5."份 油脂類：".$category_6."份  堅果種子類：".$category_7."份<br>
     目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g，加起來是：".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."<br>
-	<b>以下推薦幾道菜單讓您選擇！";
+	<b>以下推薦幾道菜單讓您選擇！</b><br>";
 ?>
-	<table style="margin:auto; width:80%; text-align:center;"  border="1px solid #CCC">
-		<tr><td >菜名</td><td style="width:130px;">作法</td><td>食材</td><td>克數</td></tr>
+			<div class="box" id="left">
+			<table width="200">				
 			<?PHP			
 				$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-				$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 10";
+				$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 5";
 				$result = $link->query($query);	
 				
 				//取得所有需要的資料
-				foreach ($result as $row){
-					
+				foreach ($result as $row){					
 					//取得欄位數量
 					$dishID = $row['dishID'];
 					$dishname = $row['dishname'];
-					$method = $row['method'];
-					$count = $link->prepare("SELECT * FROM recipe WHERE `dishID`='$dishID'");   
-					$count->execute();   
-					$count_rows=$count->rowCount(); 
-					
+					$method = $row['method'];					
 					//顯示結果
-					echo '<tbody><tr>'.
+					echo '<tr>'.
 					//菜名
-					'<td style="height:50px;" rowspan="'.$count_rows.'">'.$dishname.'</td>';					
-					echo '<td style="height:50px;" rowspan="'.$count_rows.'">'.$method.'</td>';
+					'<td class="dish" onClick="showtitle(event)" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
+					}					
+			?>
+			</table>
+			</div>
+			<div class="container2">
+			<div class="box" id="right">				
+				點選菜名查看料理方式<br><br>
+				<div id="getdish">&nbsp;</div>
+				<div class="get" id="gettitle">&nbsp;</div>
+			</div>
+			<div class="box" id="right">
+				<div class="get" id="getid">
+				<br>
+				<table style="color:#FFF; font-size:20px; width:300px;">
+				<?PHP
+					$query1 = "SELECT recipe.portion,ingredients.name FROM recipe INNER JOIN ingredients on recipe.iID = ingredients.iID WHERE recipe.dishID=1";
+					$result1 = $link->query($query1);	
+				
+					//取得所有需要的資料
+					foreach ($result1 as $row1){
+					
+					$portion = $row1['portion'];
+					$iID_Name=$row1['name'];
+					
+					
+					echo '<tr>'.
+					//菜名
+					'<td>'.$iID_Name.'</td><td>'.$portion.'克</td></tr>';
 
-					//取得菜ID使用的食材ID
-					$query = "SELECT * FROM recipe where dishID='$dishID'";
-					$re = $link->query($query);
-					foreach ($re as $r){
-						$dish_iID=$r['iID'];
-						$portion=$r['portion'];
-
-						//從食材ID取得食材類別ID和食材名稱<使用>
-						$query = "SELECT * FROM ingredients where iID='$dish_iID'";
-						$re = $link->query($query);
-						foreach ($re as $r){
-							$iID_NID=$r['NID'];
-							$iID_Name=$r['name'];
-							//食材
-							echo '<td style="height:50px;">'.$iID_Name.'</td>'.
-							//分類
-							'<td style="height:50px;">'.$portion.'克</td></tr>';								
-															
-							}						
-						}
 					
 					}
-					echo '</tbody>';
-			
-			?>
-	</table>
+				?>
+				</table>
+				</div>
+			</div>
+			</div>
+	
 </div>
 <br>
 下方會是依據缺少的營養素去做推薦菜單<br>
 （去比對資料庫內該營養素較相符合的，如果吃了導致其他營養素過量，也要篩選）<br>
 
 </body>
+<script>
+		function showtitle(event){
+			var getdish=event.target.innerHTML;//當觸發了 click處而 innerHTML就是指事件發生位置
+			var e=document.getElementById("getdish");//用來取得頁面中 getdish id 的值
+			e.className=""
+			setTimeout(function(){e.className='anima'},0)//設定為0秒的延遲，並抓取style中的anima來當class
+			document.getElementById("getdish").innerHTML=getdish;//變更網頁ID(getdish)位置的文字為設定的(var getdish)值
+			
+			var gettitle=event.target.title;//當觸發了 click，會抓取title資料
+			document.getElementById("gettitle").innerHTML=gettitle;//變更網頁ID(gettitle)位置的文字為設定的(var gettitle)值
+			var dishid = event.target.id;
+			document.getElementById("getid").innerHTML=dishid;
+			
+		}	
+			
+		
+	</script>
 </html>
