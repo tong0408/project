@@ -11,7 +11,7 @@
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //份量
 	
 	$userid= $_SESSION['userID'];
-	
+	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
 	FOR($i=0;$i<count($dishname);$i++){
 		
 		//搜尋相對應的dishID
@@ -20,7 +20,7 @@
 		
 		foreach($result as $row){
 			$dishID=$row["ID"];
-			for($m=0;$m<10;$m++){
+			for($m=0;$m<$n;$m++){
 				if($new_portion[$m]!=null){
 					//新增至使用者history
 					$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)

@@ -5,8 +5,7 @@
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	//這個要等整合才會有效
 	$userid= $_SESSION['userID'];
-	
-	$_SESSION['mm']=0;
+
 ?>
 <html>
 <head>
@@ -17,7 +16,6 @@
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
 	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
@@ -84,35 +82,18 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-							//$m=isset($_SESSION['m']) ? $_SESSION['m'] : 0;
-							$diD[$m] = isset($_SESSION['dID']) ? $_SESSION['dID'] : null;
-							if ($diD[$m]!= null) { // 如果user有新增食物
-								if($m==0){
-									$dishID=$_SESSION['dID'];
-									$query = "SELECT * FROM dish WHERE ID ='$dishID'";
-									$result = $link->query($query);
-								
-									// 搜尋有資料時顯示搜尋結果
-									foreach($result as $row){
-										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
-										echo "</tr>";
-									}
-								}else{
-									for($a=0;$a<$m;$a++){
-										$dishID=$diD[$m];
-										$query = "SELECT * FROM dish WHERE ID ='$dishID'";
-										$result = $link->query($query);
-									
-										// 搜尋有資料時顯示搜尋結果
-										foreach($result as $row){
-											echo "<tr>";
-											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row['dishName'].'" checked="checked">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
-											echo "</tr>";
-										}
-									}
-								}
+							
+							$query = "SELECT * FROM user_add where `UID`='$userid'";
+							$result = $link->query($query);
+							
+							// 搜尋有資料時顯示搜尋結果
+							foreach($result as $row){
+								echo "<tr>";
+								echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["dishName"].'" checked="checked">' . $row["dishName"] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+								echo "</tr>";
 							}
+							
+							
 							//抓取全部dish
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
@@ -122,22 +103,25 @@
 								$s = $_GET['s'];
 								$n=0;
 								foreach ($result as $row) {
+									$checkdishname=$row["dishName"];
 								//透過strpos函數判斷是否包含使用者輸入
 									if (strpos($row["dishName"], $s) !== false) {
 										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" id="checkbox' . $row['ID'] . '" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
+										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["dishName"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 										echo "</tr>";
 										$n++;
 									}
-									if ($n == 10) break;
+									//if ($n == 10) break;
 								}
+								$_SESSION['n']=$n;
 							} else {
 								$i = 0;
+								//$checkboxid=$row["dishName"];
 								//透過$i++ 強制迴圈十次
 								foreach ($result as $row) {
 									$i++;
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="checkbox' . $row['ID'] . '" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
+									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["dishName"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 									echo "</tr>";
 									if ($i == 10) break;
 								}
@@ -151,10 +135,4 @@
 	</div>
 
 </body>
-<script>
-    $(function(){
-        var _h = $(document).height();//取得網頁高度
-        parent.postMessage({ h: _h}, '*');//將高度值，傳到父層
-    });
-</script>
 </html>

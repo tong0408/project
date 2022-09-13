@@ -3,18 +3,22 @@
 	session_start();
 	include("configure.php");
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-	
 	//新增資料庫沒有的飲食
 	$new_dish = isset($_POST["new_dish"]) ? $_POST["new_dish"] : null; //新增菜名
 	$new_category = isset($_POST["new_category"]) ? $_POST["new_category"] : null; //新增六大類
 	$new_ingredients = isset($_POST["new_ingredients"]) ? $_POST["new_ingredients"] : null; //新增食材
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //新增份量
-	//這個要等整合才會有效
+	
 	$userid= $_SESSION['userID'];
 	
 	//新增至dish
 	$query = "INSERT INTO `dish`(`dishName`, `method`) 
 	VALUES('$new_dish','')";
+	$count = $link->exec($query);
+	
+	//新增至user_add
+	$query = "INSERT INTO `user_add`(`UID`, `dishName`) 
+	VALUES('$userid','$new_dish')";
 	$count = $link->exec($query);
 	
 	//先至dish搜尋ID
@@ -26,7 +30,6 @@
 		$_SESSION['dID']=$dishID;
 	}
 	
-	//不在資料庫內
 	//改六大類文字變ID
 	for($i=0;$i<count($new_ingredients);$i++){
 		
@@ -86,5 +89,7 @@
 		}
 		
 	}
+	$m=isset($_SESSION['mm']) ? $_SESSION['mm'] : null;
+	$_SESSION['m']=$m+1;
 	header("Location: enter_diet_platform.php");
   ?>
