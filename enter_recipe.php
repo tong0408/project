@@ -89,7 +89,5 @@
 		}
 		
 	}
-	$m=isset($_SESSION['mm']) ? $_SESSION['mm'] : null;
-	$_SESSION['m']=$m+1;
 	header("Location: enter_diet_platform.php");
   ?>

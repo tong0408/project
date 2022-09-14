@@ -62,12 +62,6 @@
 			n=n+1;
 			return s;
 		}
-		document.write(s);
-		newbutton.onclick=function(){
-			s=0;
-			n=0;
-			return s;
-		}
 	}
 	
 </script>
@@ -94,7 +88,6 @@
 								echo "</tr>";
 							}
 							
-							
 							//抓取全部dish
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
@@ -116,16 +109,17 @@
 								}
 								$_SESSION['n']=$n;
 							} else {
-								$i = 0;
+								$n=0;
 								//$checkboxid=$row["dishName"];
 								//透過$i++ 強制迴圈十次
 								foreach ($result as $row) {
-									$i++;
+									$n++;
 									echo "<tr>";
 									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["dishName"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 									echo "</tr>";
-									if ($i == 10) break;
+									if ($n == 10) break;
 								}
+								$_SESSION['n']=$n;
 							}
 						?>
 					</table>
@@ -141,5 +135,7 @@
         var _h = $(document).height();//取得網頁高度
         parent.postMessage({ h: _h}, '*');//將高度值，傳到父層
     });
+	
+	
 </script>
 </html>
