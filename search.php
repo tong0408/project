@@ -72,7 +72,7 @@
 			<table style="margin:auto; width:80%;">
 				<tr><td>日期：</td><td><input type="date" name="date" required></td><td>時間：</td><td><input type="time" name="time" required></td></tr>
 				<tr><td colspan="4" style="text-align:left;"><button type="button" class="btn" id="add" onclick="location.href='new_recipe.html'">新增食譜</button></td></tr>
-				<tr><td colspan="4" style="text-align:left;">以下沒有，請自行新增食譜</td></tr>
+				<tr><td colspan="4" style="text-align:left;">若以下沒有，請自行新增食譜</td></tr>
 				<tr><td colspan="4">
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
