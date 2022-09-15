@@ -27,7 +27,7 @@
 	#利用$_SESSION['userID']紀錄現在登入的帳號
 	$_SESSION['userID'] = $userid;
 	echo "<script>alert('" . $name . "，登入成功～！')</script>";
-	echo "<meta http-equiv=REFRESH CONTENT=0;url='index.html'>";
+	echo "<meta http-equiv=REFRESH CONTENT=0;url='index.php'>";
 	}
 	#帳號錯誤 （等於帳號不存在）
 	else{
