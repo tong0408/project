@@ -17,6 +17,7 @@
         #獲取現在登入者的資訊
         foreach ($result as $row){
             $userid=$row["userid"]; //身分證
+			$name=$row["name"];
             $age=$row["age"];
             $height=$row["height"];
             $weight=$row["weight"];
@@ -53,8 +54,8 @@
 		<a href="index.html"><button class="btn" style="position: absolute; left: 350px; border-radius:20px;">返回</button></a><br>			
 			<form method="POST" action="">
 				<table style="margin:auto;">
-				<tr><td>會員帳號：</td>
-				<td>[ <?php echo $userid ;?> ]</td>
+				<tr><td>會員名稱：</td>
+				<td>[ <?php echo $name ;?> ]</td>
 				</tr>
 				<tr><td>年齡：</td>
 				<td><input type="text" name="new_age" value="<?php echo $age;?>" ></td>
@@ -82,7 +83,7 @@
 				<option <?php $n="selected='selected'";if($disease=="肝硬化"){echo $n;}?>value="6">肝硬化</option>
 				</select></td>
 				</tr>
-				<tr><td>請輸入身分證做確認：</td>
+				<tr><td>請輸入帳號做確認：</td>
 				<td><input type="text" name="g_userid" required></td>
 				</tr>
 				<tr><td colspan="2"><button type="submit" class="btn" >修改</button></td>
