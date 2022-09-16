@@ -723,9 +723,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==1){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/15;
+													$r=parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -737,9 +739,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==1){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/15;
+													$r=parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -799,9 +803,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==2){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/7;
+													$r=parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -813,9 +819,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==2){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/7;
+													$r=parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -874,9 +882,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==3){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/8;
+													$r=parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -888,9 +898,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==3){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/8;
+													$r=parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -949,9 +961,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==4){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/25;
+													$r=parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -963,9 +977,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==4){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/25;
+													$r=parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1024,9 +1040,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==5){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/60;
+													$r=parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1038,9 +1056,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==5){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/60;
+													$r=parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1099,9 +1119,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==6){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/5;
+													$r=parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1113,9 +1135,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==6){//營養素ID
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/5;
+													$r=parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1176,9 +1200,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==1){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/15;
+													$r=parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1190,9 +1216,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==1){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/15;
+													$r=parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/15;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1253,9 +1281,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==2){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/7;
+													$r=parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1267,9 +1297,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==2){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/7;
+													$r=parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/7;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1328,9 +1360,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==3){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/8;
+													$r=parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1342,9 +1376,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==3){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/8;
+													$r=parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/8;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1403,9 +1439,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==4){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/25;
+													$r=parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1417,9 +1455,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==4){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/25;
+													$r=parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/25;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1478,9 +1518,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==5){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/60;
+													$r=parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1492,9 +1534,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==5){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/60;
+													$r=parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/60;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1553,9 +1597,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==6){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/5;
+													$r=parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
@@ -1567,9 +1613,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=0;m<iIDcount[z];m++){
 											if(iID_NID[m]==6){
 												if(portion[i]==null){
-													portion[i]=parseInt(sqlportion[m])/5;
+													$r=parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}else{
-													portion[i]=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													$r=parseInt(portion[i])+parseInt(sqlportion[m])/5;
+													portion[i]=Math.round($r*10)/10;
 												}
 											}
 										}
