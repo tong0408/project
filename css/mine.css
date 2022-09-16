@@ -7,7 +7,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 			line-height: 1.8;
 			text-align: center;
 			font-size:16px;
-			padding-top:80px;
+			padding-top:40px;
 		}
 	input[type=text]{margin:10px 0px 10px 0px; width:50%;}
 	button{margin:0px 10px 0px 10px;}
