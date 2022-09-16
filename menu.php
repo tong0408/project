@@ -31,8 +31,9 @@
 <link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">	
-		body, html {		
+		body{		
 			background-color:#FFD79B;
+			padding-top:80px;
 		}
 		table{
 			height: auto; 
@@ -120,9 +121,22 @@
 			height:508px;
 			color:#FFF;
 		}
+		.get::-webkit-scrollbar {
+  width: 0.5em;
+}
+  
+.get::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+}
+  
+.get::-webkit-scrollbar-thumb {
+  background-color: #FFD79B;
+}
+		
 	</style>
 </head>
-<body>
+<body class="bgimg-1">
+<?php include("header.php"); ?>
 中間上方<br>
 使用者吃了多少營養素<br>
 缺少營養素克數<br>

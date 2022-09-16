@@ -14,10 +14,12 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>	
 	td{height:50px;}
+	
 </style>
 </head>
 <body>
-<a href="daily_diet.html"><button class="btn1 return">返回</button></a>
+<?php include("header.php"); ?>
+<a href="daily_diet.php"><button class="btn1 return">返回</button></a>
     <div class="form1">
 		食品：<input type="text" name="search_text" id="search_text" placeholder="請輸入搜尋文字" class="form-control" style="display:inline-block">
 		<div id="search_result"></div>

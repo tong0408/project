@@ -18,6 +18,7 @@
 			$Name = $row["name"];
 		}
 	}
+	date_default_timezone_set('Asia/Taipei');
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,6 @@
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
 	td{height:80px;}
 	
@@ -40,7 +40,8 @@
 </style>
 </head>
 <body>
-<a href="daily_diet.html"><button class="btn1 return">返回</button></a>
+<?php include("header.php"); ?>
+<a href="daily_diet.php"><button class="btn1 return">返回</button></a>
      <div class="form1" style="text-align:left;">
 		親愛的 <?php echo $Name;?> 您好！以下為您的飲食紀錄：
 		<form method="POST" action="record.php">
@@ -122,10 +123,5 @@
 	</div>
  
 </body>
-<script>
-    $(function(){
-        var _h = $(document).height();//取得網頁高度
-        parent.postMessage({ h: _h}, '*');//將高度值，傳到父層
-    });
-</script>
+
 </html>

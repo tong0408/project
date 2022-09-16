@@ -5,7 +5,7 @@
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	//這個要等整合才會有效
 	$userid= $_SESSION['userID'];
-
+	date_default_timezone_set('Asia/Taipei');
 ?>
 <html>
 <head>
@@ -15,6 +15,7 @@
 <link href="image/logo.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
@@ -70,8 +71,8 @@
     <div class="form1">
 		<form method="POST" action="enter_diet.php">
 			<table style="margin:auto; width:80%;">
-				<tr><td>日期：</td><td><input type="date" name="date" required></td><td>時間：</td><td><input type="time" name="time" required></td></tr>
-				<tr><td colspan="4" style="text-align:left;"><button type="button" class="btn" id="add" onclick="location.href='new_recipe.html'">新增食譜</button></td></tr>
+				<tr><td>日期：</td><td><input type="date" name="date" value="<?php echo date('Y-m-d'); ?>" required></td><td>時間：</td><td><input type="time" name="time" value="<?PHP echo date ("H:i" )  ?>" required></td></tr>
+				<tr><td colspan="4" style="text-align:left;"><button type="button" class="btn" id="add" onclick="location.href='new_recipe.php';">新增食譜</button></td></tr>
 				<tr><td colspan="4" style="text-align:left;">若以下沒有，請自行新增食譜</td></tr>
 				<tr><td colspan="4">
 					<table style="margin:auto; width:80%; ">
@@ -131,11 +132,14 @@
 
 </body>
 <script>
-    $(function(){
-        var _h = $(document).height();//取得網頁高度
-        parent.postMessage({ h: _h}, '*');//將高度值，傳到父層
-    });
-	
-	
-</script>
+	$("#newbutton").click(function(){
+			var check=$("input[name='dish[]']:checked").length;//判斷有多少個方框被勾選
+			if(check==0){
+				alert("您尚未勾選任何項目");
+				return false;//不要提交表單
+			}else{				
+				return true;//提交表單
+			}
+		})
+	</script>
 </html>

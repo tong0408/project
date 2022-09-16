@@ -51,7 +51,7 @@
         <!--登出-->
         <br>
 	<div class="form1" style="width:50%;">
-		<a href="index.html"><button class="btn" style="position: absolute; left: 350px; border-radius:20px;">返回</button></a><br>			
+		<a href="index.php"><button class="btn" style="position: absolute; left: 27%; border-radius:10px;">返回</button></a><br>			
 			<form method="POST" action="">
 				<table style="margin:auto;">
 				<tr><td>會員名稱：</td>
@@ -73,15 +73,16 @@
 				<option <?php $n="selected='selected'";if($sport=="重度活動"){echo $n;}?>value="3">重度活動</option>
 				</select></td>
 				</tr>
-				<tr><td>疾病： </td><!--疾病這邊是用下拉式選單-->
-				<td><select name="new_disease">
-				<option <?php $n="selected='selected'";if($disease=="肺炎"){echo $n;}?>value="1">肺炎</option>
-				<option <?php $n="selected='selected'";if($disease=="糖尿病"){echo $n;}?>value="2">糖尿病</option>
-				<option <?php $n="selected='selected'";if($disease=="高血壓"){echo $n;}?>value="3">高血壓</option>
-				<option <?php $n="selected='selected'";if($disease=="慢性下呼吸道疾病"){echo $n;}?>value="4">慢性下呼吸道疾病</option>
-				<option <?php $n="selected='selected'";if($disease=="慢性腎臟疾病"){echo $n;}?>value="5">慢性腎臟疾病</option>
-				<option <?php $n="selected='selected'";if($disease=="肝硬化"){echo $n;}?>value="6">肝硬化</option>
-				</select></td>
+				<tr><td>疾病：</td>
+				<td style="text-align:left; height:200px;">
+					<input type="checkbox" value="0" name="new_disease[]">無<br>
+					<input type="checkbox" value="1" name="new_disease[]">肺炎<br>
+					<input type="checkbox" value="2" name="new_disease[]">糖尿病<br>
+					<input type="checkbox" value="3" name="new_disease[]">高血壓<br>
+					<input type="checkbox" value="4" name="new_disease[]">慢性下呼吸道疾病<br>
+					<input type="checkbox" value="5" name="new_disease[]">慢性腎臟疾病<br>
+					<input type="checkbox" value="6" name="new_disease[]">肝硬化				
+				</td>
 				</tr>
 				<tr><td>請輸入帳號做確認：</td>
 				<td><input type="text" name="g_userid" required></td>

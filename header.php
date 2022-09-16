@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
 	
 	.top{
@@ -66,6 +65,8 @@
     ul.drop-down-menu li:hover > ul { /* 滑鼠滑入展開次選單*/
         display: block;
     }
+	
+	
 </style>
 </head>
 <body>
@@ -73,12 +74,13 @@
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-white w3-card" id="myNavbar">
-    <a href="index.php" class="w3-bar-item w3-button w3-wide"><img src="image/logo.png" height='40px'/></a>
+    <div class="w3-button"  style="position:absolute; left:0px;"><a href="index.php" ><img src="image/logo.png" height='40px'/></a></div>
+    <div style="position:absolute; left:70px; width:100%; height:56px; background-color:#FFF;"></div>
     <!-- Right-sided navbar links -->
 	
     <div class="w3-right w3-hide-small top">
 	<ul class="drop-down-menu">
-      <li><a href="daily_diet.html" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-cutlery"></i>每日飲食紀錄</a></li>
+      <li><a href="daily_diet.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-cutlery"></i>每日飲食紀錄</a></li>
       <li><a href="chart.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-search"></i>營養素圖表</a></li>
       <li><a href="menu.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-book"></i>推薦菜單</a></li>   
       <li><a class="w3-bar-item w3-button"><i class="glyphicon glyphicon-user"></i>個人檔案</a>
@@ -100,7 +102,7 @@
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-padding-16">×</a>
-  <a href="daily_diet.html" onclick="w3_close()" class="w3-bar-item w3-button">每日飲食紀錄</a>
+  <a href="daily_diet.php" onclick="w3_close()" class="w3-bar-item w3-button">每日飲食紀錄</a>
   <a href="chart.php" onclick="w3_close()" class="w3-bar-item w3-button">營養素圖表</a>
   <a href="menu.php" onclick="w3_close()" class="w3-bar-item w3-button">推薦菜單</a>
   <a href="user_user.php" onclick="w3_close()" class="w3-bar-item w3-button">個人檔案</a>

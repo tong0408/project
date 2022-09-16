@@ -25,16 +25,11 @@
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/mine.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.2/dist/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/weekday.min.js"></script>
 <style>
-	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
-	body, html {
-		line-height: 1.8;
-		text-align:center;
-		background-color:#FFD79B;
-	}
 	.container1{
 		width:850px; 
 		height:500px; 
@@ -697,7 +692,8 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 </script>
 
 </head>
-<body>
+<body class="bgimg-1">
+<?php include("header.php"); ?>
 <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
 	 <!--<div style="display:inline-block;">這個語法會讓切換失效，排版定位可能要找別的方法，或是把boostrap裡面tab切換的css寫進我們自己的css-->

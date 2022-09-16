@@ -27,11 +27,6 @@
 	}
 	
 	
-	
-	.top{
-		font-size:16px;
-	}
-	
 	.icon{
 		width: 30px;
 		height: 30px;
@@ -81,62 +76,7 @@
 	.anima>div:nth-child(11){animation-delay: 1.0s;}
 	.anima>div:nth-child(12){animation-delay: 1.1s;}
 	
-	iframe{
-		width:100%;
-		border:none;
-		margin:0px;
-	}
-	ul { /* 取消ul預設的內縮及樣式 */
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
 	
-
-    ul.drop-down-menu {
-        display: inline-block;
-    }
-
-    ul.drop-down-menu li {
-        position: relative;
-        white-space: nowrap;   }    
-
-    ul.drop-down-menu > li {
-        float: left; /* 只有第一層是靠左對齊*/
-    }
-
-     ul.drop-down-menu a {
-        background-color: #fff;
-        display: block;
-        padding: 0 30px;
-        text-decoration: none;
-        line-height: 56px;
-
-    }
-    
-    ul.drop-down-menu li:hover > a { /* 滑鼠移入次選單上層按鈕保持變色*/
-        background-color: #CCC;
-    }
-	 ul.drop-down-menu ul {
-        position: absolute;
-        z-index: 99;
-        left: -1px;
-        top: 100%;
-       min-width: 180px;
-    }   
-
-    ul.drop-down-menu ul ul { /*第三層以後的選單出現位置與第二層不同*/
-        z-index: 999;
-        top: 10px;
-        left: 90%;
-    }
-	  ul.drop-down-menu ul { /*隱藏次選單*/
-        display: none;
-    }
-
-    ul.drop-down-menu li:hover > ul { /* 滑鼠滑入展開次選單*/
-        display: block;
-    }
 </style>
 </head>
 <body>
@@ -235,16 +175,5 @@ function w3_close() {
 }
 </script>
 
-<script>
-$(function(){
-    function receiveMessageFromIframePage (event) {
-        var height = ('receiveMessageFromIframePage',event.data.h);
-        console.log(height);//接收source.html頁面所回傳的高度值
-        $('#myIframe').height(height);//將取得的高度，變更myIframe高度
-
-    }
-    window.addEventListener("message", receiveMessageFromIframePage, false);//監聽receiveMessageFromIframePage
-});
-</script>
 </body>
 </html>
