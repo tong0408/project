@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-08-22 17:32:05
+-- 產生時間： 2022-09-18 14:27:22
 -- 伺服器版本： 10.4.19-MariaDB
 -- PHP 版本： 8.0.6
 
@@ -596,7 +596,18 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 (557, '清炒絲瓜', '1.熱鍋倒油放入薑絲炒香\n2.倒入絲瓜拌炒\n3.倒入50c.c的水後悶煮3分鐘\n4.再倒入些許紅蘿蔔絲拌炒後悶煮，待絲瓜軟化後進行調味即可\n'),
 (558, '蒜香清炒A菜', '1.準備好A菜洗淨後切段\n去梗後分段成好入口的大小\n2.處理香菇\n搭配A菜清脆口感\n香菇可以切厚一點（約2cm）\n3.無油低GI料理盡量避免過多調味\n像這樣已處理好的蒜仁非常方便\n全聯、foodpanda超市等都有販售\n蒜仁稍微去除頭尾後\n用刀背壓扁\n切碎成蒜末\n4.開大火加常溫水起鍋\n5.煮滾後加入蒜仁\n6.攪拌到稍微收汁後（如照片所示）\n再加入常溫水\n重複2到3次炒出蒜香後\n可加入香菇\n7.加入少許水，一樣大火拌炒\n為避免沾鍋一定要維持翻攪喔！\n抄軟香菇後可再加入A菜\n8.A菜加入後要馬上將鍋底的香菇翻炒至上方\n此時可先將火侯轉為中火並加入2匙水\n看到新加入的水稍微煮滾冒泡後\n（如需加鹽、加辣都可在此時調味）\n轉大火繼續翻炒\n翻炒至A菜微軟就可以起鍋囉\n9.喜歡清脆口感的人\n記得A菜炒到稍微變色就可以起鍋\n喜歡軟爛一點的人\n可以轉中火蓋上鍋蓋稍微悶煮再起鍋'),
 (559, '清炒彩椒蘑菇', '1.備料，身材洗淨，蘑菇把根部切掉。大朵蘑菇切塊，切兩刀。如果小蘑菇就不要切。彩椒切塊。\n辣椒切段。2.熱油鍋，將蘑菇放入鍋中，不翻炒，待變金黃再翻面至另一面。\n3.兩面皆金黃色時新，加入奶油、辣椒、醬油、彩椒。輕輕拌炒。\n4.即可食用。'),
-(589, '滷肉飯', '');
+(590, '咖哩蛋包飯', ''),
+(591, '蛋包飯', ''),
+(592, '拉麵', ''),
+(593, '貢丸湯', ''),
+(594, '滷肉飯', ''),
+(595, '鴨肉飯', ''),
+(596, '牛肉燴飯', ''),
+(597, '蛋餅', ''),
+(598, '炒麵', ''),
+(599, '炒飯', ''),
+(600, '湯麵', ''),
+(601, '三明治', '');
 
 -- --------------------------------------------------------
 
@@ -607,7 +618,7 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 CREATE TABLE `history` (
   `ID` int(11) NOT NULL,
   `UID` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `date` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
   `time` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishID` int(11) NOT NULL,
   `portion` int(11) NOT NULL
@@ -624,7 +635,37 @@ INSERT INTO `history` (`ID`, `UID`, `date`, `time`, `dishID`, `portion`) VALUES
 (7, 'C123456789', '2022-08-04', '23:31', 2, 1),
 (8, 'F123456789', '2022-08-14', '12:17', 180, 1),
 (11, 'F123456789', '2022-08-14', '17:29', 179, 1),
-(12, 'F123456789', '2022-08-19', '13:03', 589, 1);
+(12, 'F123456789', '2022-08-19', '13:03', 589, 1),
+(13, 'F123456789', '2022-08-26', '21:30', 1, 1),
+(14, 'F123456789', '2022-08-28', '00:51', 1, 1),
+(15, 'F123456789', '2022-08-28', '01:18', 2, 1),
+(16, 'F123456789', '2022-08-28', '01:19', 4, 1),
+(17, 'F123456789', '2022-08-28', '01:31', 3, 1),
+(18, 'F123456789', '2022-08-28', '22:51', 37, 1),
+(19, 'F123456789', '2022-08-28', '22:51', 589, 1),
+(20, 'F123456789', '2022-08-28', '23:04', 4, 1),
+(21, 'F123456789', '2022-08-25', '23:10', 180, 1),
+(22, 'F123456789', '2022-08-25', '23:10', 184, 1),
+(23, 'F123456789', '2022-08-28', '23:11', 2, 1),
+(24, 'F123456789', '2022-08-28', '23:20', 2, 1),
+(25, 'F123456789', '2022-08-28', '23:20', 154, 1),
+(26, 'F123456789', '2022-08-26', '23:21', 37, 1),
+(27, 'F123456789', '2022-08-26', '23:21', 589, 1),
+(28, 'F123456789', '2022-08-29', '23:30', 590, 1),
+(29, 'F123456789', '2022-09-02', '23:05', 591, 1),
+(30, 'F123456789', '2022-09-07', '23:17', 1, 1),
+(31, 'F123456789', '2022-09-07', '23:22', 2, 1),
+(32, 'F123456789', '2022-09-06', '23:23', 11, 1),
+(33, 'F123456789', '2022-09-03', '23:29', 8, 1),
+(34, 'F123456789', '2022-09-02', '23:32', 591, 1),
+(35, 'F123456789', '2022-09-10', '23:26', 3, 1),
+(36, 'F123456789', '2022-09-14', '12:07', 9, 1),
+(37, 'F123456789', '2022-09-14', '23:08', 595, 1),
+(38, 'F123456789', '2022-09-14', '23:11', 600, 1),
+(39, 'F123456789', '2022-09-13', '23:15', 601, 1),
+(40, 'F123456789', '2022-09-15', '09:21', 179, 10),
+(41, 'F123456789', '2022-09-15', '09:30', 1, 10),
+(42, 'F123456789', '2022-09-15', '09:55', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -1401,7 +1442,15 @@ INSERT INTO `ingredients` (`iID`, `name`, `NID`) VALUES
 (774, '洋蔥粉', 4),
 (775, '粗鹽', 7),
 (776, '碘鹽', 7),
-(782, '滷肉', 1);
+(782, '滷肉', 1),
+(783, '蛋', 2),
+(784, '咖哩', 7),
+(785, '麵', 1),
+(786, '糖心蛋', 2),
+(787, '海帶', 4),
+(788, '餅皮', 1),
+(789, '麵包', 1),
+(790, '火腿', 2);
 
 -- --------------------------------------------------------
 
@@ -4656,7 +4705,36 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 (3205, 417, 5, 559),
 (3206, 205, 12, 559),
 (3207, 41, 200, 589),
-(3208, 782, 150, 589);
+(3208, 782, 150, 589),
+(3209, 41, 200, 590),
+(3210, 783, 100, 590),
+(3211, 784, 250, 590),
+(3212, 599, 100, 590),
+(3213, 41, 200, 591),
+(3214, 85, 100, 591),
+(3215, 785, 200, 592),
+(3216, 786, 50, 592),
+(3217, 4, 10, 592),
+(3218, 787, 10, 592),
+(3219, 164, 50, 593),
+(3220, 185, 30, 593),
+(3221, 41, 200, 594),
+(3222, 782, 150, 594),
+(3223, 41, 200, 595),
+(3224, 128, 150, 595),
+(3225, 41, 150, 596),
+(3226, 104, 100, 596),
+(3227, 788, 100, 597),
+(3228, 85, 50, 597),
+(3229, 25, 200, 598),
+(3230, 41, 150, 599),
+(3231, 85, 100, 599),
+(3232, 25, 200, 600),
+(3233, 313, 100, 600),
+(3234, 789, 150, 601),
+(3235, 85, 100, 601),
+(3236, 790, 100, 601),
+(3237, 179, 50, 601);
 
 -- --------------------------------------------------------
 
@@ -4669,21 +4747,42 @@ CREATE TABLE `user` (
   `userid` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `gender` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
   `age` int(11) NOT NULL,
   `height` float NOT NULL,
   `weight` float NOT NULL,
   `BMI` float NOT NULL,
   `sport` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `disease` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `disease` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease2` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease3` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease4` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease5` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease6` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `disease7` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 傾印資料表的資料 `user`
 --
 
-INSERT INTO `user` (`ID`, `userid`, `name`, `gender`, `age`, `height`, `weight`, `BMI`, `sport`, `disease`) VALUES
-(1, 'F123456789', 'TEST', '生理女', 21, 152, 51, 22.0741, '重度活動', '糖尿病'),
-(2, 'C123456789', 'test', '生理男', 21, 152, 51, 22.0741, '輕度活動', '肺炎');
+INSERT INTO `user` (`ID`, `userid`, `name`, `gender`, `date`, `age`, `height`, `weight`, `BMI`, `sport`, `disease`, `disease2`, `disease3`, `disease4`, `disease5`, `disease6`, `disease7`) VALUES
+(1, 'F123456789', 'TEST', '生理女', '2001-04-08', 21, 152, 51, 22.0741, '重度活動', '慢性下呼吸道疾病', '0', '0', '0', '0', '0', '0'),
+(2, 'C123456789', 'test', '生理男', '2002-09-20', 20, 152, 51, 22.0741, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
+(3, 'B987654231', '李援研', '生理女', '2002-06-18', 20, 160, 50, 19.5312, '中度活動', '糖尿病', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0'),
+(4, 'C456789123', '隨便取', '生理男', '2005-01-16', 17, 180, 75, 23.1481, '輕度活動', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0', '0');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `user_add`
+--
+
+CREATE TABLE `user_add` (
+  `ID` int(11) NOT NULL,
+  `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 已傾印資料表的索引
@@ -4726,6 +4825,12 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- 資料表索引 `user_add`
+--
+ALTER TABLE `user_add`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
 --
 
@@ -4733,31 +4838,37 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `dish`
 --
 ALTER TABLE `dish`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=590;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=602;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
 --
 ALTER TABLE `history`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `iID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=783;
+  MODIFY `iID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=791;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3209;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3238;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `user_add`
+--
+ALTER TABLE `user_add`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
