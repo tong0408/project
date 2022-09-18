@@ -2,6 +2,7 @@
     session_start();
 	include ("configure.php");
 
+	$disease=array();
     #假如$_SESSION['userID']為空值表示沒有登入
     if($_SESSION['userID']==null){
         echo "<script>alert('請先登入會員！')</script>";
@@ -18,12 +19,38 @@
         foreach ($result as $row){
             $userid=$row["userid"]; //身分證
 			$name=$row["name"];
+			$BD=$row["date"];
             $age=$row["age"];
             $height=$row["height"];
             $weight=$row["weight"];
             $sport=$row["sport"];
-            $disease=$row["disease"];
+            $disease[0]=$row["disease"];
+			$disease[1]=$row["disease2"];
+			$disease[2]=$row["disease3"];
+			$disease[3]=$row["disease4"];
+			$disease[4]=$row["disease5"];
+			$disease[5]=$row["disease6"];
+			$disease[6]=$row["disease7"];
         }
+		function birthday($birthday){
+
+			list($year,$month,$day) = explode("-",$birthday);
+			$new_age = date("Y") - $year;
+			$month_diff = date("m") - $month;
+			$day_diff  = date("d") - $day;
+			
+			if ($day_diff < 0 || $month_diff < 0){
+				$new_age--;
+			}
+			return $new_age;
+		}
+		$new_age=birthday($BD);
+		
+		if($new_age!=$age){
+			#修改age
+			$query = "UPDATE `user` SET `age`='$new_age' WHERE `userID`='$userid'";
+			$count=$link->exec($query);
+		}
     }
 
 ?>
@@ -58,7 +85,7 @@
 				<td>[ <?php echo $name ;?> ]</td>
 				</tr>
 				<tr><td>年齡：</td>
-				<td><input type="text" name="new_age" value="<?php echo $age;?>" ></td>
+				<td><?php echo $new_age;?></td>
 				</tr>
 				<tr><td>身高（公分cm）：</td>
 				<td><input type="text" name="new_height" value="<?php echo $height;?>" ></td>
@@ -75,13 +102,13 @@
 				</tr>
 				<tr><td>疾病：</td>
 				<td style="text-align:left; height:200px;">
-					<input type="checkbox" value="0" name="new_disease[]">無<br>
-					<input type="checkbox" value="1" name="new_disease[]">肺炎<br>
-					<input type="checkbox" value="2" name="new_disease[]">糖尿病<br>
-					<input type="checkbox" value="3" name="new_disease[]">高血壓<br>
-					<input type="checkbox" value="4" name="new_disease[]">慢性下呼吸道疾病<br>
-					<input type="checkbox" value="5" name="new_disease[]">慢性腎臟疾病<br>
-					<input type="checkbox" value="6" name="new_disease[]">肝硬化				
+					<input type="checkbox" value="0" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="無"){echo $n;}?>>無<br>
+					<input type="checkbox" value="1" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="肺炎"){echo $n;}else if($disease[1]=="肺炎"){echo $n;}?>>肺炎<br>
+					<input type="checkbox" value="2" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="糖尿病"){echo $n;}else if($disease[1]=="糖尿病"){echo $n;}else if($disease[2]=="糖尿病"){echo $n;}?>>糖尿病<br>
+					<input type="checkbox" value="3" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="高血壓"){echo $n;}else if($disease[1]=="高血壓"){echo $n;}else if($disease[2]=="高血壓"){echo $n;}else if($disease[3]=="高血壓"){echo $n;}?>>高血壓<br>
+					<input type="checkbox" value="4" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="慢性下呼吸道疾病"){echo $n;}else if($disease[1]=="慢性下呼吸道疾病"){echo $n;}else if($disease[2]=="慢性下呼吸道疾病"){echo $n;}else if($disease[3]=="慢性下呼吸道疾病"){echo $n;}else if($disease[4]=="慢性下呼吸道疾病"){echo $n;}?>>慢性下呼吸道疾病<br>
+					<input type="checkbox" value="5" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="慢性腎臟疾病"){echo $n;}else if($disease[1]=="慢性腎臟疾病"){echo $n;}else if($disease[2]=="慢性腎臟疾病"){echo $n;}else if($disease[3]=="慢性腎臟疾病"){echo $n;}else if($disease[4]=="慢性腎臟疾病"){echo $n;}else if($disease[5]=="慢性腎臟疾病"){echo $n;}?>>慢性腎臟疾病<br>
+					<input type="checkbox" value="6" name="new_disease[]" <?php $n="checked='checked'";if($disease[0]=="肝硬化"){echo $n;}else if($disease[1]=="肝硬化"){echo $n;}else if($disease[2]=="肝硬化"){echo $n;}else if($disease[3]=="肝硬化"){echo $n;}else if($disease[4]=="肝硬化"){echo $n;}else if($disease[5]=="肝硬化"){echo $n;}else if($disease[6]=="肝硬化"){echo $n;}?>>肝硬化				
 				</td>
 				</tr>
 				<tr><td>請輸入帳號做確認：</td>
@@ -100,7 +127,6 @@
         <?php
 
             $g_userid=isset($_POST["g_userid"])?$_POST["g_userid"]:null;
-			$new_age=isset($_POST["new_age"])?$_POST["new_age"]:null;
 			$new_weight=isset($_POST["new_weight"])?$_POST["new_weight"]:null;
 			$new_height=isset($_POST["new_height"])?$_POST["new_height"]:null;
 			$new_disease=isset($_POST["new_disease"])?$_POST["new_disease"]:null;
@@ -113,13 +139,13 @@
 					//modify BMI
 					$new_BMI = $new_weight / (($new_height/100)*($new_height/100));
 					
-                    #修改age,身高,體重
-					$query = "UPDATE `user` SET `age`='$new_age',`height`='$new_height',`weight`='$new_weight',`BMI`='$new_BMI' WHERE `userID`='$userid'";
+                    #修改身高,體重
+					$query = "UPDATE `user` SET `height`='$new_height',`weight`='$new_weight',`BMI`='$new_BMI' WHERE `userID`='$userid'";
 					$count=$link->exec($query);
                     
 
                     #修改活動強度
-                    if($new_disease!=null){
+                    if($new_sport!=null){
                         switch ($new_sport) {
                             case 1:
                                 $query = "UPDATE `user` SET `sport`='輕度活動' WHERE `userID`='$userid'";
@@ -136,33 +162,199 @@
                             }
                     }
                     #修改疾病
-                    if($new_sport!=null){
-                        switch ($new_disease) {
-                            case 1:
-                                $query = "UPDATE `user` SET `disease`='肺炎' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;
-                            case 2:
-                                $query = "UPDATE `user` SET `disease`='糖尿病' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;
-                            case 3:
-                                $query = "UPDATE `user` SET `disease`='高血壓' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;
-                            case 4:
-                                $query = "UPDATE `user` SET `disease`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;
-                            case 5:
-                                $query = "UPDATE `user` SET `disease`='慢性腎臟疾病' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;
-                            case 6:
-                                $query = "UPDATE `user` SET `disease`='肝硬化' WHERE `userID`='$userid'";
-                                $count=$link->exec($query); 
-                                break;    
-                            }
+                    if(count($new_disease,0)!=0){
+						for($i=0;$i<count($new_disease,0);$i++){
+							if($i==0){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==1){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease2`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease2`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease2`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease2`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease2`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease2`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==2){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease3`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease3`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease3`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease3`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease3`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease3`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==3){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease4`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query);         
+									break;                              
+								case 2:                                 
+									$query = "UPDATE `user` SET `disease4`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query);         
+									break;                              
+								case 3:                                 
+									$query = "UPDATE `user` SET `disease4`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query);        
+									break;                             
+								case 4:                                
+									$query = "UPDATE `user` SET `disease4`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query);        
+									break;                             
+								case 5:                                
+									$query = "UPDATE `user` SET `disease4`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query);         
+									break;                              
+								case 6:                                 
+									$query = "UPDATE `user` SET `disease4`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==4){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease5`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease5`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease5`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease5`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease5`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease5`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==5){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease6`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease6`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease6`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease6`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease6`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease6`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}else if($i==6){
+								switch ($new_disease[$i]) {
+								case 1:
+									$query = "UPDATE `user` SET `disease7`='肺炎' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 2:
+									$query = "UPDATE `user` SET `disease7`='糖尿病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 3:
+									$query = "UPDATE `user` SET `disease7`='高血壓' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 4:
+									$query = "UPDATE `user` SET `disease7`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 5:
+									$query = "UPDATE `user` SET `disease7`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								case 6:
+									$query = "UPDATE `user` SET `disease7`='肝硬化' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+								}
+							}
+						}
                     }
                     echo "<script>alert('修改成功！')</script>";
                     echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
