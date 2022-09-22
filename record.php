@@ -49,7 +49,7 @@
 			<input type="submit" class="btn" value="查詢" style="margin:10px 10px 10px 10px;">
 		</form>	
 		<table style="margin:auto; width:80%; text-align:center;"  border="1px solid #CCC">
-			<tr><td>時間</td><td>菜名</td><td>食材</td><td>分類</td><td>份量</td></tr>
+			<tr><td>時間</td><td>菜名</td><td>份量</td><td>分類</td><td>食材</td><td>克數</td></tr>
 			<?PHP
 
 				//判斷日期
@@ -85,13 +85,15 @@
 						$dish_Name=$r['dishName'];
 					}
 					//菜名
-					echo '<td style="height:50px;" rowspan="'.$count_rows.'">'.$dish_Name.'</td>';
+					echo '<td style="height:50px;" rowspan="'.$count_rows.'">'.$dish_Name.'</td>
+					      <td style="height:50px;" rowspan="'.$count_rows.'">'.$row["portion"].'</td>';
 
 					//取得菜ID使用的食材ID
 					$query = "SELECT * FROM recipe where dishID='$dishID'";
 					$re = $link->query($query);
 					foreach ($re as $r){
 						$dish_iID=$r['iID'];
+						$iportion=$r['portion'];
 
 						//從食材ID取得食材類別ID和食材名稱<使用>
 						$query = "SELECT * FROM ingredients where iID='$dish_iID'";
@@ -110,8 +112,8 @@
 									echo '<td style="height:50px;">'.$iID_NID_Name.'</td>'.
 									//分類
 									'<td style="height:50px;">'.$iID_Name.'</td>'.
-									//份量
-									'<td style="height:50px;">'.$row["portion"].'</td></tr>';									
+									//克數
+									'<td style="height:50px;">'.$iportion.'</td></tr>';									
 								}							
 							}						
 						}
