@@ -62,7 +62,7 @@
 					<option value="1">生理男</option>
 					<option value="2">生理女</option><br>
 				</select></td></tr>
-				<tr><td>生日：</td><td><input type="date" required></td></tr>
+				<tr><td>生日：</td><td><input type="date" name="new_BD" required></td></tr>
 				<tr><td>身高（公分cm）：</td><td><input type="text" name="new_height"></td></tr>
 				<tr><td>體重（公斤kg）：</td><td><input type="text" name="new_weight"></td></tr>
 				<tr><td>活動強度：</td><!--下拉式選單-->

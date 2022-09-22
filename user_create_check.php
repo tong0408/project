@@ -34,8 +34,10 @@
 		#當身分證沒有被註冊過
 		#當有資訊為空值
 		if ($new_userid == null || $new_name == null || $new_gender == null || $new_BD == null || $new_height == null || $new_weight == null || $new_sport == null || $new_gender == null || count($new_disease,0) == 0) {
-			echo "<script>alert('請填寫完整資訊！')</script>";
-			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
+			//echo "<script>alert('請填寫完整資訊！')</script>";
+			//echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
+			echo $new_BD;
+      
 		}
 		else{
 		#註冊至資料庫內
@@ -62,7 +64,10 @@
 			for($i=0;$i<count($new_disease,0);$i++){
 				
 				switch ($new_disease[$i]) {
-				case 1:
+				case 0:
+					$tmp_disease[$i] ="無";
+				break;
+        case 1:
 					$tmp_disease[$i] ="肺炎";
 				break;
 				case 2:
@@ -132,7 +137,7 @@
 			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
 		}
 	}else{
-		echo "<script>alert('此身分證字號已被註冊！')</script>";
+		echo "<script>alert('此帳號已被註冊！')</script>";
 		echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
 	}
 			

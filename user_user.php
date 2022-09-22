@@ -20,11 +20,11 @@
             $userid=$row["userid"]; //身分證
 			$name=$row["name"];
 			$BD=$row["date"];
-            $age=$row["age"];
-            $height=$row["height"];
-            $weight=$row["weight"];
-            $sport=$row["sport"];
-            $disease[0]=$row["disease"];
+      $age=$row["age"];
+      $height=$row["height"];
+      $weight=$row["weight"];
+      $sport=$row["sport"];
+      $disease[0]=$row["disease"];
 			$disease[1]=$row["disease2"];
 			$disease[2]=$row["disease3"];
 			$disease[3]=$row["disease4"];
@@ -166,7 +166,11 @@
 						for($i=0;$i<count($new_disease,0);$i++){
 							if($i==0){
 								switch ($new_disease[$i]) {
-								case 1:
+								case 0:
+									$query = "UPDATE `user` SET `disease`='無' WHERE `userID`='$userid'";
+									$count=$link->exec($query); 
+									break;
+                case 1:
 									$query = "UPDATE `user` SET `disease`='肺炎' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
