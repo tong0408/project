@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+	session_start();
+	include("configure.php");
+	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+	
+?>
 <html>
 <head>
 <title>疾時養身</title>
@@ -35,7 +41,19 @@
 					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
 					<option value="調味料">調味料</option>
 				</select></td>
-				<td><input type="text" name="new_ingredients[]" required></td>
+				<td><input list="brow" name="new_ingredients[]" ><datalist id="brow">
+					<?php
+						$query = "SELECT * FROM `ingredients` ";
+						$result = $link->query($query);
+						
+						foreach($result as $row){
+							$iID=$row["iID"];
+							$Name=$row["name"];
+							
+							echo '<option value="'.$Name.'">';
+						}
+					?>
+					</datalist></td>
 				<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td></tr>
 				</table>
 				<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
@@ -53,7 +71,19 @@
 					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
 					<option value="調味料">調味料</option>
 					</select></td>
-					<td><input type="text" name="new_ingredients[]" required></td>
+					<td><input list="brow" name="new_ingredients[]" ><datalist id="brow">
+					<?php
+						$query = "SELECT * FROM `ingredients` ";
+						$result = $link->query($query);
+						
+						foreach($result as $row){
+							$iID=$row["iID"];
+							$Name=$row["name"];
+							
+							echo '<option value="'.$Name.'">';
+						}
+					?>
+					</datalist></td>
 					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>
 				</tr>
 			</table>
