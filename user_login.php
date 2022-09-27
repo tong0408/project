@@ -41,13 +41,18 @@
 			.btn:hover{
 				background-color: #FFB03B;
 			}
+			.pw { 
+			-webkit-text-security: disc; 
+			}
 		</style>
 	</head>	
 	<body>
 		<a href="index.php"><img src="image/logo.png" height='80px'/></a>
 		<div class="form1">
 			<form method="POST" action="user_check.php">
-				帳號：<input type="text" name="login_userid" maxlength="10" style="width:50%">
+				帳號：<input type="text" name="login_userid" maxlength="10" style="width:40%">
+				<br>
+				密碼：<input type="text" name="login_userpwd" class="pw" style="width:40%">
 				<br>
 				<button type="submit" class="btn">登入</button>
 				<button type="button" class="btn" onclick="location.href='user_create.php'">沒有帳號嗎？註冊</button>

@@ -47,6 +47,9 @@
 			.btn:hover{
 				background-color: #FFB03B;
 			}
+			.pw { 
+			-webkit-text-security: disc; 
+			}
 		</style>
 	</head>	
 	
@@ -56,6 +59,7 @@
 			<form method="POST" action="user_create_check.php">
 				<table style="margin:auto;">
 				<tr><td>帳號：</td><td><input type="text" name="new_userid" maxlength="10" required></td></tr>
+				<tr><td>密碼：</td><td><input type="text" class="pw" name="new_pwd" required></td></tr>
 				<tr><td>姓名：</td><td><input type="text" name="new_name" required></td></tr>
 				<tr><td>性別：<!--下拉式選單-->
 				<td><select name="new_gender" required>

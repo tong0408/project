@@ -85,6 +85,7 @@
       <li><a href="menu.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-book"></i>推薦菜單</a></li>   
       <li><a class="w3-bar-item w3-button"><i class="glyphicon glyphicon-user"></i>個人檔案</a>
 		<ul>
+			<li><a href="user_pwd.php" class="w3-bar-item w3-button">修改密碼</a></li>
 			<li><a href="user_user.php" class="w3-bar-item w3-button">修改檔案</a></li>
 			<li><a href="user_logout.php" class="w3-bar-item w3-button">登出</a></li>
 		</ul>
@@ -105,7 +106,8 @@
   <a href="daily_diet.php" onclick="w3_close()" class="w3-bar-item w3-button">每日飲食紀錄</a>
   <a href="chart.php" onclick="w3_close()" class="w3-bar-item w3-button">營養素圖表</a>
   <a href="menu.php" onclick="w3_close()" class="w3-bar-item w3-button">推薦菜單</a>
-  <a href="user_user.php" onclick="w3_close()" class="w3-bar-item w3-button">個人檔案</a>
+  <a href="user_pwd.php" onclick="w3_close()" class="w3-bar-item w3-button">修改密碼</a>
+  <a href="user_user.php" onclick="w3_close()" class="w3-bar-item w3-button">修改個人檔案</a>
   <a href="user_logout.php" onclick="w3_close()" class="w3-bar-item w3-button">登出</a>
 </nav>
 
