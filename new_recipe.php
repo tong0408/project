@@ -41,7 +41,7 @@
 					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
 					<option value="調味料">調味料</option>
 				</select></td>
-				<td><input list="brow" name="new_ingredients[]" ><datalist id="brow">
+				<td><input list="brow" name="new_ingredients[]" id="idata"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
 						$result = $link->query($query);
@@ -50,7 +50,7 @@
 							$iID=$row["iID"];
 							$Name=$row["name"];
 							
-							echo '<option value="'.$Name.'">';
+							echo '<option value="'.$Name.'" id="'.$iID.'">';
 						}
 					?>
 					</datalist></td>
@@ -71,7 +71,7 @@
 					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
 					<option value="調味料">調味料</option>
 					</select></td>
-					<td><input list="brow" name="new_ingredients[]" ><datalist id="brow">
+					<td><input list="brow" name="new_ingredients[]" id="idata"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
 						$result = $link->query($query);
@@ -80,7 +80,7 @@
 							$iID=$row["iID"];
 							$Name=$row["name"];
 							
-							echo '<option value="'.$Name.'">';
+							echo '<option value="'.$Name.'" id="'.$iID.'">';
 						}
 					?>
 					</datalist></td>
@@ -91,8 +91,13 @@
 	</div>	
   
 </body>
-<script>  
-$('body').on('click','#add_row',function(){
+<script> 
+	var TheSelectedValue = function() {
+		var val = document.getElementById('idata').value;
+		var text = $('#brow').find('option[value="' + val + '"]').attr('id');
+		document.write(text);
+	 }
+	$('body').on('click','#add_row',function(){
         $('#template').find('.row_data').clone().appendTo($('#append_position'));
     });   
 </script> 
