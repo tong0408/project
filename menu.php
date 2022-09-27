@@ -58,6 +58,18 @@
 			cursor: pointer;
 		}
 		
+		.check{
+			color: #CCC;
+			font-size: 16px;
+			transition: ease-in 0.5s;
+			font-weight:bold;
+		}
+		
+		.check:hover{
+			color: #FFB03B;
+			cursor: pointer;
+		}
+		
 		.box{
 			height: 500px;
 			display: inline-block;
@@ -378,7 +390,7 @@
 			<table width="200">				
 			<?PHP			
 				$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-				$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 5";
+				$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
 				$result = $link->query($query);	
 				
 				//取得所有需要的資料
@@ -393,6 +405,7 @@
 					'<td class="dish" onClick="showtitle(event)" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
 					}					
 			?>
+			<tr><td class="check">查看更多</td></tr>
 			</table>
 			</div>
 			<div class="container2">
