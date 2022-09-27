@@ -5,6 +5,7 @@
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	
 	$new_userid = isset($_POST["new_userid"]) ? $_POST["new_userid"] : null;
+	$new_pwd = isset($_POST["new_pwd"]) ? $_POST["new_pwd"] : null;
 	$new_name = isset($_POST["new_name"]) ? $_POST["new_name"] : null;
 	$new_gender = isset($_POST["new_gender"]) ? $_POST["new_gender"] : null;
 	$new_BD = isset($_POST["new_BD"]) ? $_POST["new_BD"] : null;
@@ -33,11 +34,9 @@
 	if($n==0){
 		#當身分證沒有被註冊過
 		#當有資訊為空值
-		if ($new_userid == null || $new_name == null || $new_gender == null || $new_BD == null || $new_height == null || $new_weight == null || $new_sport == null || $new_gender == null || count($new_disease,0) == 0) {
-			//echo "<script>alert('請填寫完整資訊！')</script>";
-			//echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
-			echo $new_BD;
-      
+		if ($new_userid == null || $new_pwd == null || $new_name == null || $new_gender == null || $new_BD == null || $new_height == null || $new_weight == null || $new_sport == null || $new_gender == null || count($new_disease,0) == 0) {
+			echo "<script>alert('請填寫完整資訊！')</script>";
+			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
 		}
 		else{
 		#註冊至資料庫內
@@ -102,34 +101,34 @@
 				return $new_age;
 			}
 			$new_age=birthday($new_BD);
-			
+			//Q3密碼加密
 			if(count($new_disease,0)==1){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','0','0','0','0','0','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','0','0','0','0','0','0')";
 				$count = $link->exec($query);
 			}else if(count($new_disease,0)==2){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','0','0','0','0','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','0','0','0','0','0')";
 				$count = $link->exec($query);
 			}else if(count($new_disease,0)==3){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','0','0','0','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','0','0','0','0')";
 				$count = $link->exec($query);
 			}else if(count($new_disease,0)==4){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','0','0','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','0','0','0')";
 				$count = $link->exec($query);
 			}else if(count($new_disease,0)==5){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','0','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','0','0')";
 				$count = $link->exec($query);
 			}else if(count($new_disease,0)==6){
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','0')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','0')";
 				$count = $link->exec($query);
 			}else{
-				$query = "INSERT INTO `user`(`userid`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','$tmp_disease[6]')";
+				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','$tmp_disease[6]')";
 				$count = $link->exec($query);
 			}
 			
