@@ -149,10 +149,6 @@
 </head>
 <body class="bgimg-1">
 <?php include("header.php"); ?>
-中間上方<br>
-使用者吃了多少營養素<br>
-缺少營養素克數<br>
-（需要抓資料庫吃的資料及疾病的營養素公式跟使用者的個人資料（疾病部分））<br><br>
 <div class="container1">
 <?php
 
@@ -304,41 +300,28 @@
 		}
 	}
 	
-	function function_goal($hostname,$database,$username,$password,
-	$category_1,$category_2,$category_3,
-	$category_4,$category_5,$category_6,$category_7){
-		#抓取nutrient資料
-		$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-		$query = "SELECT * FROM `nutrient` "; 
-		$result = $link->query($query);
-		
-		#獲取六大類的醣類、脂質、蛋白質參數()
-		foreach ($result as $row) {
-			$sql_glyco[] = $row["glyco"];
-			$sql_fat[] = $row["fat"];
-			$sql_protein[] = $row["protein"];
-		}
-
-		global $goal_glyco;
-		global $goal_fat;
-		global $goal_protein;
-		#計算目標醣類 脂肪質 蛋白質
-		#目標醣類
-		$goal_glyco=($category_1*$sql_glyco[0])+($category_2*$sql_glyco[1])+($category_3*$sql_glyco[2])
-		+($category_4*$sql_glyco[3])+($category_5*$sql_glyco[4])+(($category_6+$category_7)*$sql_glyco[5]);
-		#目標脂質
-		$goal_fat=($category_1*$sql_fat[0])+($category_2*$sql_fat[1])+($category_3*$sql_fat[2])
-		+($category_4*$sql_fat[3])+($category_5*$sql_fat[4])+(($category_6+$category_7)*$sql_fat[5]);
-		#目標蛋白質
-		$goal_protein=($category_1*$sql_protein[0])+($category_2*$sql_protein[1])+($category_3*$sql_protein[2])
-		+($category_4*$sql_protein[3])+($category_5*$sql_protein[4])+(($category_6+$category_7)*$sql_protein[5]);
-	}
 	
+	#預設目標 醣類(碳水化合物)55%/4 蛋白質15%/4 脂質30%/9
+	function function_goal($user_cal){
+		global $goal_glyco;
+	 	global $goal_fat;
+	 	global $goal_protein;
+		#目標醣類
+		$goal_glyco=($user_cal*0.55)/4;
+		$goal_glyco=round($goal_glyco);
+		#目標蛋白質
+		$goal_protein=($user_cal*0.15)/4;
+		$goal_protein=round($goal_protein);
+		#目標脂質
+		$goal_fat=($user_cal*0.3)/9;
+		$goal_fat=round($goal_fat);
+
+	}
+
+
 	#設定普通人的大卡數六大類份數與三大營養素目標
 	function_category($user_cal);
-	function_goal($hostname,$database,$username,$password,
-	$category_1,$category_2,$category_3,
-	$category_4,$category_5,$category_6,$category_7);
+	function_goal($user_cal);
 	
 	#針對疾病及調整
 	if($user_disease=="肺炎"){
@@ -346,17 +329,20 @@
 		$user_cal=($user_weight*35)+250;
 		#重新計算大卡數所需六大類數值與目標值
 		function_category($user_cal);
-		function_goal($hostname,$database,$username,$password,
-		$category_1,$category_2,$category_3,
-		$category_4,$category_5,$category_6,$category_7);
+		function_goal($user_cal);
 		#蛋白質調整 體重*1.5g
 		$goal_protein=$user_weight*1.5;
 	}
 	else if($user_disease=="糖尿病"){
-		#蛋白質調整 總熱量的20% g
-		$goal_protein=$user_cal*0.2;
-		#脂質調整 總熱量的20% g
-		$goal_fat=$user_cal*0.2;
+		#醣類調整 總熱量的50%/4
+		$goal_glyco=($user_cal*0.5)/4;
+		$goal_glyco=round($goal_glyco);
+		#蛋白質調整 總熱量的25%/4
+		$goal_protein=($user_cal*0.25)/4;
+		$goal_protein=round($goal_protein);
+		#脂質調整 總熱量的25%/9
+		$goal_fat=($user_cal*0.25)/9;
+		$goal_fat=round($goal_fat);
 	}
 	else if($user_disease=="高血壓"){
 		#白肉代替紅肉
@@ -376,15 +362,16 @@
 		#澱粉類攝取 450g 薯類60g
 		#蔬菜類攝取 黃綠色蔬菜100g 淺色蔬菜200g
 		#水果類調整 200g
-		#脂肪調整 總熱量的25%
-		$goal_fat=$user_cal*0.25;
+		#脂肪調整 總熱量的25%/9
+		$goal_fat=($user_cal*0.25)/9;
+		$goal_fat=round($goal_fat);
 	}
 
-    echo "<b>".$Name."您好！</b><br>
-    您的疾病為：「".$user_disease."」，目前BMI為：".$user_BMI."，一天建議攝取".$user_cal."大卡。<br>
+    echo "<h3><b>".$Name." 您好！</b></h3><br>
+    您的疾病為：「".$user_disease."」，目前BMI為：".$user_BMI."，一天本來建議攝取".$user_cal."大卡。<br>
     每日建議攝取量：全榖雜糧類：".$category_1."份  蛋豆魚肉類：".$category_2."份 乳品類：".$category_3."份  蔬菜類：".$category_4."份  水果類：".$category_5."份 油脂類：".$category_6."份  堅果種子類：".$category_7."份<br>
-    目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g，加起來是：".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."<br>
-	<b>以下推薦幾道菜單讓您選擇！</b><br>";
+    根據疾病調整過後，目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g，加起來是：".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."<br><br>
+	<b><font size='5'>以下推薦幾道菜單讓您選擇！</font></b><br>";
 ?>
 			<div class="box" id="left">
 			<table width="200">				
@@ -443,7 +430,7 @@
 	
 </div>
 <br>
-下方會是依據缺少的營養素去做推薦菜單<br>
+依據缺少的營養素去做推薦菜單<br>
 （去比對資料庫內該營養素較相符合的，如果吃了導致其他營養素過量，也要篩選）<br>
 
 </body>
