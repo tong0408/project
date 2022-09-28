@@ -167,31 +167,31 @@
 							if($i==0){
 								switch ($new_disease[$i]) {
 								case 0:
-									$query = "UPDATE `user` SET `disease`='無' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='無',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
-                case 1:
-									$query = "UPDATE `user` SET `disease`='肺炎' WHERE `userID`='$userid'";
+								case 1:
+									$query = "UPDATE `user` SET `disease`='肺炎',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								case 2:
-									$query = "UPDATE `user` SET `disease`='糖尿病' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='糖尿病',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								case 3:
-									$query = "UPDATE `user` SET `disease`='高血壓' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='高血壓',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								case 4:
-									$query = "UPDATE `user` SET `disease`='慢性下呼吸道疾病' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='慢性下呼吸道疾病',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								case 5:
-									$query = "UPDATE `user` SET `disease`='慢性腎臟疾病' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='慢性腎臟疾病',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								case 6:
-									$query = "UPDATE `user` SET `disease`='肝硬化' WHERE `userID`='$userid'";
+									$query = "UPDATE `user` SET `disease`='肝硬化',`disease2`='0',`disease3`='0',`disease4`='0',`disease5`='0',`disease6`='0',`disease7`='0' WHERE `userID`='$userid'";
 									$count=$link->exec($query); 
 									break;
 								}
