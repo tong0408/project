@@ -30,17 +30,8 @@
 		<form method="POST" action="enter_recipe.php">				
 				菜名：<input type="text" name="new_dish" maxlength="10" required>
 				<table style="margin:auto;" id="append_position">
-				<tr><td>類別</td><td>食材</td><td>份量(克)</td></tr>
+				<tr><td>食材</td><td>份量(克)</td></tr>
 				<tr class="row_data">
-				<td><select name="new_category[]" required>
-					<option value="全榖雜糧類">全榖雜糧類</option>
-					<option value="蔬菜類">蔬菜類</option>
-					<option value="豆魚蛋肉類">豆魚蛋肉類</option>
-					<option value="乳品類">乳品類</option>
-					<option value="水果類">水果類</option>
-					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
-					<option value="調味料">調味料</option>
-				</select></td>
 				<td><input list="brow" name="new_ingredients[]" id="idata"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
@@ -62,15 +53,6 @@
 		<div id="template" style="display:none;">
 			<table>
 				<tr class="row_data">
-					<td><select name="new_category[]">
-					<option value="全榖雜糧類">全榖雜糧類</option>
-					<option value="蔬菜類">蔬菜類</option>
-					<option value="豆魚蛋肉類">豆魚蛋肉類</option>
-					<option value="乳品類">乳品類</option>
-					<option value="水果類">水果類</option>
-					<option value="油脂與堅果種子類">油脂與堅果種子類</option>
-					<option value="調味料">調味料</option>
-					</select></td>
 					<td><input list="brow" name="new_ingredients[]" id="idata"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
@@ -79,8 +61,10 @@
 						foreach($result as $row){
 							$iID=$row["iID"];
 							$Name=$row["name"];
+							$Nid=$row["NID"];
 							
 							echo '<option value="'.$Name.'" id="'.$iID.'">';
+							echo $Nid;
 						}
 					?>
 					</datalist></td>
