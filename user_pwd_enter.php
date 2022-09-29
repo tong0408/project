@@ -3,6 +3,7 @@
 	session_start();
 	include("configure.php");
 	$userid= $_SESSION['userID'];
+
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	
 	#login_帳號密碼 = user輸入的帳號密碼
@@ -17,27 +18,38 @@
 	foreach ($result as $row) {
 		$ID = $row["ID"];
 		$userid = $row["userid"];
-		$password = $row["password"];//Q1 解碼
+		$pwd = $row["password"];
 		$name = $row["name"];
 	}
 	
 	#password 比較
-	if ($old_pwd == $password) {
-		//密碼正確，輸入的新密碼寫進資料庫
-		if($new_pwd==$check_pwd){
-			$query = "UPDATE `user` SET `password`='$new_pwd' WHERE `userID`='$userid'";//Q2加密
-			$count=$link->exec($query); 
-			echo "<script>alert('" . $name . "，修改成功～！')</script>";
-			echo "<meta http-equiv=REFRESH CONTENT=0;url='index.php'>";
+	//密碼輸入一樣
+	if (password_verify($old_pwd,$pwd)) {
+		//新舊密碼一樣，重新輸入
+		if($old_pwd==$new_pwd){
+			echo "<script>alert('新舊密碼一樣，請重新輸入！')</script>";
+			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_pwd.php'>";
+		}else if($new_pwd==$userid){
+			echo "<script>alert('帳號密碼一樣，請重新輸入！')</script>";
+			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_pwd.php'>";
 		}else{
-			echo "<script>alert('密碼兩次輸入不一致，請重新輸入！')</script>";
-			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
+			//輸入的新密碼寫進資料庫
+			if($new_pwd==$check_pwd){
+				$pwd_hash = password_hash($new_pwd, PASSWORD_DEFAULT);
+				$query = "UPDATE `user` SET `password`='$pwd_hash' WHERE `userID`='$userid'";//Q2加密
+				$count=$link->exec($query); 
+				echo "<script>alert('" . $name . "，修改成功～！')</script>";
+				echo "<meta http-equiv=REFRESH CONTENT=0;url='index.php'>";
+			}else{
+				echo "<script>alert('密碼兩次輸入不一致，請重新輸入！')</script>";
+				echo "<meta http-equiv=REFRESH CONTENT=0;url='user_pwd.php'>";
+			}
 		}
 	}
 	#舊密碼錯誤
 	else{
 		echo "<script>alert('舊密碼輸入錯誤，請重新輸入！')</script>";
-		echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
+		echo "<meta http-equiv=REFRESH CONTENT=0;url='user_pwd.php'>";
 	}
 
 ?>

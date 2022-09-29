@@ -66,7 +66,7 @@
 				case 0:
 					$tmp_disease[$i] ="無";
 				break;
-        case 1:
+        		case 1:
 					$tmp_disease[$i] ="肺炎";
 				break;
 				case 2:
@@ -100,40 +100,57 @@
 				}
 				return $new_age;
 			}
+
 			$new_age=birthday($new_BD);
-			//Q3密碼加密
-			if(count($new_disease,0)==1){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','0','0','0','0','0','0')";
-				$count = $link->exec($query);
-			}else if(count($new_disease,0)==2){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','0','0','0','0','0')";
-				$count = $link->exec($query);
-			}else if(count($new_disease,0)==3){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','0','0','0','0')";
-				$count = $link->exec($query);
-			}else if(count($new_disease,0)==4){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','0','0','0')";
-				$count = $link->exec($query);
-			}else if(count($new_disease,0)==5){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','0','0')";
-				$count = $link->exec($query);
-			}else if(count($new_disease,0)==6){
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','0')";
-				$count = $link->exec($query);
-			}else{
-				$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
-				VALUES('$new_userid','$new_pwd','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','$tmp_disease[6]')";
-				$count = $link->exec($query);
-			}
+
+			if($new_pwd==$new_userid){
+				
+				echo "<script>alert('帳號密碼一樣，請重新輸入！')</script>";
+				echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
 			
-			echo "<script>alert('註冊成功！請重新登入！')</script>";
-			echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
+			}else{
+				if(count($new_disease,0)>1 && $tmp_disease[0] ="無"){
+					echo "<script>alert('疾病選擇錯誤（選擇無也有選擇疾病），請重新輸入！')</script>";
+					echo "<meta http-equiv=REFRESH CONTENT=0;url='user_create.php'>";
+	
+				}else{
+					//密碼加密
+					$pwd_hash = password_hash($new_pwd, PASSWORD_DEFAULT);
+
+					if(count($new_disease,0)==1){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','0','0','0','0','0','0')";
+						$count = $link->exec($query);
+					}else if(count($new_disease,0)==2){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','0','0','0','0','0')";
+						$count = $link->exec($query);
+					}else if(count($new_disease,0)==3){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','0','0','0','0')";
+						$count = $link->exec($query);
+					}else if(count($new_disease,0)==4){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','0','0','0')";
+						$count = $link->exec($query);
+					}else if(count($new_disease,0)==5){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','0','0')";
+						$count = $link->exec($query);
+					}else if(count($new_disease,0)==6){
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','0')";
+						$count = $link->exec($query);
+					}else{
+						$query = "INSERT INTO `user`(`userid`,`password`,`name`,`gender`,`date`,`age`,`height`,`weight`,`BMI`,`sport`,`disease`,`disease2`,`disease3`,`disease4`,`disease5`,`disease6`,`disease7`)
+						VALUES('$new_userid','$pwd_hash','$new_name','$tmp_gender','$new_BD',$new_age,$new_height,$new_weight,$new_BMI,'$tmp_sport','$tmp_disease[0]','$tmp_disease[1]','$tmp_disease[2]','$tmp_disease[3]','$tmp_disease[4]','$tmp_disease[5]','$tmp_disease[6]')";
+						$count = $link->exec($query);
+					}
+
+					echo "<script>alert('註冊成功！請重新登入！')</script>";
+					echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
+				}
+			}
 		}
 	}else{
 		echo "<script>alert('此帳號已被註冊！')</script>";

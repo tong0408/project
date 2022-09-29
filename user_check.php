@@ -20,14 +20,14 @@
 	foreach ($result as $row) {
 		$ID = $row["ID"];
 		$userid = $row["userid"];
-		$password = $row["password"];//Q1 解碼
+		$pwd = $row["password"];
 		$name = $row["name"];
 	}
 	
 	#帳號不為空值的狀態下帳號相同
 	if (($userid == $login_userid) && ($userid != "")) {
 		//密碼正確與否
-		if($password==$login_pwd){
+		if(password_verify($login_pwd,$pwd)){
 			#利用$_SESSION['userID']紀錄現在登入的帳號
 			$_SESSION['userID'] = $userid;
 			echo "<script>alert('" . $name . "，登入成功～！')</script>";
