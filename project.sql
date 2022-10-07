@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2022-09-27 18:56:25
--- 伺服器版本： 10.4.19-MariaDB
--- PHP 版本： 8.0.6
+-- 主機： localhost
+-- 產生時間： 2022 年 10 月 07 日 17:08
+-- 伺服器版本： 10.4.21-MariaDB
+-- PHP 版本： 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -666,7 +666,8 @@ INSERT INTO `history` (`ID`, `UID`, `date`, `time`, `dishID`, `portion`) VALUES
 (40, 'F123456789', '2022-09-15', '09:21', 179, 10),
 (41, 'F123456789', '2022-09-15', '09:30', 1, 10),
 (42, 'F123456789', '2022-09-15', '09:55', 5, 1),
-(43, 'F123456789', '2022-09-22', '10:21', 179, 1);
+(43, 'F123456789', '2022-09-22', '10:21', 179, 1),
+(44, '123', '2022-09-29', '10:12', 11, 1);
 
 -- --------------------------------------------------------
 
@@ -4747,7 +4748,7 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `userid` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `gender` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date` date NOT NULL,
@@ -4773,7 +4774,14 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 (1, 'F123456789', 'ff123456', 'TEST', '生理女', '2001-04-08', 21, 152, 51, 22.0741, '重度活動', '慢性下呼吸道疾病', '0', '0', '0', '0', '0', '0'),
 (2, 'C123456789', '0', 'test', '生理男', '2002-09-20', 20, 152, 51, 22.0741, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (3, 'B987654231', '0', '李援研', '生理女', '2002-06-18', 20, 160, 50, 19.5312, '中度活動', '糖尿病', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0'),
-(4, 'C456789123', '0', '隨便取', '生理男', '2005-01-16', 17, 180, 75, 23.1481, '輕度活動', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0', '0');
+(4, 'C456789123', '0', '隨便取', '生理男', '2005-01-16', 17, 180, 75, 23.1481, '輕度活動', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0', '0'),
+(5, '123', '123', '高', '生理男', '2022-09-11', 0, 111, 20, 16.2324, '輕度活動', '慢性下呼吸道疾病', '0', '0', '0', '0', '0', '0'),
+(6, '321', '321', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '高血壓', '0', '0', '0', '0', '0', '0'),
+(7, '124', '', '222', '生理男', '2022-09-29', 0, 22222, 22, 0.000445509, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
+(8, '555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '123', '生理男', '2022-09-29', 0, 111, 111, 90.0901, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
+(9, '5555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '111', '生理男', '2022-09-29', 0, 111, 11, 8.92785, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
+(10, '3322', '$2y$10$tb0OCE9.KQTuh//UuCJo/u3tNNNo0hhPtyI/LEAnh5iCXCnNWPv06', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '肝硬化', '0', '0', '0', '0', '0', '0'),
+(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '無', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -4867,7 +4875,7 @@ ALTER TABLE `dish`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
 --
 ALTER TABLE `history`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredients`
@@ -4885,7 +4893,7 @@ ALTER TABLE `recipe`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user_add`
