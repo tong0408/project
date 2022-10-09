@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2022 年 10 月 07 日 17:08
--- 伺服器版本： 10.4.21-MariaDB
--- PHP 版本： 8.1.6
+-- 主機： 127.0.0.1
+-- 產生時間： 2022-10-09 12:01:32
+-- 伺服器版本： 10.4.19-MariaDB
+-- PHP 版本： 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -600,14 +600,14 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 (591, '蛋包飯', ''),
 (592, '拉麵', ''),
 (593, '貢丸湯', ''),
-(594, '滷肉飯', ''),
 (595, '鴨肉飯', ''),
 (596, '牛肉燴飯', ''),
 (597, '蛋餅', ''),
 (598, '炒麵', ''),
 (599, '炒飯', ''),
 (600, '湯麵', ''),
-(601, '三明治', '');
+(601, '三明治', ''),
+(602, '滷肉飯', '');
 
 -- --------------------------------------------------------
 
@@ -4737,7 +4737,42 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 (3234, 789, 150, 601),
 (3235, 85, 100, 601),
 (3236, 790, 100, 601),
-(3237, 179, 50, 601);
+(3237, 179, 50, 601),
+(3238, 1, 100, 602),
+(3239, 782, 150, 602);
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `t_newrecipe`
+--
+
+CREATE TABLE `t_newrecipe` (
+  `ID` int(11) NOT NULL,
+  `UID` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `dishName` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `ingredients` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `portion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `t_user_add`
+--
+
+CREATE TABLE `t_user_add` (
+  `ID` int(11) NOT NULL,
+  `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 傾印資料表的資料 `t_user_add`
+--
+
+INSERT INTO `t_user_add` (`ID`, `UID`, `dishName`) VALUES
+(5, '234', '滷肉飯');
 
 -- --------------------------------------------------------
 
@@ -4782,18 +4817,6 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 (9, '5555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '111', '生理男', '2022-09-29', 0, 111, 11, 8.92785, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (10, '3322', '$2y$10$tb0OCE9.KQTuh//UuCJo/u3tNNNo0hhPtyI/LEAnh5iCXCnNWPv06', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '肝硬化', '0', '0', '0', '0', '0', '0'),
 (11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '無', '0', '0', '0', '0', '0', '0');
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `user_add`
---
-
-CREATE TABLE `user_add` (
-  `ID` int(11) NOT NULL,
-  `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -4844,15 +4867,21 @@ ALTER TABLE `recipe`
   ADD PRIMARY KEY (`ID`);
 
 --
--- 資料表索引 `user`
+-- 資料表索引 `t_newrecipe`
 --
-ALTER TABLE `user`
+ALTER TABLE `t_newrecipe`
   ADD PRIMARY KEY (`ID`);
 
 --
--- 資料表索引 `user_add`
+-- 資料表索引 `t_user_add`
 --
-ALTER TABLE `user_add`
+ALTER TABLE `t_user_add`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- 資料表索引 `user`
+--
+ALTER TABLE `user`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -4869,7 +4898,7 @@ ALTER TABLE `user_histroy_modify`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `dish`
 --
 ALTER TABLE `dish`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=602;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=603;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
@@ -4887,19 +4916,25 @@ ALTER TABLE `ingredients`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3238;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3240;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `t_newrecipe`
+--
+ALTER TABLE `t_newrecipe`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_add`
+--
+ALTER TABLE `t_user_add`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- 使用資料表自動遞增(AUTO_INCREMENT) `user_add`
---
-ALTER TABLE `user_add`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user_histroy_modify`
