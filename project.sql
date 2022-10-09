@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-10-09 12:01:32
+-- 產生時間： 2022-10-09 13:10:15
 -- 伺服器版本： 10.4.19-MariaDB
 -- PHP 版本： 8.0.6
 
@@ -4766,13 +4766,6 @@ CREATE TABLE `t_user_add` (
   `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 傾印資料表的資料 `t_user_add`
---
-
-INSERT INTO `t_user_add` (`ID`, `UID`, `dishName`) VALUES
-(5, '234', '滷肉飯');
 
 -- --------------------------------------------------------
 
