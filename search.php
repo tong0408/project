@@ -47,23 +47,6 @@
 	td{height:50px;}
 </style>
 </head>
- <script>
-	var s=0;
-	var n=0;
-	window.onload=function(){
-		var add=document.getElementById("add");
-		var newbutton=document.getElementById("newbutton");
-		
-		add.onclick=function(){
-			if(n==0){
-				s=0;
-			}else{
-				s=s+1;
-			}
-			n=n+1;
-			return s;
-		}
-	}
 	
 </script>
 
@@ -79,7 +62,7 @@
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
 							
-							$query = "SELECT * FROM user_add where `UID`='$userid'";
+							$query = "SELECT * FROM t_user_add where `UID`='$userid'";
 							$result = $link->query($query);
 							
 							// 搜尋有資料時顯示搜尋結果

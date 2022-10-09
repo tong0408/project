@@ -34,7 +34,7 @@
 			
 		}
 	}
-	$sql = "DELETE FROM `user_add` WHERE `UID`='$userid'";
+	$sql = "DELETE FROM `t_user_add` WHERE `UID`='$userid'";
 	// 用mysqli_query方法執行(sql語法)將結果存在變數中
 	$count = $link->exec($sql);
 	header("Location: record.php");
