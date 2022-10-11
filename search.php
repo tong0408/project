@@ -3,6 +3,22 @@
 	session_start();
 	include("configure.php");
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+	#假如$_SESSION['userID']為空值表示沒有登入
+	if ($_SESSION['userID'] == null) {
+	    echo "<script>alert('請先登入唷！')</script>";
+	    echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
+	} else {
+	
+	    $userID=$_SESSION['userID'];
+	    $query = "SELECT * FROM `user` WHERE `userID`='$userID'";
+	    $result = $link->query($query);
+	
+	    #獲取現在登入者的帳號密碼
+	    foreach ($result as $row) {
+	        $userID = $row["userid"];
+	        $Name = $row["name"];
+	    }
+	}
 	//這個要等整合才會有效
 	$userid= $_SESSION['userID'];
 	date_default_timezone_set('Asia/Taipei');
