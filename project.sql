@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-10-09 13:10:15
+-- 產生時間： 2022-10-16 09:23:32
 -- 伺服器版本： 10.4.19-MariaDB
 -- PHP 版本： 8.0.6
 
@@ -667,7 +667,11 @@ INSERT INTO `history` (`ID`, `UID`, `date`, `time`, `dishID`, `portion`) VALUES
 (41, 'F123456789', '2022-09-15', '09:30', 1, 10),
 (42, 'F123456789', '2022-09-15', '09:55', 5, 1),
 (43, 'F123456789', '2022-09-22', '10:21', 179, 1),
-(44, '123', '2022-09-29', '10:12', 11, 1);
+(44, '123', '2022-09-29', '10:12', 11, 1),
+(45, '234', '2022-10-09', '19:46', 1, 2),
+(46, '234', '2022-09-22', '20:15', 2, 1),
+(47, '234', '2022-08-31', '20:21', 3, 1),
+(48, '234', '2022-09-04', '20:27', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1519,8 +1523,7 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 (17, 40, 300, 3),
 (18, 230, 5, 3),
 (19, 281, 5, 3),
-(20, 410, 3, 3),
-(21, 410, 3, 3),
+(20, 410, 6, 3),
 (22, 431, 15, 4),
 (23, 182, 300, 4),
 (24, 469, 10, 4),
@@ -4080,9 +4083,9 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 (2578, 446, 5, 457),
 (2579, 417, 100, 457),
 (2580, 410, 3, 457),
-(2581, 108, 600, 458);
+(2581, 108, 600, 458),
+(2582, 187, 200, 458);
 INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
-(2582, 187, 200, 458),
 (2583, 240, 50, 458),
 (2584, 234, 15, 458),
 (2585, 431, 500, 459),
@@ -4744,6 +4747,16 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `t_menugetid`
+--
+
+CREATE TABLE `t_menugetid` (
+  `dishID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `t_newrecipe`
 --
 
@@ -4754,6 +4767,13 @@ CREATE TABLE `t_newrecipe` (
   `ingredients` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `portion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 傾印資料表的資料 `t_newrecipe`
+--
+
+INSERT INTO `t_newrecipe` (`ID`, `UID`, `dishName`, `ingredients`, `portion`) VALUES
+(7, '234', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -4897,7 +4917,7 @@ ALTER TABLE `dish`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
 --
 ALTER TABLE `history`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredients`
@@ -4915,7 +4935,7 @@ ALTER TABLE `recipe`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_newrecipe`
 --
 ALTER TABLE `t_newrecipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_add`
