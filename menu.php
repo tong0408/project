@@ -163,6 +163,12 @@
 		$user_BMI = $row["BMI"];
         $user_sport = $row["sport"];
 		$user_disease = $row["disease"];
+		$user_disease2 = $row["disease2"];
+		$user_disease3 = $row["disease3"];
+		$user_disease4 = $row["disease4"];
+		$user_disease5 = $row["disease5"];
+		$user_disease6 = $row["disease6"];
+		$user_disease7 = $row["disease7"];
 	}
 
     $user_cal=0;
@@ -323,7 +329,7 @@
 	function_category($user_cal);
 	function_goal($user_cal);
 	
-	#針對疾病及調整
+	#針對疾病及調整的三大營養素目標
 	if($user_disease=="肺炎"){
 		#大卡數調整 體重*35+250大卡
 		$user_cal=($user_weight*35)+250;
@@ -347,6 +353,7 @@
 	else if($user_disease=="高血壓"){
 		#白肉代替紅肉
 		#低鈉飲食 每日食鹽量<6g
+		$goal_sodium=6;
 	}
 	else if($user_disease=="慢性下呼吸道疾病"){
 		#蛋白質調整 體重*1.5g
@@ -367,10 +374,64 @@
 		$goal_fat=round($goal_fat);
 	}
 
+	#假如第二種以上疾病患有糖尿病
+	#疾病+糖尿病
+	if($user_disease2=="糖尿病" || $user_disease3 =="糖尿病" || $user_disease4 =="糖尿病" || 
+		$user_disease5 =="糖尿病" ||$user_disease6 =="糖尿病" || $user_disease7 =="糖尿病"){
+		#醣類調整 總熱量的50%/4
+		$goal_glyco=($user_cal*0.5)/4;
+		$goal_glyco=round($goal_glyco);
+		#脂質調整 總熱量的25%/9
+		$goal_fat=($user_cal*0.25)/9;
+		$goal_fat=round($goal_fat);
+		
+		#疾病+糖尿病+慢性腎臟疾病
+		if($user_disease3=="慢性腎臟疾病" || $user_disease4=="慢性腎臟疾病" || $user_disease5=="慢性腎臟疾病" ||
+			$user_disease6=="慢性腎臟疾病" || $user_disease7=="慢性腎臟疾病") {
+			#蛋白質調整 體重*0.6g
+			$goal_protein=$user_weight*0.6;
+		}
+	}
+
+	#第一個疾病為糖尿病+其他疾病時
+	if($user_disease="糖尿病"){
+		#糖尿病+肝硬化疾病
+		if($user_disease2=="肝硬化" || $user_disease3=="肝硬化" || $user_disease4=="肝硬化" ||
+		$user_disease5=="肝硬化" || $user_disease6=="肝硬化" || $user_disease7=="肝硬化"){
+			$goal_protein=100;
+		}
+		else{
+			$goal_protein=($user_cal*0.15)/4;
+			$goal_protein=round($goal_protein);
+		}
+	}
+
+	#假如疾病第二種以上患有慢性腎臟疾病
+	#疾病+慢性腎臟疾病
+	if($user_disease2=="慢性腎臟疾病" || $user_disease3=="慢性腎臟疾病" || $user_disease4=="慢性腎臟疾病" ||
+		$user_disease5=="慢性腎臟疾病" || $user_disease6=="慢性腎臟疾病" || $user_disease7=="慢性腎臟疾病") {
+		#蛋白質調整 體重*0.6g
+		$goal_protein=$user_weight*0.6;
+	}
+
+	#假如疾病第二種以上患有肝硬化
+	if($user_disease2=="肝硬化" || $user_disease3=="肝硬化" || $user_disease4=="肝硬化" ||
+	$user_disease5=="肝硬化" || $user_disease6=="肝硬化" || $user_disease7=="肝硬化") {
+	$goal_fat=($user_cal*0.25)/9;
+	$goal_fat=round($goal_fat);
+}
+
     echo "<h3><b>".$Name." 您好！</b></h3><br>
-    您的疾病為：「".$user_disease."」，目前BMI為：".$user_BMI."，一天本來建議攝取".$user_cal."大卡。<br>
+	您的疾病為：「";
+	echo $user_disease;
+	if($user_disease2!=0){echo "、".$user_disease2;}
+	if($user_disease3!=0){echo "、".$user_disease3;}
+	if($user_disease4!=0){echo "、".$user_disease4;}
+	if($user_disease5!=0){echo "、".$user_disease5;}
+	if($user_disease6!=0){echo "、".$user_disease6;}
+	echo "」，目前BMI為：".$user_BMI."，一天建議攝取".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."大卡。<br>
     每日建議攝取量：全榖雜糧類：".$category_1."份  蛋豆魚肉類：".$category_2."份 乳品類：".$category_3."份  蔬菜類：".$category_4."份  水果類：".$category_5."份 油脂類：".$category_6."份  堅果種子類：".$category_7."份<br>
-    根據疾病調整過後，目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g，加起來是：".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."<br><br>
+    目標醣類：$goal_glyco g、脂質：$goal_fat g、蛋白質：$goal_protein g<br><br>
 	<b><font size='5'>以下推薦幾道菜單讓您選擇！</font></b><br>";
 ?>
 			<div class="box" id="left">
