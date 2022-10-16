@@ -368,7 +368,7 @@
                     }
                     
                 }else{
-                    echo "<script>alert('身分證輸入錯誤，請重新輸入！')</script>";
+                    echo "<script>alert('帳號輸入錯誤，請重新輸入！')</script>";
                     echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
                 }
             }
