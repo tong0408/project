@@ -1,13 +1,13 @@
 <?php
 	session_start();
 	include("configure.php");
-
+	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 	#假如$_SESSION['userID']為空值表示沒有登入
 	if ($_SESSION['userID'] == null) {
 		echo "<script>alert('請先登入唷！')</script>";
 		echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
 	} else {
-		$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+		
 		$userID=$_SESSION['userID'];
 		$query = "SELECT * FROM `user` WHERE `userID`='$userID'";
 		$result = $link->query($query);
@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style type="text/css">	
 		body{		
 			background-color:#FFD79B;
@@ -145,7 +146,7 @@
   background-color: #FFD79B;
 }
 		
-	</style>
+</style>
 </head>
 <body class="bgimg-1">
 <?php include("header.php"); ?>
@@ -153,8 +154,7 @@
 <?php
 
     #抓取使用者資料
-    $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-	$query = "SELECT * FROM `user` WHERE `userID`='$userID'"; #一開始session抓取的值
+    $query = "SELECT * FROM `user` WHERE `userID`='$userID'"; #一開始session抓取的值
 	$result = $link->query($query);
 	
 	#獲取現在登入者的身體資訊
@@ -374,60 +374,38 @@
 	<b><font size='5'>以下推薦幾道菜單讓您選擇！</font></b><br>";
 ?>
 			<div class="box" id="left">
-			<table width="200">				
-			<?PHP			
-				$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-				$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
-				$result = $link->query($query);	
-				
-				//取得所有需要的資料
-				foreach ($result as $row){					
-					//取得欄位數量
-					$dishID = $row['dishID'];
-					$dishname = $row['dishname'];
-					$method = $row['method'];					
-					//顯示結果
-					echo '<tr>'.
-					//菜名
-					'<td class="dish" onClick="showtitle(event)" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
-					}					
-			?>
-			<tr><td class="check">查看更多</td></tr>
-			</table>
+				<table width="200">				
+				<?PHP			
+					$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
+					$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
+					$result = $link->query($query);	
+
+					//取得所有需要的資料
+					foreach ($result as $row){					
+						//取得欄位數量
+						$dishID = $row['dishID'];
+						$dishname = $row['dishname'];
+						$method = $row['method'];
+							
+						//顯示結果
+						echo '<tr>'.
+						//菜名
+						'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
+						}					
+				?>
+				<tr><td class="check">查看更多</td></tr>
+				</table>
 			</div>
 			<div class="container2">
-			<div class="box" id="right">				
-				點選菜名查看料理方式<br><br>
-				<div id="getdish">&nbsp;</div>
-				<div class="get" id="gettitle">&nbsp;</div>
-			</div>
-			<div class="box" id="right">
-				<div class="get" id="getid">
-				<br>
-				<table style="color:#FFF; font-size:20px; width:300px;">
-				<?PHP
-					$query1 = "SELECT recipe.portion,ingredients.name FROM recipe INNER JOIN ingredients on recipe.iID = ingredients.iID WHERE recipe.dishID=1";
-					$result1 = $link->query($query1);	
-				
-					//取得所有需要的資料
-					foreach ($result1 as $row1){
-					
-					$portion = $row1['portion'];
-					$iID_Name=$row1['name'];
-					
-					
-					echo '<tr>'.
-					//菜名
-					'<td>'.$iID_Name.'</td><td>'.$portion.'克</td></tr>';
-
-					
-					}
-				?>
-				</table>
+				<div class="box" id="right">				
+					點選菜名查看料理方式<br><br>
+					<div id="getdish">&nbsp;</div>
+					<div class="get" id="gettitle">&nbsp;</div>
+				</div>
+				<div class="box" id="right">
+					<div class="get" id="getid"><br></div>
 				</div>
 			</div>
-			</div>
-	
 </div>
 <br>
 依據缺少的營養素去做推薦菜單<br>
@@ -435,20 +413,38 @@
 
 </body>
 <script>
-		function showtitle(event){
-			var getdish=event.target.innerHTML;//當觸發了 click處而 innerHTML就是指事件發生位置
-			var e=document.getElementById("getdish");//用來取得頁面中 getdish id 的值
-			e.className=""
-			setTimeout(function(){e.className='anima'},0)//設定為0秒的延遲，並抓取style中的anima來當class
-			document.getElementById("getdish").innerHTML=getdish;//變更網頁ID(getdish)位置的文字為設定的(var getdish)值
-			
-			var gettitle=event.target.title;//當觸發了 click，會抓取title資料
-			document.getElementById("gettitle").innerHTML=gettitle;//變更網頁ID(gettitle)位置的文字為設定的(var gettitle)值
-			var dishid = event.target.id;
-			document.getElementById("getid").innerHTML=dishid;
-			
-		}	
-			
+	
+	function showtitle(event){
+		var getdish=event.target.innerHTML;//當觸發了 click處而 innerHTML就是指事件發生位置
+		var e=document.getElementById("getdish");//用來取得頁面中 getdish id 的值
+		e.className=""
+		setTimeout(function(){e.className='anima'},0)//設定為0秒的延遲，並抓取style中的anima來當class
+		document.getElementById("getdish").innerHTML=getdish;//變更網頁ID(getdish)位置的文字為設定的(var getdish
 		
-	</script>
+		var gettitle=event.target.title;//當觸發了 click，會抓取title資料
+		document.getElementById("gettitle").innerHTML=gettitle;//變更網頁ID(gettitle)位置的文字為設定的(var gettitle)值
+		var dishid = event.target.id;
+		//document.getElementById("getid").innerHTML=dishid;
+
+		$(document).ready(function () {
+			
+			load_data(dishid);
+				
+			function load_data(query) {
+				$.ajax({
+					url: "menu_load.php",
+					method: "GET",
+					data: {
+						s: query
+					},
+					success: function (data) {
+						$('#getid').html(data);
+					}
+				});
+			}
+		});
+		
+	}
+	
+</script>
 </html>
