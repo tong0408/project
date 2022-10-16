@@ -377,23 +377,55 @@
 				<table width="200">				
 				<?PHP			
 					$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
-					$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
-					$result = $link->query($query);	
+					$query = "SELECT count(dishID) FROM t_menugetid ";
+					$result = $link->query($query);
+					$count = $result->fetchColumn();
 
-					//取得所有需要的資料
-					foreach ($result as $row){					
-						//取得欄位數量
-						$dishID = $row['dishID'];
-						$dishname = $row['dishname'];
-						$method = $row['method'];
+					if($count==0){
+						$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
+						$result = $link->query($query);	
+	
+						//取得所有需要的資料
+						foreach ($result as $row){					
+							//取得欄位數量
+							$dishID = $row['dishID'];
+							$dishname = $row['dishname'];
+							$method = $row['method'];
+								
+							//顯示結果
+							echo '<tr>'.
+							//菜名
+							'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
+						}
+					}else{
+						$query = "SELECT dishID FROM t_menugetid ";
+						$result = $link->query($query);
+						foreach ($result as $r){
 							
-						//顯示結果
-						echo '<tr>'.
-						//菜名
-						'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
-						}					
+							$t_dishID=$r['dishID'];
+
+							$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID WHERE `recipe`.dishID=$t_dishID";
+							$result = $link->query($query);	
+
+							foreach ($result as $row){				
+								//取得欄位數量
+								$dishID = $row['dishID'];
+								$dishname = $row['dishname'];
+								$method = $row['method'];
+
+								//顯示結果
+								echo '<tr>'.
+								//菜名
+								'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
+							}
+						}
+					}
+					//刪除t_menugetid的資料
+					$sql = "DELETE FROM `t_menugetid` ";
+					// 用mysqli_query方法執行(sql語法)將結果存在變數中
+					$count = $link->exec($sql);				
 				?>
-				<tr><td class="check">查看更多</td></tr>
+				<tr><td class="check"><a href="menu_button.php">查看更多</a></td></tr>
 				</table>
 			</div>
 			<div class="container2">
