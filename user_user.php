@@ -162,7 +162,11 @@
                             }
                     }
                     #修改疾病
-                    if(count($new_disease,0)!=0){
+					if(count($new_disease,0)>1 && $tmp_disease[0] ="無"){
+						echo "<script>alert('疾病選擇錯誤（選擇無也有選擇疾病），請重新輸入！')</script>";
+						echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
+		
+					}else if(count($new_disease,0)!=0){
 						for($i=0;$i<count($new_disease,0);$i++){
 							if($i==0){
 								switch ($new_disease[$i]) {
@@ -359,11 +363,11 @@
 								}
 							}
 						}
+						echo "<script>alert('修改成功！')</script>";
+                    	echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
                     }
-                    echo "<script>alert('修改成功！')</script>";
-                    echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
-                }
-                else{
+                    
+                }else{
                     echo "<script>alert('身分證輸入錯誤，請重新輸入！')</script>";
                     echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
                 }
