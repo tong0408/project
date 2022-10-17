@@ -77,22 +77,71 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
-							
+							//新增菜單t_user_add的暫存資料表，搜尋有沒有東西
 							$query = "SELECT * FROM t_user_add where `UID`='$userid'";
 							$result = $link->query($query);
 							
-							// 搜尋有資料時顯示搜尋結果
+							$dishname=array();
+							$d=0;
+							// 如果有新增菜單，搜尋時顯示他新增的且先勾選
 							foreach($result as $row){
-								echo "<tr>";
-								echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["dishName"].'" checked="checked">' . $row["dishName"] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
-								echo "</tr>";
+								$dishname[$d]=$row["dishName"];
+								$d=$d+1;
+							}
+
+							for($i=0;$i<count($dishname);$i++){
+								$query = "SELECT * FROM dish where `dishName`='$dishname[$i]'";
+								$result = $link->query($query);
+
+								foreach($result as $row){
+									echo "<tr>";
+									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+									echo "</tr>";
+								}
+							}
+
+							//修改菜單t_user_histroy_modify的暫存資料表，搜尋有沒有東西
+							$query = "SELECT dishID FROM t_user_histroy_modify where `UID`='$userid'";
+							$result = $link->query($query);
+
+							$a=0;
+							$sqldishID=array();
+
+							// 如果t_user_histroy_modify有資料，搜尋時顯示他新增的且先勾選
+							foreach($result as $row){
+								$sqldishID[$a]=$row['dishID'];
+								$a=$a+1;
+							}
+
+							for($i=1;$i<count($sqldishID);$i++){
+								if($i<count($sqldishID)-1){
+									if($sqldishID[$i]==$sqldishID[$i+1]){
+										if($sqldishID[$i]!=$sqldishID[$i-1]){
+											$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
+											$result = $link->query($query);
+											foreach($result as $row){
+												echo "<tr>";
+												echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+												echo "</tr>";
+											}
+										}
+									}else{
+										$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
+										$result = $link->query($query);
+										foreach($result as $row){
+											echo "<tr>";
+											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+											echo "</tr>";
+										}
+									}
+								}
 							}
 							
 							//抓取全部dish
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
 							
-							//判斷使用者是否有輸入
+							//判斷使用者是否有輸入關鍵字
 							if (isset($_GET['s'])) {
 								$s = $_GET['s'];
 								$n=0;
@@ -101,7 +150,7 @@
 								//透過strpos函數判斷是否包含使用者輸入
 									if (strpos($row["dishName"], $s) !== false) {
 										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["dishName"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
+										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 										echo "</tr>";
 										$n++;
 									}
@@ -115,7 +164,7 @@
 								foreach ($result as $row) {
 									$n++;
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["dishName"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '">' . $row['dishName'] . '</td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
+									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 									echo "</tr>";
 									if ($n == 10) break;
 								}
