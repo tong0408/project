@@ -421,7 +421,12 @@
 	$goal_fat=round($goal_fat);
 	}
 
+	#最後計算總大卡數和調整六大類營養素
+	$user_goal_cal=$goal_glyco*4+$goal_fat*9+$goal_protein*4;
+	function_category($user_goal_cal);
+
 	#抓取資料庫獲取目前吃的營養素
+	$now_cal=0;
 	$now_category_1=0;
 	$now_category_2=0;
 	$now_category_3=0;
@@ -441,8 +446,8 @@
 	if($user_disease4!=0){echo "、".$user_disease4;}
 	if($user_disease5!=0){echo "、".$user_disease5;}
 	if($user_disease6!=0){echo "、".$user_disease6;}
-	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".($goal_glyco*4+$goal_fat*9+$goal_protein*4)."大卡。<br>
-    <hr><h4><b>每日建議攝取量－目標</b></h4>
+	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".$user_goal_cal."大卡。<br>
+    <hr><h4><b>每日建議攝取量－目標熱量 $now_cal/".$user_goal_cal."大卡</b></h4>
 	<table width='80%'>
 	<tr>
 	<td><b>全榖雜糧類</b></td>
