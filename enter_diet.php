@@ -1,5 +1,5 @@
-  <!--輸入每日飲食-->
-  <?php
+<!--輸入每日飲食-->
+<?php
 	session_start();
 	include("configure.php");
 	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
@@ -17,21 +17,25 @@
 	
 	$userid= $_SESSION['userID'];
 	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
-	echo 1;
+
 	//有問題
   	//搜尋t_user_histroy_modify裡面有沒有東西
-	$query = "SELECT count(`ID`),`dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`=$userID";
+	$query = "SELECT count(`ID`),`dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`=$userid";
 	$res = $link->query($query);
 	$cou = $res->fetchColumn();
-	
+
+	$query = "SELECT `dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`=$userid";
+	$res = $link->query($query);
+
+	$a=0;
 
 	//存t_user_histroy_modify資料
 	if($cou!=0){
-		$a=0;
 		foreach($res as $rw){
 			$t_dishID[$a]=$rw["dishID"];
 			$t_iID[$a]=$rw["iID"];
 			$t_portion[$a]=$rw["portion"];
+			
 			$a=$a+1;
 		}
 	}
@@ -50,15 +54,10 @@
 				for($m=0;$m<count($t_dishID);$m++){
 					//當勾選的dishID=t_user_histroy_modify的dishID
 					if($dishID==$t_dishID[$m]){
-						if($new_portion[$m]!=null){
-							//新增至使用者user_histroy_modify
-							$query = "INSERT INTO `user_histroy_modify`(`UID`, `date`, `time`, `dishID`, `iID`, `iportion`, `portion`)
-							VALUES('$userid','$new_date','$new_time',$t_dishID[$m],$t_iID[$m],$t_portion[$m],$new_portion[$m])";
-							$count = $link->exec($query);
-							break;
-						}else{
-							continue;
-						}
+						//新增至使用者user_histroy_modify
+						$query = "INSERT INTO `user_histroy_modify`(`UID`, `date`, `time`, `dishID`, `iID`, `iportion`, `portion`)
+						VALUES('$userid','$new_date','$new_time',$t_dishID[$m],$t_iID[$m],$t_portion[$m],$new_portion[$i])";
+						$count = $link->exec($query);
 					}
 				}
 			}else{

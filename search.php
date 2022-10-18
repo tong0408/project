@@ -112,19 +112,23 @@
 								$sqldishID[$a]=$row['dishID'];
 								$a=$a+1;
 							}
-
+							$b=0;
 							for($i=0;$i<count($sqldishID);$i++){
 								if($i<count($sqldishID)-1){
 									if($sqldishID[$i]==$sqldishID[$i+1]){
-										if($sqldishID[$i]!=$sqldishID[$i-1]){
-											$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
-											$result = $link->query($query);
-											foreach($result as $row){
-												echo "<tr>";
-												echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
-												echo "</tr>";
+										if($i!=0){
+											if($sqldishID[$i]!=$sqldishID[$i-1]){
+												$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
+												$result = $link->query($query);
+												foreach($result as $row){
+													echo "<tr>";
+													echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+													echo "</tr>";
+												}
+												$b=1;
 											}
 										}
+										
 									}else{
 										$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
 										$result = $link->query($query);
@@ -133,6 +137,14 @@
 											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
 											echo "</tr>";
 										}
+									}
+								}else if($b==0){
+									$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
+									$result = $link->query($query);
+									foreach($result as $row){
+										echo "<tr>";
+										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';									
+										echo "</tr>";
 									}
 								}
 							}
