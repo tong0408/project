@@ -81,7 +81,7 @@
 					?>
 					</datalist></td>
 					<td><input type="text" name="new_ingredients[]" maxlength="10" required></td>
-					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>
                     <td><input type="text" name="NutritionalContent1[]" maxlength="10" required></td>
                     <td><input type="text" name="NutritionalContent2[]" maxlength="10" required></td>
                     <td><input type="text" name="NutritionalContent3[]" maxlength="10" required></td>

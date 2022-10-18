@@ -64,8 +64,7 @@
 					}
 					echo '菜名：<input type="text" name="new_dish" id="new_dish" maxlength="10" value="'.$dishname.'" required>
 					<table style="margin:auto;" id="append_position">
-					<tr><td>食材</td><td>份量(克)</td></tr>
-					';
+					<tr><td>食材</td><td>份量(克)</td></tr>';
 					$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
 					$result = $link->query($query);
 
@@ -73,8 +72,8 @@
 						$ingredients=$row["ingredients"];
 						$portion=$row["portion"];
 
-						echo '<tr class="row_data"><td><input type="text" name="ingredients[]" value="'.$ingredients.'" required></td>
-						<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" value="'.$portion.'" ></td></tr>';
+						echo '<tr class="row_data"><td><input type="text" name="ingredients[]" value="'.$ingredients.'"></td>
+						<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" value="'.$portion.'"></td></tr>';
 					}
 					
 					echo '</table>';
@@ -101,7 +100,7 @@
 						}
 					?>
 					</datalist></td>
-					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion"></td>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" required></td>
 				</tr>
 			</table>
 		</div>
