@@ -1,13 +1,13 @@
 <?php
 	session_start();
 	include("configure.php");
+	$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 
 	#假如$_SESSION['userID']為空值表示沒有登入
 	if ($_SESSION['userID'] == null) {
 		echo "<script>alert('請先登入唷！')</script>";
 		echo "<meta http-equiv=REFRESH CONTENT=0;url='user_login.php'>";
 	} else {
-		$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 		$userID=$_SESSION['userID'];
 
 		$query = "SELECT * FROM `user` WHERE `userID`='$userID'";
@@ -76,9 +76,8 @@ var iID_NID10=[];
 var iID_NID1=[];
 </script>
 <?php
-    //連接歷史紀錄資料表
+    //連接history資料表
 	$count=0;
-    $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 
     $query = "SELECT `dishID` ,`date`,`portion` FROM `history` WHERE `UID`='$userID' ORDER BY `date` DESC";
     $result = $link->query($query);
@@ -193,6 +192,195 @@ var iID_NID1=[];
 			}
 		}
 	}
+
+
+	//放user_histroy_modify資料
+	$t_dishID=array();
+	$t_iID=array(array());
+	$t_iportion=array(array());
+	$t_portion=array();
+
+	$a=0;
+	$b=0;
+	$d=0;
+    //連接user_histroy_modify資料表
+	$count=0;
+	$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' ORDER BY `date` DESC";
+	$result = $link->query($query);
+	
+	foreach($result as $row){
+		if($a==0){
+			
+			$t_dishID[$a] = $row['dishID'];
+			$sqldate=$row['date'];
+			
+			//if 月份>=10月
+			if(substr($sqldate,5,2)>=10){
+	?>
+				<script>
+				sqlmdate.push('<?php echo substr($sqldate,5,2 );?>');
+				</script>
+	<?php
+				// if 日期>=10號
+				if(substr($sqldate,8,2)>=10){
+	?>
+					<script>
+					sqlwdate.push('<?php echo $sqldate;?>');
+					</script>
+	<?php
+				//if 日期<10號
+				}else{
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,8).substr($sqldate,9,1);?>');
+					</script>
+	<?php
+				}
+			//if 月份<10月
+			}else{
+	?>
+				<script>
+				sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
+				</script>
+	<?php
+				// if 日期>=10號
+				if(substr($sqldate,8,2)>=10){
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,4);?>');
+					</script>
+	<?php
+				//if 日期<10號
+				}else{
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,2).substr($sqldate,9,1);?>');
+					</script>
+	<?php
+				}
+			}
+			$b=1;
+		}else if($t_dishID[$a-1]!=$row['dishID']){
+			$t_dishID[$a] = $row['dishID'];
+			$sqldate=$row['date'];
+
+			//if 月份>=10月
+			if(substr($sqldate,5,2)>=10){
+	?>
+				<script>
+				sqlmdate.push('<?php echo substr($sqldate,5,2 );?>');
+				</script>
+	<?php
+				// if 日期>=10號
+				if(substr($sqldate,8,2)>=10){
+	?>
+					<script>
+					sqlwdate.push('<?php echo $sqldate;?>');
+					</script>
+	<?php
+				//if 日期<10號
+				}else{
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,8).substr($sqldate,9,1);?>');
+					</script>
+	<?php
+				}
+			//if 月份<10月
+			}else{
+	?>
+				<script>
+				sqlmdate.push('<?php echo substr($sqldate,6,1 );?>');
+				</script>
+	<?php
+				// if 日期>=10號
+				if(substr($sqldate,8,2)>=10){
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,4);?>');
+					</script>
+	<?php
+				//if 日期<10號
+				}else{
+	?>
+					<script>
+					sqlwdate.push('<?php echo substr($sqldate,0,5).substr($sqldate,6,2).substr($sqldate,9,1);?>');
+					</script>
+	<?php
+				}
+			}			
+			$b=1;
+		}
+		if($b==1){
+			$a=$a+1;
+		}
+		$b=0;
+		if($a>1){
+			$d=$d+1;
+		}
+	}
+		
+		//取得所有需要的資料
+		$query = "SELECT count(`ID`) FROM user_histroy_modify where `UID`='$userID' and dishID='$t_dishID[$d]'";
+		$res = $link->query($query);
+		$c = $res->fetchColumn();
+		
+		$count+=$c;
+		
+		//取得dishID使用的iID&portion
+		$query = "SELECT * FROM user_histroy_modify where `UID`='$userID' and dishID='$t_dishID[$d]'";
+		$re = $link->query($query);
+?>		
+		<script>
+			iIDcount.push('<?php echo $c;?>');
+		</script>
+<?php		
+		foreach ($re as $r){
+			$iID=$r['iID'];
+			$iportion=$r['iportion'];
+			$dishportion=$r['portion'];
+			$portion=$dishportion*$iportion;
+
+			//echo $portion;
+			
+			//從iID取得NID和食材名稱<使用>
+			$query = "SELECT NID FROM ingredients where iID='$iID'";
+			$re = $link->query($query);
+			foreach ($re as $r){
+				$iID_NID=$r['NID'];
+				//if 月份>=10月
+				if(substr($sqldate,5,2)>=10){
+?>
+					<script>
+					iID_NID10.push('<?php echo $iID_NID;?>');
+					</script>
+<?php
+				//if 月份<10月
+				}else{
+?>
+					<script>
+					iID_NID1.push('<?php echo $iID_NID;?>');
+					</script>
+<?php
+				}
+			}
+			//if 月份>=10月
+			if(substr($sqldate,5,2)>=10){
+?>
+				<script>
+				sqlportion10.push('<?php echo $portion;?>');
+				
+				</script>
+<?php
+			//if 月份<10月
+			}else{
+?>
+				<script>
+				sqlportion1.push('<?php echo $portion;?>');
+				</script>
+<?php
+			}
+		}
 ?>
 
 <script>
@@ -874,17 +1062,59 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 									}
 								}
 							}else{
+								var a=1;
+								var rcount=0;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										for(var m=0;m<iIDcount[z];m++){
-											if(iID_NID10[m]==1){//營養素ID
-												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/15;
-													portion[i]=Math.round(r*10)/10;
-												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
-													portion[i]=Math.round(r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==1){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/15;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
 												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
+											}else{
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==1){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/15;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==1){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/15;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
 									}
@@ -1000,15 +1230,55 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										for(var m=0;m<iIDcount[z];m++){
-											if(iID_NID10[m]==2){//營養素ID
-												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/7;
-													portion[i]=Math.round(r*10)/10;
-												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
-													portion[i]=Math.round(r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==2){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/7;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
 												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
+											}else{
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==2){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/7;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==2){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/7;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
 									}
@@ -1104,10 +1374,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												if(iID_NID1[m]==3){//營養素ID
 													document.write(sqlportion1[m]+",");
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/7;
+														r=parseInt(sqlportion1[m])/8;
 														portion[i]=Math.round(r*10)/10;
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m]);
+														r=parseInt(portion[i])+parseInt(sqlportion1[m])/8;
 														portion[i]=Math.round(r*10)/10;
 													}
 												}
@@ -1123,16 +1393,57 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										if(iID_NID10[m]==3){//營養素ID
-											if(portion[i]==null){
-												$r=parseInt(sqlportion10[m])/8;
-												portion[i]=Math.round($r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==3){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/8;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
-												$r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
-												portion[i]=Math.round($r*10)/10;
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==3){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/8;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==3){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/8;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
-										
 									}
 								}
 							}
@@ -1244,15 +1555,55 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										for(var m=0;m<iIDcount[z];m++){
-											if(iID_NID10[m]==4){//營養素ID
-												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/25;
-													portion[i]=Math.round(r*10)/10;
-												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
-													portion[i]=Math.round(r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==4){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/25;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
 												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
+											}else{
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==4){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/25;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==4){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/25;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
 									}
@@ -1366,15 +1717,55 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										for(var m=0;m<iIDcount[z];m++){
-											if(iID_NID10[m]==5){//營養素ID
-												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/60;
-													portion[i]=Math.round(r*10)/10;
-												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
-													portion[i]=Math.round(r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==5){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/60;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
 												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
+											}else{
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==5){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/60;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==5){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/60;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
 									}
@@ -1488,15 +1879,55 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
-										for(var m=0;m<iIDcount[z];m++){
-											if(iID_NID10[m]==6){//營養素ID
-												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/5;
-													portion[i]=Math.round(r*10)/10;
-												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
-													portion[i]=Math.round(r*10)/10;
+										if(mmdd[i]==12){
+											if(a==1){
+												for(var m=0;m<iIDcount[z];m++){
+													if(iID_NID10[m]==6){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/5;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
 												}
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
+											}else{
+												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+													if(iID_NID10[m]==6){//營養素ID
+														if(portion[i]==null){
+															r=parseInt(sqlportion10[m])/5;
+															portion[i]=Math.round(r*10)/10;
+														}else{
+															r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
+															portion[i]=Math.round(r*10)/10;
+														}
+													}
+												}
+												if(rcount==0){
+													rcount=parseInt(iIDcount[z]);
+												}else{
+													rcount=rcount+parseInt(iIDcount[z]);
+												}
+											}
+										}else{
+											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
+												if(iID_NID10[m]==6){//營養素ID
+													if(portion[i]==null){
+														r=parseInt(sqlportion10[m])/5;
+														portion[i]=Math.round(r*10)/10;
+													}else{
+														r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
+														portion[i]=Math.round(r*10)/10;
+													}
+												}
+											}
+											if(rcount==0){
+												rcount=parseInt(iIDcount[z]);
+											}else{
+												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
 									}
@@ -1556,7 +1987,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==1){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/15;
@@ -1569,10 +2000,15 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}
 									}
 								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
+								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID10[m]==1){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/15;
@@ -1584,6 +2020,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
 								}
 							}
 						}
@@ -1631,14 +2072,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<canvas id="myChartw2" ></canvas>
 					<script>
 						portion.splice(7,7);
-						var a=1;
-						var rcount=0;
 
 						for(var i=7;i<14;i++){
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==2){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/7;
@@ -1651,10 +2090,15 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}
 									}
 								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
+								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID10[m]==2){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/7;
@@ -1666,6 +2110,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
 								}
 							}
 						}
@@ -1713,14 +2162,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<canvas id="myChartw3" ></canvas>
 					<script>						
 						portion.splice(7,7);
-						var a=1;
-						var rcount=0;
 
 						for(var i=7;i<14;i++){
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==3){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/8;
@@ -1733,10 +2180,15 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}
 									}
 								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
+								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID10[m]==3){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/8;
@@ -1748,6 +2200,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
 								}
 							}
 						}
@@ -1795,14 +2252,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<canvas id="myChartw4" ></canvas>
 					<script>
 						portion.splice(7,7);
-						var a=1;
-						var rcount=0;
 
 						for(var i=7;i<14;i++){
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==4){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/25;
@@ -1814,11 +2269,18 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+									if(rcount==0){
+										rcount=parseInt(iIDcount[z]);
+									}else{
+										rcount=rcount+parseInt(iIDcount[z]);
+									}
 								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										//document.write(rcount);
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
+											
 											if(iID_NID10[m]==4){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/25;
@@ -1829,6 +2291,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												}
 											}
 										}
+									}
+									if(rcount==0){
+										rcount=parseInt(iIDcount[z]);
+										document.write(rcount);
+									}else{
+										rcount=rcount+parseInt(iIDcount[z]);
 									}
 								}
 							}
@@ -1877,14 +2345,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<canvas id="myChartw5" ></canvas>
 					<script>
 						portion.splice(7,7);
-						var a=1;
-						var rcount=0;
 
 						for(var i=7;i<14;i++){
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==5){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/60;
@@ -1897,10 +2363,15 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}
 									}
 								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
+								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID10[m]==5){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/60;
@@ -1912,6 +2383,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
 								}
 							}
 						}
@@ -1959,14 +2435,12 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 					<canvas id="myChartw6" ></canvas>
 					<script>
 						portion.splice(7,7);
-						var a=1;
-						var rcount=0;
 
 						for(var i=7;i<14;i++){
 							if(mmdd[i]<10){
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==6){
 												if(portion[i]==null){
 													r=parseInt(sqlportion1[m])/5;
@@ -1979,10 +2453,15 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}
 									}
 								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
+								}
 							}else{
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlwdate[z]){
-										for(var m=0;m<iIDcount[z];m++){
+										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID10[m]==6){
 												if(portion[i]==null){
 													r=parseInt(sqlportion10[m])/5;
@@ -1994,6 +2473,11 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}
 									}
+								}
+								if(rcount==0){
+									rcount=parseInt(iIDcount[z]);
+								}else{
+									rcount=rcount+parseInt(iIDcount[z]);
 								}
 							}
 						}
