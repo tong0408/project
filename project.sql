@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-10-16 09:23:32
+-- 產生時間： 2022-10-18 13:54:27
 -- 伺服器版本： 10.4.19-MariaDB
 -- PHP 版本： 8.0.6
 
@@ -4768,13 +4768,6 @@ CREATE TABLE `t_newrecipe` (
   `portion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- 傾印資料表的資料 `t_newrecipe`
---
-
-INSERT INTO `t_newrecipe` (`ID`, `UID`, `dishName`, `ingredients`, `portion`) VALUES
-(7, '234', '', '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -4786,6 +4779,20 @@ CREATE TABLE `t_user_add` (
   `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `t_user_histroy_modify`
+--
+
+CREATE TABLE `t_user_histroy_modify` (
+  `ID` int(11) NOT NULL,
+  `UID` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `dishID` int(11) NOT NULL,
+  `iID` int(11) NOT NULL,
+  `portion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4829,7 +4836,7 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 (8, '555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '123', '生理男', '2022-09-29', 0, 111, 111, 90.0901, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (9, '5555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '111', '生理男', '2022-09-29', 0, 111, 11, 8.92785, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (10, '3322', '$2y$10$tb0OCE9.KQTuh//UuCJo/u3tNNNo0hhPtyI/LEAnh5iCXCnNWPv06', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '肝硬化', '0', '0', '0', '0', '0', '0'),
-(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '無', '0', '0', '0', '0', '0', '0');
+(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -4839,11 +4846,23 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 
 CREATE TABLE `user_histroy_modify` (
   `ID` int(11) NOT NULL,
-  `userid` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `UID` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
+  `time` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishID` int(11) NOT NULL,
   `iID` int(11) NOT NULL,
+  `iportion` int(11) NOT NULL,
   `portion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 傾印資料表的資料 `user_histroy_modify`
+--
+
+INSERT INTO `user_histroy_modify` (`ID`, `UID`, `date`, `time`, `dishID`, `iID`, `iportion`, `portion`) VALUES
+(17, '234', '2022-10-18', '19:51', 3, 189, 300, 1),
+(18, '234', '2022-10-18', '19:51', 3, 382, 100, 1),
+(19, '234', '2022-10-18', '19:51', 3, 230, 5, 1);
 
 --
 -- 已傾印資料表的索引
@@ -4892,6 +4911,12 @@ ALTER TABLE `t_user_add`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- 資料表索引 `t_user_histroy_modify`
+--
+ALTER TABLE `t_user_histroy_modify`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- 資料表索引 `user`
 --
 ALTER TABLE `user`
@@ -4935,13 +4960,19 @@ ALTER TABLE `recipe`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_newrecipe`
 --
 ALTER TABLE `t_newrecipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_add`
 --
 ALTER TABLE `t_user_add`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_histroy_modify`
+--
+ALTER TABLE `t_user_histroy_modify`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
@@ -4953,7 +4984,7 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user_histroy_modify`
 --
 ALTER TABLE `user_histroy_modify`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
