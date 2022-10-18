@@ -113,7 +113,7 @@
 								$a=$a+1;
 							}
 
-							for($i=1;$i<count($sqldishID);$i++){
+							for($i=0;$i<count($sqldishID);$i++){
 								if($i<count($sqldishID)-1){
 									if($sqldishID[$i]==$sqldishID[$i+1]){
 										if($sqldishID[$i]!=$sqldishID[$i-1]){

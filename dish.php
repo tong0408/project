@@ -80,8 +80,7 @@
 				$dish_Name=$row['dishName'];
 				$_SESSION['dish_Name']=$dish_Name;
 			}
-
-
+			
 			$query = "SELECT count(ID) FROM t_user_histroy_modify WHERE `UID`=$userID";
 			$result = $link->query($query);
 			$count = $result->fetchColumn();
