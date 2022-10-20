@@ -183,11 +183,43 @@
 				}
 				
 			}
-
 			?>
 			</table>
+			<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
 			<input type="submit" class="btn" id="newbutton" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
 		</form>
+		<div id="template" style="display:none;">
+			<table>
+				<tr class="row_data">
+					<td><input list="brow" name="ingredients[]" id="idata"><datalist id="brow">
+					<?php
+						$query = "SELECT * FROM `ingredients` ";
+						$result = $link->query($query);
+						
+						foreach($result as $row){
+							$iID=$row["iID"];
+							$Name=$row["name"];
+							$Nid=$row["NID"];
+							
+							echo '<option value="'.$Name.'" id="'.$iID.'">';
+							echo $Nid;
+						}
+					?>
+					</datalist></td>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" required></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </body>
+<script> 
+	var TheSelectedValue = function() {
+		var val = document.getElementById('idata').value;
+		var text = $('#brow').find('option[value="' + val + '"]').attr('id');
+		document.write(text);
+	 }
+	$('body').on('click','#add_row',function(){
+        $('#template').find('.row_data').clone().appendTo($('#append_position'));
+    });
+</script> 
 </html>
