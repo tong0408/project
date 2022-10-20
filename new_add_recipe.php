@@ -9,9 +9,11 @@
     $userid= $_SESSION['userID'];
 
     for($i=0;$i<count($new_ingredients);$i++){
-        $query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-        VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
-        $count = $link->exec($query);
+		if($new_ingredients[$i]!=null){
+			$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+			VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+			$count = $link->exec($query);
+		}
     }
     
 ?>
