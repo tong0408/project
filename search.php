@@ -162,7 +162,7 @@
 								//透過strpos函數判斷是否包含使用者輸入
 									if (strpos($row["dishName"], $s) !== false) {
 										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';
+										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" ></td>';
 										echo "</tr>";
 										$n++;
 									}
@@ -176,7 +176,7 @@
 								foreach ($result as $row) {
 									$n++;
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';
+									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
 									echo "</tr>";
 									if ($n == 10) break;
 								}
