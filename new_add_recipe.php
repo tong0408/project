@@ -41,7 +41,7 @@
     <div class="form1">
 		<form method="POST" action="new_add_recipephp.php">
 				<table style="margin:auto;" id="append_position">
-				<tr><td>分類</td><td>食材</td><td>份量(克)</td><td>醣類(克)</td><td>脂肪(克)</td><td>蛋白質(克)</td><td>卡路里</td></tr>
+				<tr><td>分類</td><td>食材</td><td>份量(克)</td><td>熱量(克)</td><td>蛋白質(克)</td><td>脂肪(克)</td><td>碳水化合物/醣類(克)</td><td>糖類(克)</td><td>鈉(克)</td></tr>
 				<tr class="row_data">
                 <td><input list="brow" name="new_nutrient[]" id="ndata"><datalist id="brow">
 					<?php
@@ -58,10 +58,12 @@
 					</datalist></td>
 				<td><input type="text" name="new_ingredients[]" maxlength="10" required></td>
 				<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent1[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent2[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent3[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent4[]" maxlength="10" required></td></tr>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="cal[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="protein[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="fat[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="carbohydrate[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="totalsugar[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="sodium[]" maxlength="10" required></td></tr>
 				</table>
 				<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
 				<input type="submit" class="btn" value="新增" >
@@ -84,11 +86,12 @@
 					</datalist></td>
 					<td><input type="text" name="new_ingredients[]" maxlength="10" required></td>
 					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>
-                    <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent1[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent2[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent3[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="NutritionalContent4[]" maxlength="10" required></td>
-				    </tr>
+                    <td><input type="number" step="0.1" min="0.1" max="1000.0" name="cal[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="protein[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="fat[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="carbohydrate[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="totalsugar[]" maxlength="10" required></td>
+                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="sodium[]" maxlength="10" required></td></tr>
 			</table>
 		</div>
 	</div>	

@@ -7,10 +7,12 @@
   $new_nutrient = isset($_POST["new_nutrient"]) ? $_POST["new_nutrient"] : null; //新增六大類
   $new_ingredients = isset($_POST["new_ingredients"]) ? $_POST["new_ingredients"] : null; //新增食材
   $new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //新增份量
-  $NutritionalContent1 = isset($_POST["NutritionalContent1"]) ? $_POST["NutritionalContent1"] : null; //新增醣類
-  $NutritionalContent2 = isset($_POST["NutritionalContent2"]) ? $_POST["NutritionalContent2"] : null; //新增蛋白質
-  $NutritionalContent3 = isset($_POST["NutritionalContent3"]) ? $_POST["NutritionalContent3"] : null; //新增大卡
-  $NutritionalContent4 = isset($_POST["NutritionalContent4"]) ? $_POST["NutritionalContent4"] : null; //新增大卡
+  $carbohydrate = isset($_POST["carbohydrate"]) ? $_POST["carbohydrate"] : null; //新增碳水（醣類）
+  $fat = isset($_POST["fat"]) ? $_POST["fat"] : null; //新增脂肪
+  $cal = isset($_POST["cal"]) ? $_POST["cal"] : null; //新增熱量
+  $protein = isset($_POST["protein"]) ? $_POST["protein"] : null; //新增蛋白質
+  $totalsugar = isset($_POST["totalsugar"]) ? $_POST["totalsugar"] : null; //新增糖類
+  $sodium = isset($_POST["sodium"]) ? $_POST["sodium"] : null; //新增鈉
   
   $userid= $_SESSION['userID'];
   
@@ -46,35 +48,10 @@
       $count = $result->fetchColumn();
 
         if($count==0){
-            if($category==1){
-                //全榖雜糧 NutritionalContent1=醣類 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent1[$i],$category)";
-                $count = $link->exec($query);
-            }else if($category==2){
-                //蛋豆魚肉 NutritionalContent3=蛋白質 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent3[$i],$category)";
-                $count = $link->exec($query);
-            }else if($category==3){
-                //乳品 NutritionalContent3=蛋白質 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent3[$i],$category)";
-            }else if($category==4){
-                //蔬菜 NutritionalContent4=熱量 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent4[$i],$category)";
-            }else if($category==5){
-                //水果 NutritionalContent4=熱量 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent4[$i],$category)";
-            }else if($category==6){
-                //堅果 NutritionalContent2=脂肪 新增至ingredients
-                $query = "INSERT INTO `ingredients`(`name`,`NutritionalContent`, `NID`) 
-                VALUES ('$new_ingredients[$i]',$NutritionalContent2[$i],$category)";
-            }else if($category==7){
-
-            }
+            //新增至ingredients
+            $query = "INSERT INTO `ingredients`(`name`, `NID`,`cal`,`protein`,`fat`,`saturatedfat`,`carbohydrate`,`totalsugar`,`sodium`) 
+            VALUES ('$dishName',$category,$cal[$i],$protein[$i],$fat[$i],$saturatedfat[$i],$carbohydrate[$i],$totalsugar[$i],$sodium[$i])";
+            $count = $link->exec($query);
 
             //新增至t_newrecipe
             $query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
