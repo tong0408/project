@@ -185,7 +185,7 @@
 			}
 			?>
 			</table>
-			<!--<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>-->
+			<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
 			<input type="submit" class="btn" id="newbutton" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
 		</form>
 
