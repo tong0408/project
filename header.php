@@ -81,7 +81,7 @@
     <div class="w3-right w3-hide-small top">
 	<ul class="drop-down-menu">
       <li><a href="daily_diet.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-cutlery"></i>每日飲食紀錄</a></li>
-      <li><a href="chart.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-search"></i>營養素圖表</a></li>
+      <li><a href="chart.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-search"></i>六大類圖表</a></li>
       <li><a href="menu.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-book"></i>推薦菜單</a></li>   
       <li><a class="w3-bar-item w3-button"><i class="glyphicon glyphicon-user"></i>個人檔案</a>
 		<ul>

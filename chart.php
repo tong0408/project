@@ -600,7 +600,7 @@ if(t1.length==8){
 }
 
 //切換
-//問題2:切換月or週&營養素
+//問題2:切換月or週&六大類
 window.onload=function(){
 	//buttonid
 	var bmonth=document.getElementById("month");
@@ -1009,7 +1009,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==1){//營養素ID
+													if(iID_NID1[m]==1){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/15;
 															portion[i]=Math.round(r*10)/10;
@@ -1023,7 +1023,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==1){//營養素ID
+													if(iID_NID1[m]==1){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/15;
 															portion[i]=Math.round(r*10)/10;
@@ -1041,7 +1041,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==1){//營養素ID
+												if(iID_NID1[m]==1){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/15;
 														portion[i]=Math.round(r*10)/10;
@@ -1068,7 +1068,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==1){//營養素ID
+													if(iID_NID10[m]==1){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/15;
 															portion[i]=Math.round(r*10)/10;
@@ -1082,7 +1082,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==1){//營養素ID
+													if(iID_NID10[m]==1){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/15;
 															portion[i]=Math.round(r*10)/10;
@@ -1100,7 +1100,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==1){//營養素ID
+												if(iID_NID10[m]==1){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/15;
 														portion[i]=Math.round(r*10)/10;
@@ -1127,7 +1127,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -1175,7 +1175,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==2){//營養素ID
+													if(iID_NID1[m]==2){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/7;
 															portion[i]=Math.round(r*10)/10;
@@ -1189,7 +1189,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==2){//營養素ID
+													if(iID_NID1[m]==2){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/7;
 															portion[i]=Math.round(r*10)/10;
@@ -1207,7 +1207,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==2){//營養素ID
+												if(iID_NID1[m]==2){//六大類ID
 													document.write(sqlportion1[m]+",");
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/7;
@@ -1232,7 +1232,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==2){//營養素ID
+													if(iID_NID10[m]==2){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/7;
 															portion[i]=Math.round(r*10)/10;
@@ -1246,7 +1246,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==2){//營養素ID
+													if(iID_NID10[m]==2){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/7;
 															portion[i]=Math.round(r*10)/10;
@@ -1264,7 +1264,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==2){//營養素ID
+												if(iID_NID10[m]==2){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/7;
 														portion[i]=Math.round(r*10)/10;
@@ -1290,7 +1290,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -1338,7 +1338,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==3){//營養素ID
+													if(iID_NID1[m]==3){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/8;
 															portion[i]=Math.round(r*10)/10;
@@ -1352,7 +1352,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==3){//營養素ID
+													if(iID_NID1[m]==3){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/8;
 															portion[i]=Math.round(r*10)/10;
@@ -1370,7 +1370,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==3){//營養素ID
+												if(iID_NID1[m]==3){//六大類ID
 													document.write(sqlportion1[m]+",");
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/8;
@@ -1395,7 +1395,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==3){//營養素ID
+													if(iID_NID10[m]==3){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/8;
 															portion[i]=Math.round(r*10)/10;
@@ -1409,7 +1409,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==3){//營養素ID
+													if(iID_NID10[m]==3){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/8;
 															portion[i]=Math.round(r*10)/10;
@@ -1427,7 +1427,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==3){//營養素ID
+												if(iID_NID10[m]==3){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/8;
 														portion[i]=Math.round(r*10)/10;
@@ -1453,7 +1453,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -1501,7 +1501,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==4){//營養素ID
+													if(iID_NID1[m]==4){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/25;
 															portion[i]=Math.round(r*10)/10;
@@ -1515,7 +1515,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==4){//營養素ID
+													if(iID_NID1[m]==4){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/25;
 															portion[i]=Math.round(r*10)/10;
@@ -1533,7 +1533,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==4){//營養素ID
+												if(iID_NID1[m]==4){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/25;
 														portion[i]=Math.round(r*10)/10;
@@ -1557,7 +1557,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==4){//營養素ID
+													if(iID_NID10[m]==4){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/25;
 															portion[i]=Math.round(r*10)/10;
@@ -1571,7 +1571,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==4){//營養素ID
+													if(iID_NID10[m]==4){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/25;
 															portion[i]=Math.round(r*10)/10;
@@ -1589,7 +1589,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==4){//營養素ID
+												if(iID_NID10[m]==4){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/25;
 														portion[i]=Math.round(r*10)/10;
@@ -1615,7 +1615,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -1663,7 +1663,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==5){//營養素ID
+													if(iID_NID1[m]==5){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/60;
 															portion[i]=Math.round(r*10)/10;
@@ -1677,7 +1677,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==5){//營養素ID
+													if(iID_NID1[m]==5){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/60;
 															portion[i]=Math.round(r*10)/10;
@@ -1695,7 +1695,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==5){//營養素ID
+												if(iID_NID1[m]==5){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/60;
 														portion[i]=Math.round(r*10)/10;
@@ -1719,7 +1719,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==5){//營養素ID
+													if(iID_NID10[m]==5){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/60;
 															portion[i]=Math.round(r*10)/10;
@@ -1733,7 +1733,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==5){//營養素ID
+													if(iID_NID10[m]==5){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/60;
 															portion[i]=Math.round(r*10)/10;
@@ -1751,7 +1751,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==5){//營養素ID
+												if(iID_NID10[m]==5){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/60;
 														portion[i]=Math.round(r*10)/10;
@@ -1777,7 +1777,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -1825,7 +1825,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==9){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID1[m]==6){//營養素ID
+													if(iID_NID1[m]==6){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/5;
 															portion[i]=Math.round(r*10)/10;
@@ -1839,7 +1839,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID1[m]==6){//營養素ID
+													if(iID_NID1[m]==6){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion1[m])/5;
 															portion[i]=Math.round(r*10)/10;
@@ -1857,7 +1857,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID1[m]==6){//營養素ID
+												if(iID_NID1[m]==6){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion1[m])/5;
 														portion[i]=Math.round(r*10)/10;
@@ -1881,7 +1881,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
-													if(iID_NID10[m]==6){//營養素ID
+													if(iID_NID10[m]==6){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/5;
 															portion[i]=Math.round(r*10)/10;
@@ -1895,7 +1895,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-													if(iID_NID10[m]==6){//營養素ID
+													if(iID_NID10[m]==6){//六大類ID
 														if(portion[i]==null){
 															r=parseInt(sqlportion10[m])/5;
 															portion[i]=Math.round(r*10)/10;
@@ -1913,7 +1913,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											}
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
-												if(iID_NID10[m]==6){//營養素ID
+												if(iID_NID10[m]==6){//六大類ID
 													if(portion[i]==null){
 														r=parseInt(sqlportion10[m])/5;
 														portion[i]=Math.round(r*10)/10;
@@ -1939,7 +1939,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[6],mmdd[5], mmdd[4], mmdd[3], mmdd[2], mmdd[1], mmdd[0]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[6], portion[5], portion[4], portion[3], portion[2], portion[1],portion[0]],//改數值
 									backgroundColor: [
 										'rgba(255, 99, 132, 0.2)',
@@ -2040,7 +2040,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2136,7 +2136,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2232,7 +2232,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2331,7 +2331,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2427,7 +2427,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2523,7 +2523,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '營養素圖表-月 / 單位:克',
+									label: '六大類圖表-月 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2565,3 +2565,4 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 
 </body>
 </html>
+

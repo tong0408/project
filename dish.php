@@ -62,9 +62,11 @@
 </style>
 </head>
 	
-</script>
+
 
 <body>
+
+<?php include("header.php"); ?>
 <a href="enter_diet_platform.php"><button class="btn1 return">返回</button></a>
     <div class="form1">
 		<form method="POST" action="search_dish_modify.php">

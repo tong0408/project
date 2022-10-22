@@ -75,8 +75,10 @@
 		tr{height:60px;}
 	</style>
     <body>
+	
+<?php include("header.php"); ?>
         <!--登出-->
-        <br>
+        
 	<div class="form1" style="width:50%;">
 		<a href="index.php"><button class="btn" style="position: absolute; left: 27%; border-radius:10px;">返回</button></a><br>			
 			<form method="POST" action="">

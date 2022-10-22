@@ -21,22 +21,27 @@
 		select{margin:10px 0px 10px 0px; width:100%; height:35px;}			
 		img{margin:10px 0px 10px 0px;}
 		tr{height:60px;}
+		.pw { 
+			-webkit-text-security: disc; 
+			}
 	</style>
     <body>
+	
+<?php include("header.php"); ?>
         <!--登出-->
-        <br>
+        
 	<div class="form1" style="width:50%;">
 		<a href="index.php"><button class="btn" style="position: absolute; left: 27%; border-radius:10px;">返回</button></a><br>			
-			<form method="POST" action="">
+			<form method="POST" action="user_pwd_enter.php">
 				<table style="margin:auto;">				
 				<tr><td>目前密碼：</td>
-				<td><input type="text" name="old_pwd"></td>
+				<td><input type="text" class="pw"  name="old_pwd"></td>
 				</tr>
 				<tr><td>新密碼：</td>
-				<td><input type="text" name="new_pwd"></td>
+				<td><input type="text" class="pw"  name="new_pwd"></td>
 				</tr>
 				<tr><td>再次輸入新密碼：</td>
-				<td><input type="text" name="check_pwd"></td>
+				<td><input type="text"  class="pw" name="check_pwd"></td>
 				</tr>
 				
 				<tr><td colspan="2"><button type="submit" class="btn" >修改</button></td>
@@ -45,8 +50,7 @@
 			</form>
 			
 		</div>
-		<br>
-        <br><br><br>
+		
 
 
     </body>
