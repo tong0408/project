@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2022 年 10 月 21 日 07:19
--- 伺服器版本： 10.4.21-MariaDB
--- PHP 版本： 8.1.6
+-- 主機： 127.0.0.1
+-- 產生時間： 2022-10-22 18:38:15
+-- 伺服器版本： 10.4.19-MariaDB
+-- PHP 版本： 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `project`
 --
+CREATE DATABASE IF NOT EXISTS `project` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `project`;
 
 -- --------------------------------------------------------
 
@@ -606,9 +608,7 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 (575, '日式親子丼', '1.雞腿切塊 洋蔥切絲 日式醬油、米酒、味霖倒在一起\n2.首先拿小平底鍋放一丁點油 加熱後皮朝下煎雞腿\n3.雞腿翻面煎上色後加入洋蔥絲略炒一下\n4.再倒入醬汁小火煮三分鐘讓雞腿熟透\n5.雞蛋打散先均勻倒入2/3的量 晃動鍋子使蛋液全熟\n6.將剩餘蛋液淋在表面關火 稍微等十秒後即可倒入飯上\n7.從飯的邊邊慢慢倒入\n8.完成'),
 (576, '清炒大白菜', '1.熱鍋、下一大匙油。\n2.爆香薑絲，然後先放入白菜柄的部分拌炒個兩三分鐘。\n3.最後放入白菜葉子的部分(此時鍋子已經滿滿的了)，壓住鍋蓋燜5分鐘。然後就會看到菜一直縮水了。\n4.開蓋後整鍋大概只剩下一半量，此時放入適量鹽調味，拌勻即可。'),
 (577, '鮭魚炒四季豆', '1.四季豆洗淨切丁\n2.鮭魚稍微煎一下表面\n3.切丁\n4.下油起鍋，蒜末先爆香鍋，再下鮭魚炒熱\n5.下四季豆一起炒\n6.蓋上蓋子悶兩分鐘\n7.打開蓋下醬油調味炒匀即可'),
-(578, '照燒雞腿飯', '1.先將雞腿雙面煎至金黃色，接著下調味料小火煮10分鐘，醬汁黏稠即完成\n2.煮一鍋水，加鹽巴，將花椰菜燙熟\n3.雞腿灑上白芝麻，加上白飯及花椰菜擺盤即完成！'),
-(579, '', ''),
-(580, '', '');
+(578, '照燒雞腿飯', '1.先將雞腿雙面煎至金黃色，接著下調味料小火煮10分鐘，醬汁黏稠即完成\n2.煮一鍋水，加鹽巴，將花椰菜燙熟\n3.雞腿灑上白芝麻，加上白飯及花椰菜擺盤即完成！');
 
 -- --------------------------------------------------------
 
@@ -2962,7 +2962,8 @@ INSERT INTO `ingredients` (`iID`, `name`, `NID`, `cal`, `protein`, `fat`, `satur
 (2345, '蓮花芒果', 5, 47, 0.4, 0.2, 0.1, 12.2, 10.5, 0),
 (2346, '麥芽糖粉', 7, 380, 0, 0, 0, 95.1, 95.1, 0),
 (2347, '柴魚湯包', 8, 28, 1, 0.1, 0, 5.8, 2.4, 943),
-(2348, '豆鼓', 8, 11.9, 1.1, 0.6, 0.1, 0.5, 0, 313);
+(2348, '豆鼓', 8, 11.9, 1.1, 0.6, 0.1, 0.5, 0, 313),
+(2349, 'Array', 1, 1, 1, 1, NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2989,7 +2990,8 @@ INSERT INTO `nutrient` (`NID`, `category`, `fat`, `protein`, `glyco`) VALUES
 (4, '蔬菜類', 0, 1, 5),
 (5, '水果類', 0, 0, 15),
 (6, '油脂與堅果種子類', 5, 0, 0),
-(7, '調味料', 0, 0, 0);
+(7, '調味料', 0, 0, 0),
+(8, '加工食品', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -6297,6 +6299,13 @@ CREATE TABLE `t_user_add` (
   `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- 傾印資料表的資料 `t_user_add`
+--
+
+INSERT INTO `t_user_add` (`ID`, `UID`, `dishName`) VALUES
+(9, '234', '鴨肉飯');
+
 -- --------------------------------------------------------
 
 --
@@ -6353,7 +6362,7 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 (8, '555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '123', '生理男', '2022-09-29', 0, 111, 111, 90.0901, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (9, '5555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '111', '生理男', '2022-09-29', 0, 111, 11, 8.92785, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (10, '3322', '$2y$10$tb0OCE9.KQTuh//UuCJo/u3tNNNo0hhPtyI/LEAnh5iCXCnNWPv06', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '肝硬化', '0', '0', '0', '0', '0', '0'),
-(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '高血壓', '慢性下呼吸道疾病', '0', '0', '0', '0', '0');
+(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -6454,10 +6463,22 @@ ALTER TABLE `user_histroy_modify`
 --
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `dish`
+--
+ALTER TABLE `dish`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=579;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
 --
 ALTER TABLE `history`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `ingredients`
+--
+ALTER TABLE `ingredients`
+  MODIFY `iID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2350;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipe`
@@ -6469,13 +6490,13 @@ ALTER TABLE `recipe`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_newrecipe`
 --
 ALTER TABLE `t_newrecipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_add`
 --
 ALTER TABLE `t_user_add`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_histroy_modify`

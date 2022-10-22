@@ -11,15 +11,22 @@
 	if($new_dish==null){
 		echo "<script>alert('請輸入菜名！')</script>";
         echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";
-	}
-
-    for($i=0;$i<count($new_ingredients);$i++){
-		if($new_ingredients[$i]!=null){
+	}else{
+		if(count($new_ingredients)==0){
+			for($i=0;$i<count($new_ingredients);$i++){
+				if($new_ingredients[$i]!=null){
+					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+					VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+					$count = $link->exec($query);
+				}
+			}
+		}else{
 			$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-			VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+			VALUES('$userid','$new_dish','0','0')";
 			$count = $link->exec($query);
 		}
-    }
+		
+	}
     
 ?>
 <html>

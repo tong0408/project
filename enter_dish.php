@@ -53,5 +53,5 @@
 						}
 				}
 					
-	//header("Location: enter_diet_platform.php");
+	header("Location: enter_diet_platform.php");
 ?>
