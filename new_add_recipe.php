@@ -8,6 +8,11 @@
     $new_portion = isset($_POST["portion"]) ? $_POST["portion"] : null; //新增份量
     $userid= $_SESSION['userID'];
 
+	if($new_dish==null){
+		echo "<script>alert('請輸入菜名！')</script>";
+        echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";
+	}
+
     for($i=0;$i<count($new_ingredients);$i++){
 		if($new_ingredients[$i]!=null){
 			$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
@@ -67,7 +72,7 @@
 				</table>
 				<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
 				<input type="submit" class="btn" value="新增" >
-		</form>	
+		</form>
 		<div id="template" style="display:none;">
 			<table>
 				<tr class="row_data">
@@ -85,13 +90,13 @@
 					?>
 					</datalist></td>
 					<td><input type="text" name="new_ingredients[]" maxlength="10" required></td>
-					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>
-                    <td><input type="number" step="0.1" min="0.1" max="1000.0" name="cal[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="protein[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="fat[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="carbohydrate[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="totalsugar[]" maxlength="10" required></td>
-                <td><input type="number" step="0.1" min="0.1" max="1000.0" name="sodium[]" maxlength="10" required></td></tr>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" ></td>
+                    <td><input type="number" step="0.1" min="0.1" max="1000.0" name="cal[]" maxlength="10" ></td>
+                	<td><input type="number" step="0.1" min="0.1" max="1000.0" name="protein[]" maxlength="10" ></td>
+                	<td><input type="number" step="0.1" min="0.1" max="1000.0" name="fat[]" maxlength="10" required></td>
+                	<td><input type="number" step="0.1" min="0.1" max="1000.0" name="carbohydrate[]" maxlength="10" ></td>
+                	<td><input type="number" step="0.1" min="0.1" max="1000.0" name="totalsugar[]" maxlength="10" ></td>
+                	<td><input type="number" step="0.1" min="0.1" max="1000.0" name="sodium[]" maxlength="10" ></td></tr>
 			</table>
 		</div>
 	</div>	

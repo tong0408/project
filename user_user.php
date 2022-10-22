@@ -161,8 +161,10 @@
                                 break;
                             }
                     }
-                    #修改疾病
-					if(count($new_disease,0)>1 && $tmp_disease[0]=="無"){
+                    
+					#要改！！！！！！！！！！！！！！！！！！！！！！
+					#修改疾病
+					if(count($new_disease,0)>1 && $new_disease[0]="無"){
 						echo "<script>alert('疾病選擇錯誤（選擇無也有選擇疾病），請重新輸入！')</script>";
 						echo "<meta http-equiv=REFRESH CONTENT=0;url='user_user.php'>";
 		

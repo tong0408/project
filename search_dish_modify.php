@@ -10,6 +10,7 @@
 	$ingredients = isset($_POST["ingredients"]) ? $_POST["ingredients"] : null; //修改的食材名稱
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //修改的份量
 
+    echo 1;
 	for($i=0;$i<count($ingredients);$i++){
         //搜尋食材名稱
         $query = "SELECT iID FROM `ingredients` WHERE `name`='$ingredients[$i]'";
@@ -25,5 +26,5 @@
         
     }
 
-	header("Location: enter_diet_platform.php");
+	//header("Location: enter_diet_platform.php");
   ?>

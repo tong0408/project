@@ -23,7 +23,7 @@
   foreach($result as $row){
       $dishName=$row["dishName"];
   }
-  
+
   //改六大類文字變ID
     for($i=0;$i<count($new_ingredients);$i++){
       if($new_nutrient[$i]=="全榖雜糧類"){
