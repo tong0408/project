@@ -26,9 +26,10 @@
 <body>
 <?php include("header.php"); ?>
 <a href="enter_diet_platform.php"><button class="btn1 return">返回</button></a>
-如果沒有找到食材可以<button type="button" class="btn" id="add" onclick="SubmitForm(this.id)">新增食材</button>
 
 <div class="form1">
+<div style="text-align:left;">若以下沒有，請自行新增食材&emsp;<button type="button" class="btn" id="add" onclick="SubmitForm(this.id)">新增食材</button></div>
+<br>
 		<form id="myform" method="POST" action="enter_recipe.php">
 			<?php
 			    //先至t_newrecipe搜尋UID是否存在
@@ -38,6 +39,7 @@
 				//if count=0
 				if($count==0){
 					echo '菜名：<input type="text" name="new_dish" id="new_dish" maxlength="10" required>
+					
 					<table style="margin:auto;" id="append_position">
 					<tr><td>食材</td><td>份量(克)</td></tr>
 					<tr class="row_data">
