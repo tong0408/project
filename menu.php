@@ -219,90 +219,42 @@
 
 
 	function function_category($user_cal){
-		global $category_1;
-		global $category_2;
-		global $category_3;
-		global $category_4;
-		global $category_5;
-		global $category_6;
-		global $category_7;
+		global $goal_category;
 		#設定使用者今天要攝取的六大類(單位:份)(全域變數)
 		# 1 = 全穀物雜糧類
 		# 2 = 蛋豆魚肉類
 		# 3 = 乳品類
 		# 4 = 蔬菜類
 		# 5 = 水果類
-		# 6 = 油脂類
-		# 7 = 堅果種子類
+		# 6 = 油脂類與堅果種子類
+
 		if($user_cal<1500){
 			#大卡數<1500
-			$category_1=1.5;
-			$category_2=3;
-			$category_3=1.5;
-			$category_4=3;
-			$category_5=2;
-			$category_6=3;
-			$category_7=1;
+			$goal_category=array(1.5,3,1.5,3,2,4);
 		}
 		else if($user_cal<1800){
 			#1500<=大卡數<1800
-			$category_1=2.5;
-			$category_2=4;
-			$category_3=1.5;
-			$category_4=3;
-			$category_5=2;
-			$category_6=3;
-			$category_7=1;
+			$goal_category=array(2.5,4,1.5,3,2,4);
 		}
 		else if($user_cal<2000){
 			#1800<=大卡數<2000
-			$category_1=3;
-			$category_2=5;
-			$category_3=1.5;
-			$category_4=3;
-			$category_5=2;
-			$category_6=4;
-			$category_7=1;		
+			$goal_category=array(3,5,1.5,3,2,5);
 		}
 		else if($user_cal<2200){
 			#2000<=大卡數<2200
-			$category_1=3;
-			$category_2=6;
-			$category_3=1.5;
-			$category_4=4;
-			$category_5=3;
-			$category_6=5;
-			$category_7=1;		
+			$goal_category=array(3,6,1.5,4,3,6);
 		}
 		else if($user_cal<2500){
 			#2200<=大卡數<2500
-			$category_1=3.5;
-			$category_2=6;
-			$category_3=1.5;
-			$category_4=4;
-			$category_5=3.5;
-			$category_6=5;
-			$category_7=1;	
+			$goal_category=array(3.5,6,1.5,4,3.5,6);
 		}
 		else if($user_cal<2700){
 			#2500<=大卡數<2700
-			$category_1=4;
-			$category_2=7;
-			$category_3=1.5;
-			$category_4=5;
-			$category_5=4;
-			$category_6=6;
-			$category_7=1;	
+			$goal_category=array(4,7,1.5,5,4,7);
 		}
 		else{
-			#大卡數>2700
-			$category_1=4;
-			$category_2=8;
-			$category_3=2;
-			$category_4=5;
-			$category_5=4;
-			$category_6=7;
-			$category_7=1;	
+			#大卡數=>2700
+			$goal_category=array(4,8,2,5,4,8);
 		}
 	}
 	
@@ -425,18 +377,21 @@
 	$user_goal_cal=$goal_glyco*4+$goal_fat*9+$goal_protein*4;
 	function_category($user_goal_cal);
 
+	include("menu_decide.php");
+
 	#抓取資料庫獲取目前吃的營養素
-	$now_cal=0;
-	$now_category_1=0;
-	$now_category_2=0;
-	$now_category_3=0;
-	$now_category_4=0;
-	$now_category_5=0;
-	$now_category_6=0;
-	$now_category_7=0;
+	/**$now_cal=0;
+	$now_category_1=0; #全榖雜糧，每份醣類15g
+	$now_category_2=0; #蛋豆魚肉，每份蛋白質7g
+	$now_category_3=0; #乳品類，每份蛋白質8g
+	$now_category_4=0; #蔬菜類，每份25大卡
+	$now_category_5=0; #水果類，每份60大卡
+	$now_category_6=0; #油脂與堅果種子類，每份脂肪5g
 	$now_glyco=0;
 	$now_fat=0;
-	$now_protein=0;
+	$now_protein=0;**/
+
+
 
     echo "<h3><b>".$Name." 您好！</b></h3><br>
 	您的疾病為：「";
@@ -455,20 +410,18 @@
 	<td><b>乳品類</b></td>
 	<td><b>蔬菜類</b></td>
 	<td><b>水果類</b></td>
-	<td><b>油脂類</b></td>
-	<td><b>堅果種子類</b></td>
+	<td><b>油脂與堅果種子類</b></td>
 	<td><b>醣類</b></td>
 	<td><b>脂質</b></td>
 	<td><b>蛋白質</b></td>
 	</tr>
 	<tr>
-	<td><b>$now_category_1/$category_1 份</b></td>
-	<td><b>$now_category_2/$category_2 份</b></td>
-	<td><b>$now_category_3/$category_3 份</b></td>
-	<td><b>$now_category_4/$category_4 份</b></td>
-	<td><b>$now_category_5/$category_5 份</b></td>
-	<td><b>$now_category_6/$category_6 份</b></td>
-	<td><b>$now_category_7/$category_7 份</b></td>
+	<td><b>$now_category[0]/$goal_category[0] 份</b></td>
+	<td><b>$now_category[1]/$goal_category[1] 份</b></td>
+	<td><b>$now_category[2]/$goal_category[2] 份</b></td>
+	<td><b>$now_category[3]/$goal_category[3] 份</b></td>
+	<td><b>$now_category[4]/$goal_category[4] 份</b></td>
+	<td><b>$now_category[5]/$goal_category[5] 份</b></td>
 	<td><b>$now_glyco/$goal_glyco g</b></td>
 	<td><b>$now_fat/$goal_fat g</b></td>
 	<td><b>$now_protein/$goal_protein g</b></td>
@@ -533,7 +486,7 @@
 	</div>
 	<div class="container2">
 		<div class="box" id="right">				
-			點選菜名查看料理方式<br><br>
+			<b>點選左側菜名查看料理方式</b><br><br>
 				<div id="getdish">&nbsp;</div>
 				<div class="get" id="gettitle">&nbsp;</div>
 			</div>
