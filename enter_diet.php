@@ -15,10 +15,17 @@
 	$dishname = isset($_POST["dish"]) ? $_POST["dish"] : null; //菜名
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //份量
 	$d=0;
+
 	for($b=0;$b<count($dishname);$b++){
-		if($new_portion[$b]==null){
-			$d=1;
+		$query = "SELECT * FROM dish where `dishName`='$dishname[$b]'";
+		$result = $link->query($query);
+		foreach($result as $row){
+			$dishID=$row["ID"];
+			if($new_portion[$dishID-1]==null){
+				$d=1;
+			}
 		}
+		
 	}
 	$userid= $_SESSION['userID'];
 	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
@@ -89,12 +96,12 @@
 		$sql = "DELETE FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
 		// 用mysqli_query方法執行(sql語法)將結果存在變數中
 		$count = $link->exec($sql);
-
+		$d=0;
 		header("Location: record.php");
 	}else{
 		echo "<script>alert('份量要記得輸入喔！')</script>";
 	    echo "<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>";
 		
 	}
-		
+	
   ?>
