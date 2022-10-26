@@ -444,66 +444,33 @@
 ?>
 	<div class="box" id="left">
 		<table width="200">				
-			<?PHP			
-				$query = "SELECT count(dishID) FROM t_menugetid ";
-				$result = $link->query($query);
-				$count = $result->fetchColumn();
-				if($count==0){
-					$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID LIMIT 9";
-					$result = $link->query($query);	
-
-					//取得所有需要的資料
-					foreach ($result as $row){				
-						//取得欄位數量
-						$i=0;
-						while($i<10){
-							$tmp = rand(0,$count_use_recommend_dishID);
-							$i++;
-							break;
-						}
-						$dishID = $use_recommend_dishID[$tmp];
-						$dishname = $use_recommend_dishName[$tmp];
-						$method = $use_recommend_method[$tmp];
-							
-						//顯示結果
-						echo '<tr>'.
-						//菜名
-						'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
-					}
-				} 
-				else {
-					$query = "SELECT dishID FROM t_menugetid ";
-					$result = $link->query($query);
-					foreach ($result as $r){
-						
-						$t_dishID=$r['dishID'];
-
-						$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID WHERE `recipe`.dishID=$t_dishID";
-						$result = $link->query($query);	
-
-					//取得所有需要的資料
-					foreach ($result as $row){				
-							//取得欄位數量
-							$i=0;
-							while($i<10){
-								$tmp = rand(0,$count_use_recommend_dishID);
-								$i++;
-								break;
-							}
-							$dishID = $use_recommend_dishID[$tmp];
-							$dishname = $use_recommend_dishName[$tmp];
-							$method = $use_recommend_method[$tmp];
-							//顯示結果
-							echo '<tr>'.
-							//菜名
-							'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';
-						}
+			<?PHP		
+				$i=0;
+				$a=0;
+				$tmp=array();
+				for($j=0;$j<$count_use_recommend_dishID-1;$j++){
+					if(isset($use_recommend_dishID[$j])){
+						$tmp[$a]=$j;
+						$a++;
 					}
 				}
-				//刪除t_menugetid的資料
-				$sql = "DELETE FROM `t_menugetid` ";
-				// 用mysqli_query方法執行(sql語法)將結果存在變數中
-				$count = $link->exec($sql);				
+				//取得欄位數
+				while($i<9){
+					$tmp_rand = rand(0,$count_use_recommend_dishID-1);
+					#echo $tmp_rand.",";
+					$tmp_tmp = $tmp[$i];
+					#echo $tmp_tmp."<br>";
+					$tmp[$i]= $tmp[$tmp_rand];
+					$tmp[$tmp_rand] = $tmp_tmp;
+					$dishID = $use_recommend_dishID[$tmp[$i]];
+					$dishname = $use_recommend_dishName[$tmp[$i]];
+					$method = $use_recommend_method[$tmp[$i]];
+					$i++;
+					//顯示結果
+					echo '<tr>'.
+					//菜名
+					'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';	
+				}			
 			?>
 		<tr><td class="check"><a href="menu_button.php">查看更多</a></td></tr>
 		</table>
