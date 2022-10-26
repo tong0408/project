@@ -264,6 +264,9 @@
 		global $goal_glyco;
 	 	global $goal_fat;
 	 	global $goal_protein;
+		global $goal_suger;
+		global $goal_sodium;
+
 		#目標醣類
 		$goal_glyco=($user_cal*0.55)/4;
 		$goal_glyco=round($goal_glyco);
@@ -273,7 +276,10 @@
 		#目標脂質
 		$goal_fat=($user_cal*0.3)/9;
 		$goal_fat=round($goal_fat);
-
+		#目標糖份攝取
+		$goal_suger=($user_cal*0.1)/4;#為生福利部 國人糖攝取量上限
+		#目標鈉含量
+		$goal_sodium=2.4;#衛生福利部建議每天吃2400mg的鈉(=2.4g)
 	}
 
 
@@ -301,10 +307,12 @@
 		#脂質調整 總熱量的25%/9
 		$goal_fat=($user_cal*0.25)/9;
 		$goal_fat=round($goal_fat);
+		#世界衛生組織建議糖份攝取低於所需能量(熱量)的10%
+		$goal_suger=($user_cal*0.1)/4;
 	}
 	else if($user_disease=="高血壓"){
 		#白肉代替紅肉
-		#低鈉飲食 每日食鹽量<6g
+		#低鈉飲食 每日食鹽量<6g!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!待修正
 		$goal_sodium=6;
 	}
 	else if($user_disease=="慢性下呼吸道疾病"){
@@ -403,7 +411,7 @@
 	if($user_disease6!=0){echo "、".$user_disease6;}
 	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".$user_goal_cal."大卡。<br>
     <hr><h4><b>每日建議攝取量－目標熱量 $now_cal/".$user_goal_cal."大卡</b></h4>
-	<table width='80%'>
+	<table width='95%'>
 	<tr>
 	<td><b>全榖雜糧類</b></td>
 	<td><b>蛋豆魚肉類</b></td>
@@ -414,6 +422,8 @@
 	<td><b>醣類</b></td>
 	<td><b>脂質</b></td>
 	<td><b>蛋白質</b></td>
+	<td><b>總糖份</b></td>
+	<td><b>鈉含量</b></td>
 	</tr>
 	<tr>
 	<td><b>$now_category[0]/$goal_category[0] 份</b></td>
@@ -425,6 +435,8 @@
 	<td><b>$now_glyco/$goal_glyco g</b></td>
 	<td><b>$now_fat/$goal_fat g</b></td>
 	<td><b>$now_protein/$goal_protein g</b></td>
+	<td><b>$now_suger/$goal_suger g</td><b>
+	<td><b>$now_sodium/$goal_sodium g</b></td>
 	</tr>
 	</table>
 	<hr>
