@@ -101,6 +101,8 @@
 
     $search = array_search(min($now_category),$now_category);
     $recommend_dishID = array();
+    $recommend_dishName = array();
+    $recommend_method = array();
 
     if($search==0){ 
     #全榖雜糧量最少
@@ -119,7 +121,10 @@
                 foreach ($result as $row){
                     $recommend_dish_ID=$row["ID"];
                     $recommend_dish_Name=$row["dishName"];
+                    $recommend_dish_method=$row["method"];
                     array_push($recommend_dishID,$recommend_dish_ID);
+                    array_push($recommend_dishName,$recommend_dish_Name);
+                    array_push($recommend_method,$recommend_dish_method);
                 }
             }
         }
@@ -236,9 +241,13 @@
         }
     }
     $use_recommend_dishID = array_unique($recommend_dishID);
+    $use_recommend_dishName = array_unique($recommend_dishName);
+    $use_recommend_method = array_unique($recommend_method);
+    $count_use_recommend_dishID = count($use_recommend_dishID);
+    print_r($use_recommend_dishName);
     # 迴圈跑出推薦菜單的ID
     # foreach ($use_recommend_dishID as $use_recommend_dishID){
-    #     echo $use_recommend_dishID."<br>";
+    #    echo $use_recommend_dishID."<br>";
     # }
     # 獲取陣列內有多少個
     # echo count($use_recommend_dishID);
