@@ -12,12 +12,21 @@
 		echo "<script>alert('請輸入菜名！')</script>";
         echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";
 	}else{
-		if(count($new_ingredients)==0){
+		if(count($new_ingredients)!=0){
 			for($i=0;$i<count($new_ingredients);$i++){
-				if($new_ingredients[$i]!=null){
-					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-					VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
-					$count = $link->exec($query);
+				
+				$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
+				$result = $link->query($query);
+
+				foreach($result as $row){
+					$t_ingredients=$row["ingredients"];
+					if($new_ingredients[$i]!=null){
+						if($t_ingredients!=$new_ingredients[$i]){
+							$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+							VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+							$count = $link->exec($query);
+						}
+					}
 				}
 			}
 		}else{

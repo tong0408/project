@@ -98,7 +98,6 @@
 							$Nid=$row["NID"];
 							
 							echo '<option value="'.$Name.'" id="'.$iID.'">';
-							echo $Nid;
 						}
 					?>
 					</datalist></td>
