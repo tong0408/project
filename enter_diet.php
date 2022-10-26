@@ -15,17 +15,19 @@
 	$dishname = isset($_POST["dish"]) ? $_POST["dish"] : null; //菜名
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //份量
 	$d=0;
+	$e=0;
 
-	for($b=0;$b<count($dishname);$b++){
-		$query = "SELECT * FROM dish where `dishName`='$dishname[$b]'";
-		$result = $link->query($query);
-		foreach($result as $row){
-			$dishID=$row["ID"];
-			if($new_portion[$dishID-1]==null){
-				$d=1;
+	for($b=0;$b<20;$b++){
+		if($dishname[$b]!=null){
+			if($new_portion[$b]!=null){
+				$e=$e=1;
+			}
+			if($e!=count($dishname)){
+				if($b==20){
+					$d=1;
+				}
 			}
 		}
-		
 	}
 	$userid= $_SESSION['userID'];
 	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
