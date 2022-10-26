@@ -76,7 +76,7 @@
                     $now_category[4]=(($recipe_portion*$history_portion)*($ingredients_cal/100))/60;
                 }
                 else if($ingredients_NID==6){ #油脂與堅果種子 脂肪/5
-                    $now_category[4]=(($recipe_portion*$history_portion)*($ingredients_fat/100))/5;
+                    $now_category[5]=(($recipe_portion*$history_portion)*($ingredients_fat/100))/5;
                 }
 
                 #計算三大營養素+熱量
