@@ -33,31 +33,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style>
-	body,h1,h2,h3,h4,h5,h6 {font-family: "微軟正黑體", sans-serif}
 	
-	body, html {
-		height: 100%;
-		line-height: 1.8;
-	}
 	input[type=text]{margin:10px 0px 10px 0px; width:50%;}
 	button{margin:0px 10px 0px 10px;}
-	.form1{
-		background-color: #FFD79B;
-		border-radius:30px;
-		width:70%;
-		margin:auto;
-		padding:30px 0px;
-		text-align:center;
-	}
-	
-	.btn{
-		border-radius:10px;
-		background-color: #FFF;
-	}
-	
-	.btn:hover{
-		background-color: #FFB03B;
-	}
+	input[type=number]{margin:10px 0px 10px 0px; width:60%;}
 	td{height:50px;}
 </style>
 </head>
@@ -69,7 +48,7 @@
 <?php include("header.php"); ?>
 <a href="enter_diet_platform.php"><button class="btn1 return">返回</button></a>
     <div class="form1">
-		<form method="POST" action="search_dish_modify.php">
+		<form method="POST" action="search_dish_modify.php" >
 			<?PHP
 			$dishid = isset($_GET["id"]) ? $_GET["id"] : null; //要改的蔡id
 			$_SESSION['dishID']=$dishid;
@@ -111,8 +90,8 @@
 					//菜名
 					echo '<h5 class="modal-title" id="exampleModalLabel">'.$dish_Name.'</h5>
 					<div class="modal-body" style="text-align:center;">
-					<table style="margin:auto; width:300px;">
-					<tr><td>食材</td><td>份量</td></tr>';
+					<table style="margin:auto; width:300px;" id="append_position">
+					<tr><td style="width:140px;">食材</td><td style="width:100px;">份量(克)</td><td style="width:20px;"></td></tr>';
 					//取得菜ID使用的食材ID
 					$query = "SELECT * FROM recipe where dishID=$dishid";
 					$re = $link->query($query);
@@ -126,9 +105,10 @@
 							$iID_NID=$r['NID'];
 							$iID_Name=$r['name'];
 								//食材
-								echo '<tr><td style="height:50px; text-align:left;"><input type="checkbox" id="'.$iID_Name.'" name="ingredients[]" style="margin-right:20px" value="' . $iID_Name . '" checked>'.$iID_Name.'</td>'.
+								echo '<tr><td style="height:50px; text-align:left;">
+								<input type="checkbox" id="'.$iID_Name.'" name="ingredients[]" style="margin-right:20px" value="' . $iID_Name . '" checked>'.$iID_Name.'</td>'.
 								//份量
-								'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$iID_portion.'" name="new_portion[]">克</td></tr>';									
+								'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$iID_portion.'" name="new_portion[]"></td></tr>';									
 						}						
 					}
 				}
@@ -157,7 +137,7 @@
 							//食材
 							echo '<tr><td style="height:50px; text-align:left;"><input type="checkbox" id="'.$iID_Name.'" name="ingredients[]" style="margin-right:20px" value="' . $iID_Name . '" checked>'.$iID_Name.'</td>'.
 							//份量
-							'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$portion.'" name="new_portion[]">克</td></tr>';									
+							'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$portion.'" name="new_portion[]"></td></tr>';									
 						}
 						$a=1;				
 					}
@@ -179,7 +159,7 @@
 								//食材
 								echo '<tr><td style="height:50px; text-align:left;"><input type="checkbox" id="'.$iID_Name.'" name="ingredients[]" style="margin-right:20px" value="' . $iID_Name . '" checked>'.$iID_Name.'</td>'.
 								//份量
-								'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$iID_portion.'" name="new_portion[]">克</td></tr>';									
+								'<td style="height:50px;"><input type="number" step="0.1" min="0.1" max="1000.0" value="'.$iID_portion.'" name="new_portion[]"></td></tr>';									
 						}					
 					}
 				}
@@ -187,14 +167,14 @@
 			}
 			?>
 			</table>
-			<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:25%;"/><br>
-			<input type="submit" class="btn" id="newbutton" value="新增" style="margin:10px 10px 10px 10px; width:70%;">
+			<input type="button" value="+" id="add_row" class="btn" style="position:absolute; right:20%;"/><br>
+			<input type="submit" class="btn" value="新增" style="margin:10px 10px 10px 10px; width:20%;" id="newbutton" />
 		</form>
 
 		<div id="template" style="display:none;">
 			<table>
 				<tr class="row_data">
-					<td><input list="brow" name="ingredients[]" id="idata"><datalist id="brow">
+					<td><input list="brow" name="ingredients[]" id="idata" style="width:70%;"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
 						$result = $link->query($query);
@@ -210,6 +190,8 @@
 					?>
 					</datalist></td>
 					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" required></td>
+					
+					<td style="width:20px;"><input type="button" value="-" id="remove_row" class="btn"/></td>
 				</tr>
 			</table>
 		</div>
@@ -224,5 +206,17 @@
 	$('body').on('click','#add_row',function(){
         $('#template').find('.row_data').clone().appendTo($('#append_position'));
     });
+	$('body').on('click','#remove_row',function(){
+        $(this).parent().parent().remove();
+    });
+		$("#newbutton").click(function(){
+			var check=$("input[name='ingredients[]']:checked").length;//判斷有多少個方框被勾選
+			if(check==0){
+				alert("您尚未勾選任何項目");
+				return false;//不要提交表單
+			}else{					
+				return true;//提交表單
+			}
+		})
 </script> 
 </html>

@@ -42,7 +42,7 @@
 					
 					<table style="margin:auto;" id="append_position">
 					<tr><td>食材</td><td>份量(克)</td></tr>
-					<tr class="row_data">
+					<tr class="row_data">					
 					<td><input list="brow" name="ingredients[]" id="idata"><datalist id="brow">';
 					$query = "SELECT * FROM `ingredients` ";
 					$result = $link->query($query);
@@ -102,6 +102,8 @@
 					?>
 					</datalist></td>
 					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" required></td>
+					<td style="width:20px;"><input type="button" value="-" id="remove_row" class="btn"/></td>
+					
 				</tr>
 			</table>
 		</div>
@@ -116,6 +118,10 @@
 	 }
 	$('body').on('click','#add_row',function(){
         $('#template').find('.row_data').clone().appendTo($('#append_position'));
+    });
+	//刪除 tr
+    $('body').on('click','#remove_row',function(){
+        $(this).parent().parent().remove();
     });
 	//傳送表單至兩個地方
 	function SubmitForm(id)
