@@ -8,6 +8,7 @@
     $now_glyco=0;
 	$now_fat=0;
 	$now_protein=0;
+    $now_suger=0;
     $now_sodium=0;
 
     #抓取資料庫紀錄
@@ -30,7 +31,6 @@
     #ingredients.sodium /100 * recipe.portion(*history.portion) ->紀錄鈉含量
 
     $today = date("Y-m-d");
-    echo $today;
     $query = "SELECT * FROM `history` WHERE `UID`='$userID' and `date`='$today'";
     $result = $link->query($query);
 
@@ -50,6 +50,7 @@
             $query = "SELECT * FROM `ingredients` WHERE `iID`='$recipe_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
+
                 $ingredients_NID=$row["NID"]; #食材的六大類歸屬
                 $ingredients_cal=$row["cal"]; #食材的卡路里
                 $ingredients_protein=$row["protein"]; #食材的蛋白質
@@ -61,33 +62,95 @@
 
                 #獲取六大類份數
                 if($ingredients_NID==1){ #全榖雜糧 醣類/15
-                    $now_category[0]=(($recipe_portion*$history_portion)*($ingredients_glyco/100))/15;
+                    $now_category[0]=$now_category[0]+round((($recipe_portion*$history_portion)*($ingredients_glyco/100))/15,1);
                 }
                 else if($ingredients_NID==2){ #蛋豆魚肉 蛋白質/7
-                    $now_category[1]=(($recipe_portion*$history_portion)*($ingredients_protein/100))/7;
+                    $now_category[1]=$now_category[1]+round((($recipe_portion*$history_portion)*($ingredients_protein/100))/7,1);
                 }
                 else if($ingredients_NID==3){ #乳品類 蛋白質/8
-                    $now_category[2]=(($recipe_portion*$history_portion)*($ingredients_protein/100))/8;
+                    $now_category[2]=$now_category[2]+round((($recipe_portion*$history_portion)*($ingredients_protein/100))/8,1);
                 }
                 else if($ingredients_NID==4){ #蔬菜類 熱量/25
-                    $now_category[3]=(($recipe_portion*$history_portion)*($ingredients_cal/100))/25;
+                    $now_category[3]=$now_category[3]+round((($recipe_portion*$history_portion)*($ingredients_cal/100))/25,1);
                 }
                 else if($ingredients_NID==5){ #水果類 熱量/60
-                    $now_category[4]=(($recipe_portion*$history_portion)*($ingredients_cal/100))/60;
+                    $now_category[4]=$now_category[4]+round((($recipe_portion*$history_portion)*($ingredients_cal/100))/60,1);
                 }
                 else if($ingredients_NID==6){ #油脂與堅果種子 脂肪/5
-                    $now_category[5]=(($recipe_portion*$history_portion)*($ingredients_fat/100))/5;
+                    $now_category[5]=$now_category[5]+round((($recipe_portion*$history_portion)*($ingredients_fat/100))/5,1);
                 }
 
-                #計算三大營養素+熱量
-                $now_cal=($ingredients_cal / 100) * ($recipe_portion*$history_portion);
-                $now_glyco=($ingredients_glyco / 100) * ($recipe_portion*$history_portion);
-                $now_fat=($ingredients_fat / 100) * ($recipe_portion*$history_portion);
-                $now_protein=($ingredients_protein / 100) * ($recipe_portion*$history_portion);
+                #計算三大營養素+熱量(食材都是100g，先算出1g的營養素，再乘上食譜所用的克數及吃了幾份)
+                $now_cal = $now_cal + round(($ingredients_cal / 100) * ($recipe_portion*$history_portion),1);
+                $now_glyco = $now_glyco + round(($ingredients_glyco / 100) * ($recipe_portion*$history_portion),1);
+                $now_fat = $now_fat + round(($ingredients_fat / 100) * ($recipe_portion*$history_portion),1);
+                $now_protein = $now_protein + round(($ingredients_protein / 100) * ($recipe_portion*$history_portion),1);
+                $now_suger = $now_suger + round(($ingredients_totalsugar / 100) * ($recipe_portion*$history_portion),1);
+                $now_sodium = $now_sodium + round((($ingredients_sodium / 100) * ($recipe_portion*$history_portion)/1000),1);
                 
             }
         }
     }
 
+    #陣列先找出份數最小值 （目標是把每一類都能夠吃平均）
+    #邏輯是0>1>2>3>4>5 同時有兩個量最少的話會以前面的種類先推薦
+    #推薦以那類份數為主的食材
+    #先找到ingredients.NID為需求類的食材
+    #ingredients.iID=recipe.iID 找到食譜dishID
+    #dish.ID=recipe.dishID 推回食譜推薦～
+    #會有重複的菜是正常的，因為如果一道菜裡面有兩個全穀類，那道菜就會出現兩次（三個就出現三次），待優化
+
+    $search = array_search(min($now_category),$now_category);
+    $recommend_dish = array();
+
+    if($search==0){ 
+    #全榖雜糧量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='1'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
+
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    echo $recommend_dish_ID.$recommend_dish_Name."<br>";   
+                    ###問題點:不知道如何將資料寫進陣列中
+                    $recommend_dishID = $recommend_dishID + $recommend_dish_Name;
+                }
+            }
+        }
+        echo "<hr>";
+        foreach($recommend_dish as $recommend_dish){
+            echo $recommend_dish;
+        }
+        
+    }
+    else if($search==1){
+    #蛋豆魚肉量最少
+
+    }
+    else if($search==2){
+    #乳品類量最少
+
+    }
+    else if($search==3){
+    #蔬菜類量最少
+
+    }
+    else if($search==4){
+    #水果類量最少
+
+    }
+    else if($search==5){
+    #油脂與堅果種子類量最少
+
+    }
 
 ?>
