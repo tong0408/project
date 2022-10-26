@@ -97,11 +97,10 @@
     #推薦以那類份數為主的食材
     #先找到ingredients.NID為需求類的食材
     #ingredients.iID=recipe.iID 找到食譜dishID
-    #dish.ID=recipe.dishID 推回食譜推薦～
-    #會有重複的菜是正常的，因為如果一道菜裡面有兩個全穀類，那道菜就會出現兩次（三個就出現三次），待優化
+    #dish.ID=recipe.dishID 推回食譜推薦
 
     $search = array_search(min($now_category),$now_category);
-    $recommend_dish = array();
+    $recommend_dishID = array();
 
     if($search==0){ 
     #全榖雜糧量最少
@@ -120,37 +119,129 @@
                 foreach ($result as $row){
                     $recommend_dish_ID=$row["ID"];
                     $recommend_dish_Name=$row["dishName"];
-                    echo $recommend_dish_ID.$recommend_dish_Name."<br>";   
-                    ###問題點:不知道如何將資料寫進陣列中
-                    $recommend_dishID = $recommend_dishID + $recommend_dish_Name;
+                    array_push($recommend_dishID,$recommend_dish_ID);
                 }
             }
         }
-        echo "<hr>";
-        foreach($recommend_dish as $recommend_dish){
-            echo $recommend_dish;
-        }
-        
     }
     else if($search==1){
     #蛋豆魚肉量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='2'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
+
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    array_push($recommend_dishID,$recommend_dish_ID);
+                }
+            }
+        }
 
     }
     else if($search==2){
     #乳品類量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='3'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
 
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    array_push($recommend_dishID,$recommend_dish_ID);
+                }
+            }
+        }
     }
     else if($search==3){
     #蔬菜類量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='4'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
 
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    array_push($recommend_dishID,$recommend_dish_ID);
+                }
+            }
+        }
     }
     else if($search==4){
     #水果類量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='5'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
 
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    array_push($recommend_dishID,$recommend_dish_ID);
+                }
+            }
+        }
     }
     else if($search==5){
     #油脂與堅果種子類量最少
+        $query = "SELECT * FROM `ingredients` WHERE `NID`='6'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+            $recommend_ingredients_iID=$row["iID"];
 
+            $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
+            $result = $link->query($query);
+            foreach ($result as $row){
+                $recommend_recipe_dishID=$row["dishID"];
+
+                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                $result = $link->query($query);
+                foreach ($result as $row){
+                    $recommend_dish_ID=$row["ID"];
+                    $recommend_dish_Name=$row["dishName"];
+                    array_push($recommend_dishID,$recommend_dish_ID);
+                }
+            }
+        }
     }
+    $use_recommend_dishID = array_unique($recommend_dishID);
+    # 迴圈跑出推薦菜單的ID
+    # foreach ($use_recommend_dishID as $use_recommend_dishID){
+    #     echo $use_recommend_dishID."<br>";
+    # }
+    # 獲取陣列內有多少個
+    # echo count($use_recommend_dishID);
+    # 使用rand()去抓10個ID去推薦
 
 ?>
