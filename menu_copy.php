@@ -445,7 +445,6 @@
 	<div class="box" id="left">
 		<table width="200">				
 			<?PHP			
-				$link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=utf8', $username, $password);
 				$query = "SELECT count(dishID) FROM t_menugetid ";
 				$result = $link->query($query);
 				$count = $result->fetchColumn();
@@ -463,8 +462,8 @@
 							break;
 						}
 						$dishID = $use_recommend_dishID[$tmp];
-						$dishname = $row['dishname'];
-						$method = $row['method'];
+						$dishname = $use_recommend_dishName[$tmp];
+						$method = $use_recommend_method[$tmp];
 							
 						//顯示結果
 						echo '<tr>'.
@@ -482,11 +481,18 @@
 						$query = "SELECT DISTINCT recipe.dishID,dish.dishname,dish.method FROM recipe INNER JOIN dish on recipe.dishID = dish.ID WHERE `recipe`.dishID=$t_dishID";
 						$result = $link->query($query);	
 
-						foreach ($result as $row){				
+					//取得所有需要的資料
+					foreach ($result as $row){				
 							//取得欄位數量
-							$dishID = $row['dishID'];
-							$dishname = $row['dishname'];
-							$method = $row['method'];
+							$i=0;
+							while($i<10){
+								$tmp = rand(0,$count_use_recommend_dishID);
+								$i++;
+								break;
+							}
+							$dishID = $use_recommend_dishID[$tmp];
+							$dishname = $use_recommend_dishName[$tmp];
+							$method = $use_recommend_method[$tmp];
 							//顯示結果
 							echo '<tr>'.
 							//菜名
