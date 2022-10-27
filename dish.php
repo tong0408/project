@@ -120,7 +120,7 @@
 				//菜名
 				echo '<h5 class="modal-title" id="exampleModalLabel">'.$dish_Name.'</h5>
 				<div class="modal-body" style="text-align:center;">
-				<table style="margin:auto; width:300px;">
+				<table style="margin:auto; width:300px;" id="append_position">
 				<tr><td>食材</td><td>份量</td></tr>';
 
 				foreach ($result as $roww){
