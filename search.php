@@ -95,7 +95,7 @@
 
 								foreach($result as $row){
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';									
+									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 									echo "</tr>";
 								}
 							}
@@ -122,7 +122,7 @@
 												$result = $link->query($query);
 												foreach($result as $row){
 													echo "<tr>";
-													echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';									
+													echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 													echo "</tr>";
 												}
 												$b=1;
@@ -134,7 +134,7 @@
 										$result = $link->query($query);
 										foreach($result as $row){
 											echo "<tr>";
-											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';									
+											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 											echo "</tr>";
 										}
 									}
@@ -143,7 +143,7 @@
 									$result = $link->query($query);
 									foreach($result as $row){
 										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" required></td>';									
+										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 										echo "</tr>";
 									}
 								}
@@ -162,7 +162,7 @@
 								//透過strpos函數判斷是否包含使用者輸入
 									if (strpos($row["dishName"], $s) !== false) {
 										echo "<tr>";
-										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" ></td>';
+										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" ></td>';
 										echo "</tr>";
 										$n++;
 									}
@@ -176,7 +176,7 @@
 								foreach ($result as $row) {
 									$n++;
 									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]"></td>';
+									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]"></td>';
 									echo "</tr>";
 									if ($n == 10) break;
 								}
