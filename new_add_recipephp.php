@@ -50,7 +50,7 @@
         if($count==0){
             //新增至ingredients
             $query = "INSERT INTO `ingredients`(`name`, `NID`,`cal`,`protein`,`fat`,`carbohydrate`,`totalsugar`,`sodium`) 
-            VALUES ('$new_ingredients',$category,$cal[$i],$protein[$i],$fat[$i],$carbohydrate[$i],$totalsugar[$i],$sodium[$i])";
+            VALUES ('$new_ingredients[$i]',$category,$cal[$i],$protein[$i],$fat[$i],$carbohydrate[$i],$totalsugar[$i],$sodium[$i])";
             $count = $link->exec($query);
 
             //新增至t_newrecipe
