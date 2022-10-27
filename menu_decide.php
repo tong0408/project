@@ -106,6 +106,7 @@
 
     if($search==0){ 
     #全榖雜糧量最少
+    #$m=0;
         $query = "SELECT * FROM `ingredients` WHERE `NID`='1'";
         $result = $link->query($query);
         foreach ($result as $row){
@@ -115,16 +116,15 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    $recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
-                    array_push($recommend_dishName,$recommend_dish_Name);
-                    array_push($recommend_method,$recommend_dish_method);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
@@ -140,17 +140,18 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
-
     }
     else if($search==2){
     #乳品類量最少
@@ -163,13 +164,15 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
@@ -185,13 +188,15 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
@@ -207,13 +212,15 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
@@ -229,22 +236,25 @@
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-
                 $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
                 $result = $link->query($query);
                 foreach ($result as $row){
-                    $recommend_dish_ID=$row["ID"];
-                    $recommend_dish_Name=$row["dishName"];
-                    array_push($recommend_dishID,$recommend_dish_ID);
+                    $database_recommend_dish_ID=$row["ID"];
+                    $database_recommend_dish_Name=$row["dishName"];
+                    $database_recommend_dish_method=$row["method"];
+                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                    array_push($recommend_method,$database_recommend_dish_method);
                 }
             }
         }
     }
-    $use_recommend_dishID = array_unique($recommend_dishID);
-    $use_recommend_dishName = array_unique($recommend_dishName);
-    $use_recommend_method = array_unique($recommend_method);
-    $count_use_recommend_dishID = count($use_recommend_dishID);
-    print_r($use_recommend_dishName);
+    #$use_recommend_dishID = array_unique($recommend_dishID);
+    #$use_recommend_dishName = array_unique($recommend_dishName);
+    #$use_recommend_method = array_unique($recommend_method);
+    #$count_use_recommend_dishID = count($use_recommend_dishID);
+    $count_recommend_dishID = count($recommend_dishID);
+    # print_r($recommend_dishName);
     # 迴圈跑出推薦菜單的ID
     # foreach ($use_recommend_dishID as $use_recommend_dishID){
     #    echo $use_recommend_dishID."<br>";
