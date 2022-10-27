@@ -78,6 +78,7 @@
 		}
 		
 		#right{
+			width:400px;
 			background: #FFB03B;
 		}
 		
@@ -85,7 +86,7 @@
 			font-size: 36px;
 			height: 150px;
 			font-weight:bold;
-			line-height: 150px;
+			vertical-align：middle;
 		}
 		
 		#gettitle{
@@ -93,8 +94,7 @@
 		}
 		
 		.get{			
-			height: 300px;
-			width:400px;
+			height: 300px;			
 			overflow: auto;	
 			text-align:left;
 			padding:10px;
@@ -134,17 +134,17 @@
 			height:508px;
 			color:#FFF;
 		}
-		.get::-webkit-scrollbar {
-  width: 0.5em;
-}
-  
-.get::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-}
-  
-.get::-webkit-scrollbar-thumb {
-  background-color: #FFD79B;
-}
+		.scr::-webkit-scrollbar {
+			width: 0.5em;
+		}
+			
+		.scr::-webkit-scrollbar-track {
+			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+		}
+			
+		.scr::-webkit-scrollbar-thumb {
+			background-color: #FFD79B;
+		}
 		
 </style>
 </head>
@@ -465,15 +465,15 @@
 	<div class="container2">
 		<div class="box" id="right">				
 			<b>點選左側菜名查看料理方式</b><br><br>
-				<div id="getdish">&nbsp;</div>
-				<div class="get" id="gettitle">&nbsp;</div>
-			</div>
-			<div class="box" id="right">
-				<div class="get" id="getid"><br></div>
-			</div>
+				<div id="getdish" >&nbsp;</div>
+				<div class="get scr" id="gettitle">&nbsp;</div>
+		</div>
+		<div class="box" id="right">
+			<div class="get scr" id="getid"><br></div>
 		</div>
 	</div>
-</div>
+	</div>
+
 <br>
 
 </body>
