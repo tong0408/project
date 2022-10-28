@@ -15,6 +15,8 @@
   $sodium = isset($_POST["sodium"]) ? $_POST["sodium"] : null; //新增鈉
   
   $userid= $_SESSION['userID'];
+
+  $s=0;
   
   //搜尋先加進去的菜名
   $query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
@@ -25,7 +27,8 @@
   }
 
   //改六大類文字變ID
-    for($i=0;$i<count($new_ingredients);$i++){
+for($i=0;$i<count($new_ingredients);$i++){
+
       if($new_nutrient[$i]=="全榖雜糧類"){
           $category=1;
       }else if($new_nutrient[$i]=="豆魚蛋肉類"){
@@ -57,14 +60,15 @@
             $query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
             VALUES('$userid','$dishName','$new_ingredients[$i]','$new_portion[$i]')";
             $count = $link->exec($query);
+            header("Location: new_recipe.php");
             
         }else{
-            //新增至t_newrecipe
-            $query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-            VALUES('$userid','$dishName','$new_ingredients[$i]','$new_portion[$i]')";
-            $count = $link->exec($query);
+            
+                echo "<script>alert('資料庫內已有該筆食材唷！')</script>";
+                echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";
+
         }
       
-    }
-header("Location: new_recipe.php");
+}
+
 ?>

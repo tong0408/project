@@ -33,7 +33,7 @@
 		<form id="myform" method="POST" action="enter_recipe.php">
 			<?php
 			    //先至t_newrecipe搜尋UID是否存在
-				$query = "SELECT count(ID),UID FROM `t_newrecipe` WHERE `UID`='$userid'";
+				$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
 				$result = $link->query($query);
 				$count = $result->fetchColumn();
 				//if count=0
@@ -74,8 +74,25 @@
 						$ingredients=$row["ingredients"];
 						$portion=$row["portion"];
 
-						echo '<tr class="row_data"><td><input type="text" name="ingredients[]" value="'.$ingredients.'"></td>
-						<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" value="'.$portion.'"></td></tr>';
+						if($ingredients!=0){
+							echo '<tr class="row_data"><td><input type="text" name="ingredients[]" value="'.$ingredients.'"></td>
+							<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" value="'.$portion.'"></td></tr>';
+						
+						}else{
+							echo '<tr class="row_data">					
+							<td><input list="brow" name="ingredients[]" id="idata"><datalist id="brow">';
+							$query = "SELECT * FROM `ingredients` ";
+							$result = $link->query($query);
+							
+							foreach($result as $row){
+								$iID=$row["iID"];
+								$Name=$row["name"];
+								
+								echo '<option value="'.$Name.'" id="'.$iID.'">';
+							}
+							echo '</datalist></td>
+							<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" required></td></tr>';
+						}
 					}
 					
 					echo '</table>';
