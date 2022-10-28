@@ -222,7 +222,7 @@
 	function function_category($user_cal){
 		global $goal_category;
 		#設定使用者今天要攝取的六大類(單位:份)(全域變數)
-		# 1 = 全穀物雜糧類
+		# 1 = 全穀物雜糧類(份數要乘以4才會是正確的，因為衛生福利部說的4份為了要讓人好算所以是有讓人多飯)
 		# 2 = 蛋豆魚肉類
 		# 3 = 乳品類
 		# 4 = 蔬菜類
@@ -231,31 +231,31 @@
 
 		if($user_cal<1500){
 			#大卡數<1500
-			$goal_category=array(1.5,3,1.5,3,2,4);
+			$goal_category=array(1.5*4,3,1.5,3,2,4);
 		}
 		else if($user_cal<1800){
 			#1500<=大卡數<1800
-			$goal_category=array(2.5,4,1.5,3,2,4);
+			$goal_category=array(2.5*4,4,1.5,3,2,4);
 		}
 		else if($user_cal<2000){
 			#1800<=大卡數<2000
-			$goal_category=array(3,5,1.5,3,2,5);
+			$goal_category=array(3,5*4,1.5,3,2,5);
 		}
 		else if($user_cal<2200){
 			#2000<=大卡數<2200
-			$goal_category=array(3,6,1.5,4,3,6);
+			$goal_category=array(3,6*4,1.5,4,3,6);
 		}
 		else if($user_cal<2500){
 			#2200<=大卡數<2500
-			$goal_category=array(3.5,6,1.5,4,3.5,6);
+			$goal_category=array(3.5*4,6,1.5,4,3.5,6);
 		}
 		else if($user_cal<2700){
 			#2500<=大卡數<2700
-			$goal_category=array(4,7,1.5,5,4,7);
+			$goal_category=array(4*4,7,1.5,5,4,7);
 		}
 		else{
 			#大卡數=>2700
-			$goal_category=array(4,8,2,5,4,8);
+			$goal_category=array(4*4,8,2,5,4,8);
 		}
 	}
 	
