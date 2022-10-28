@@ -78,7 +78,7 @@
 		}
 		
 		#right{
-			width:400px;
+			width:500px;
 			background: #FFB03B;
 		}
 		
@@ -86,7 +86,8 @@
 			font-size: 36px;
 			height: 150px;
 			font-weight:bold;
-			vertical-align：middle;
+			line-height: 150px;
+			vertical-align:middle;
 		}
 		
 		#gettitle{
@@ -112,7 +113,7 @@
 		
 		
 		.container1{
-			width: 1100px; 
+			width: 90%; 
 			text-align:center;
 			background:#FFF; 
 			margin:auto;
@@ -121,7 +122,7 @@
 		}
 		
 		.container2{
-			width: 850px; 
+			width: 1050px; 
 			text-align:center;
 			background:#FFB03B; 
 			margin:auto;
@@ -410,7 +411,7 @@
 	if($user_disease5!=0){echo "、".$user_disease5;}
 	if($user_disease6!=0){echo "、".$user_disease6;}
 	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".$user_goal_cal."大卡。<br>
-    <hr><h4><b>每日建議攝取量－目標熱量 $now_cal/".$user_goal_cal."大卡</b></h4>
+    <hr><h4><b>每日建議攝取量－目標熱量 ";if($now_cal>$user_goal_cal){echo "<font color='red'>";}; echo "$now_cal</font> / $user_goal_cal 大卡</b></h4>
 	<table width='95%'>
 	<tr>
 	<td><b>全榖雜糧類</b></td>
@@ -418,7 +419,7 @@
 	<td><b>乳品類</b></td>
 	<td><b>蔬菜類</b></td>
 	<td><b>水果類</b></td>
-	<td><b>油脂與堅果種子類</b></td>
+	<td><b>油脂與<br>堅果種子類</b></td>
 	<td><b>醣類</b></td>
 	<td><b>脂質</b></td>
 	<td><b>蛋白質</b></td>
@@ -426,17 +427,17 @@
 	<td><b>鈉含量</b></td>
 	</tr>
 	<tr>
-	<td><b>$now_category[0]/$goal_category[0] 份</b></td>
-	<td><b>$now_category[1]/$goal_category[1] 份</b></td>
-	<td><b>$now_category[2]/$goal_category[2] 份</b></td>
-	<td><b>$now_category[3]/$goal_category[3] 份</b></td>
-	<td><b>$now_category[4]/$goal_category[4] 份</b></td>
-	<td><b>$now_category[5]/$goal_category[5] 份</b></td>
-	<td><b>$now_glyco/$goal_glyco g</b></td>
-	<td><b>$now_fat/$goal_fat g</b></td>
-	<td><b>$now_protein/$goal_protein g</b></td>
-	<td><b>$now_suger/$goal_suger g</td><b>
-	<td><b>$now_sodium/$goal_sodium g</b></td>
+	<td><b>";if($now_category[0]>$goal_category[0]){echo "<font color='red'>";}; echo "$now_category[0]</font> / $goal_category[0] 份</b></td>
+	<td><b>";if($now_category[1]>$goal_category[1]){echo "<font color='red'>";}; echo "$now_category[1]</font> / $goal_category[1] 份</b></td>
+	<td><b>";if($now_category[2]>$goal_category[2]){echo "<font color='red'>";}; echo "$now_category[2]</font> / $goal_category[2] 份</b></td>
+	<td><b>";if($now_category[3]>$goal_category[3]){echo "<font color='red'>";}; echo "$now_category[3]</font> / $goal_category[3] 份</b></td>
+	<td><b>";if($now_category[4]>$goal_category[4]){echo "<font color='red'>";}; echo "$now_category[4]</font> / $goal_category[4] 份</b></td>
+	<td><b>";if($now_category[5]>$goal_category[5]){echo "<font color='red'>";}; echo "$now_category[5]</font> / $goal_category[5] 份</b></td>
+	<td><b>";if($now_glyco>$goal_glyco){echo "<font color='red'>";}; echo "$now_glyco</font> / $goal_glyco g</b></td>
+	<td><b>";if($now_fat>$goal_fat){echo "<font color='red'>";}; echo "$now_fat</font> / $goal_fat g</b></td>
+	<td><b>";if($now_protein>$goal_protein){echo "<font color='red'>";}; echo "$now_protein</font> / $goal_protein g</b></td>
+	<td><b>";if($now_suger>$goal_suger){echo "<font color='red'>";}; echo "$now_suger</font> / $goal_suger g</td><b>
+	<td><b>";if($now_sodium>$goal_sodium){echo "<font color='red'>";}; echo "$now_sodium</font> / $goal_sodium g</b></td>
 	</tr>
 	</table>
 	<hr>
