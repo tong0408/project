@@ -459,7 +459,7 @@
 					'<td class="dish" onClick="showtitle(event);" title="'.nl2br($method).'" id="'.$dishID.'">'.$dishname.'</td></tr>';	
 				}		
 			?>
-		<tr><td class="check"><a href="menu_button.php">查看更多</a></td></tr>
+		<tr><td class="check" onClick="location.reload();">查看更多</a></td></tr>
 		</table>
 	</div>
 	<div class="container2">
