@@ -68,9 +68,10 @@
 					
 					//取得欄位數量
 					$dishID = $row['dishID'];
+					$p=$row["portion"];
 					$count = $link->prepare("SELECT * FROM recipe WHERE `dishID`='$dishID'");   
 					$count->execute();   
-					$count_rows=$count->rowCount(); 
+					$count_rows=$count->rowCount();
 					
 					//顯示結果
 					echo '<tbody><tr>'.
@@ -85,14 +86,15 @@
 					}
 					//菜名
 					echo '<td style="height:50px;" rowspan="'.$count_rows.'">'.$dish_Name.'</td>
-					      <td style="height:50px;" rowspan="'.$count_rows.'">'.$row["portion"].'</td>';
+					      <td style="height:50px;" rowspan="'.$count_rows.'">'.$p.'</td>';
 
 					//取得菜ID使用的食材ID
 					$query = "SELECT * FROM recipe where dishID='$dishID'";
 					$re = $link->query($query);
 					foreach ($re as $r){
 						$dish_iID=$r['iID'];
-						$iportion=$r['portion'];
+						$ip=$r['portion'];
+						$iportion=$ip*$p;
 
 						//從食材ID取得食材類別ID和食材名稱<使用>
 						$query = "SELECT * FROM ingredients where iID='$dish_iID'";
