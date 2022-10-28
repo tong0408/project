@@ -463,7 +463,7 @@
 		</table>
 	</div>
 	<div class="container2">
-		<div class="box" id="right">				
+		<div class="box" id="right">
 			<b>點選左側菜名查看料理方式</b><br><br>
 				<div id="getdish" >&nbsp;</div>
 				<div class="get scr" id="gettitle">&nbsp;</div>
