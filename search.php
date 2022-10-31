@@ -77,6 +77,12 @@
 					<table style="margin:auto; width:80%; ">
 						<tr><td>料理</td><td>份量</td></tr>
 						<?PHP
+							//放使用者已經選擇的蔡id
+							$did=array();
+							$z=0;
+							
+							
+							//-----------------------------------------------------
 							//新增菜單t_user_add的暫存資料表，搜尋有沒有東西
 							$query = "SELECT * FROM t_user_add where `UID`='$userid'";
 							$result = $link->query($query);
@@ -94,9 +100,12 @@
 								$result = $link->query($query);
 
 								foreach($result as $row){
+									
 									echo "<tr>";
 									echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 									echo "</tr>";
+									$did[$z]=$row["ID"];
+									$z++;
 								}
 							}
 
@@ -124,6 +133,8 @@
 													echo "<tr>";
 													echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 													echo "</tr>";
+													$did[$z]=$row["ID"];
+													$z++;
 												}
 												$b=1;
 											}
@@ -136,6 +147,8 @@
 											echo "<tr>";
 											echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 											echo "</tr>";
+											$did[$z]=$row["ID"];
+											$z++;
 										}
 									}
 								}else if($b==0){
@@ -145,11 +158,14 @@
 										echo "<tr>";
 										echo '<td style="text-align:left;"><input type="checkbox" name="dish[]" style="margin-right:20px" value="'.$row["dishName"].'" id="'.$row["ID"].'" checked="checked"><a href="dish.php?id='.$row["ID"].'">' . $row["dishName"] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]" required></td>';									
 										echo "</tr>";
+										$did[$z]=$row["ID"];
+										$z++;
 									}
 								}
 							}
 							
-							//抓取全部dish
+							//抓資料筆數
+							
 							$query = "SELECT * FROM dish";
 							$result = $link->query($query);
 							
@@ -171,13 +187,26 @@
 								$_SESSION['n']=$n;
 							} else {
 								$n=0;
+								
 								//$checkboxid=$row["dishName"];
 								//透過$i++ 強制迴圈十次
 								foreach ($result as $row) {
+									
+									$y=0;
+									//echo count($did);
+									for($m=0;$m<count($did);$m++){
+										if($did[$m]==$row["ID"]){
+											$y=1;
+											break;
+										}
+									}
 									$n++;
-									echo "<tr>";
-									echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]"></td>';
-									echo "</tr>";
+									if($y==0){
+										
+										echo "<tr>";
+										echo '<td style="text-align:left;"><input type="checkbox" id="'.$row["ID"].'" name="dish[]" style="margin-right:20px" value="' . $row['dishName'] . '"><a href="dish.php?id='.$row["ID"].'">' . $row['dishName'] . '</a></td></td><td><input type="number" step="0.5" min="0.5" max="1000.0" name="new_portion[]"></td>';
+										echo "</tr>";
+									}
 									if ($n == 10) break;
 								}
 								$_SESSION['n']=$n;

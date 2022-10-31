@@ -30,44 +30,64 @@
         
 		
 	}else{
-		$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
-		$result = $link->query($query);
-		$count = $result->fetchColumn();
-
-		if($count==0){
-			if(count($new_ingredients)==0){
-				$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-				VALUES('$userid','$new_dish','0','0')";
-				$count = $link->exec($query);
-			}else{
-				for($i=0;$i<count($new_ingredients);$i++){
-					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-					VALUES('$userid','$new_dish','$new_ingredients[$i]',$new_portion[$i])";
-					$count = $link->exec($query);
-				}
-			}
-				
-		}else{
-			if(count($new_ingredients)!=0){
-				for($i=0;$i<count($new_ingredients);$i++){
-					$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
-					$result = $link->query($query);
+		//dish如果已經有了 擋回去
+		$query = "SELECT count(ID) FROM `dish` WHERE `dishName`='$new_dish'";
+		$res = $link->query($query);
+		$c = $res->fetchColumn();
 		
-					foreach($result as $row){
-						$t_ingredients=$row["ingredients"];
-							
-						if($new_ingredients[$i]!=null){
+		if($c!=0){
+			echo "<script>alert('此道菜已經存在囉')</script>";
+			echo "<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>";
+		}else{
+			$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
+			$result = $link->query($query);
+			$count = $result->fetchColumn();
+	
+			if($count==0){
+				if(count($new_ingredients)==0){
+					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+					VALUES('$userid','$new_dish','0','0')";
+					$count = $link->exec($query);
+				}else{
+					for($i=0;$i<count($new_ingredients);$i++){
+						$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+						VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+						$count = $link->exec($query);
+					}
+				}
+					
+			}else{
+				$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
+				$result = $link->query($query);
+
+				foreach($result as $row){
+					$dN=$row['dishName'];
+					if($dN!=$new_dish){
+						$query = "UPDATE `t_newrecipe` SET `dishName`='$new_dish' WHERE `UID`='$userid'";
+						$count = $link->exec($query);
+					}
+				}
+				
+				if(count($new_ingredients)!=0){
+					for($i=0;$i<count($new_ingredients);$i++){
+						$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
+						$result = $link->query($query);
+			
+						foreach($result as $row){
+							$t_ingredients=$row["ingredients"];
 								
-							if($t_ingredients==0){
-								$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`=dishName";
-								$count = $link->exec($query);
+							if($new_ingredients[$i]!=null){
+									
+								if($t_ingredients==0){
+									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`=dishName";
+									$count = $link->exec($query);
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-		
 	}
     
 ?>

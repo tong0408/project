@@ -6,12 +6,21 @@
 	//修改分量與所含食材
     $userid= $_SESSION['userID'];//userid
 	$dishname=$_SESSION['dish_Name']; //修改的菜名
-    $dishid=$_SESSION['dishID'];//修改的菜名id
+    $dishid=$_SESSION['dishID'];//修改的菜id
 	$ingredients = isset($_POST["ingredients"]) ? $_POST["ingredients"] : null; //修改的食材名稱
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //修改的份量
 
-    echo 1;
-	for($i=0;$i<count($ingredients);$i++){
+    //先搜尋裡面有沒有相同的
+    /*$query = "SELECT dishID FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
+	$result = $link->query($query);
+    foreach($result as $row){
+        
+    }
+    if($dishid){
+
+    }*/
+	for($i=0;$i<count($ingredients)-1;$i++){
+        //ECHO count($ingredients).$ingredients[$i].",".$new_portion[$i];
         //搜尋食材名稱
         $query = "SELECT iID FROM `ingredients` WHERE `name`='$ingredients[$i]'";
 		$result = $link->query($query);
@@ -26,5 +35,5 @@
         
     }
 
-	//header("Location: enter_diet_platform.php");
+	header("Location: enter_diet_platform.php");
   ?>

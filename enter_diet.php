@@ -14,31 +14,37 @@
 	$new_time = isset($_POST["time"]) ? $_POST["time"] : null; //時間
 	$dishname = isset($_POST["dish"]) ? $_POST["dish"] : null; //菜名
 	$new_portion = isset($_POST["new_portion"]) ? $_POST["new_portion"] : null; //份量
+
+	//判斷分量是否有輸入
 	$d=0;
 	$e=0;
+	$f=0;
 
-	for($b=0;$b<20;$b++){
-		if($dishname[$b]!=null){
-			if($new_portion[$b]!=null){
-				$e=$e=1;
-			}
-			if($e!=count($dishname)){
-				if($b==20){
-					$d=1;
-				}
+	for($f=0;$f<count($new_portion);$f++){
+		if($new_portion[$f]!=null){
+			$e=$e+1;
+		}
+	}
+
+	for($b=0;$b<count($dishname);$b++){
+		if($e!=count($dishname)){
+			if($b==count($dishname)-1){
+				$d=1;
 			}
 		}
 	}
+	//echo $e.",".count($dishname).",".$d;
+
 	$userid= $_SESSION['userID'];
 	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
 
 	if($d==0){
   		//搜尋t_user_histroy_modify裡面有沒有東西
-		$query = "SELECT count(`ID`),`dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`=$userid";
+		$query = "SELECT count(`ID`) FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
 		$res = $link->query($query);
 		$cou = $res->fetchColumn();
 
-		$query = "SELECT `dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`=$userid";
+		$query = "SELECT `dishID`,`iID`,`portion` FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
 		$res = $link->query($query);
 
 		$a=0;
@@ -77,6 +83,7 @@
 				}else{
 					for($m=0;$m<$n;$m++){
 						if($new_portion[$m]!=null){
+							echo $dishID;
 							//新增至使用者history
 							$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
 							VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$m])";
@@ -89,6 +96,7 @@
 				}
 			}
 		}
+		
 		//刪除t_user_add
 		$sql = "DELETE FROM `t_user_add` WHERE `UID`='$userid'";
 		// 用mysqli_query方法執行(sql語法)將結果存在變數中
@@ -100,6 +108,7 @@
 		$count = $link->exec($sql);
 		$d=0;
 		header("Location: record.php");
+		
 	}else{
 		echo "<script>alert('份量要記得輸入喔！')</script>";
 	    echo "<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>";

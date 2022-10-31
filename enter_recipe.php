@@ -29,41 +29,20 @@
 		$_SESSION['dID']=$dishID;
 	}
 	
-	//改六大類文字變ID
+	
 	for($i=0;$i<count($new_ingredients);$i++){
 		
-		//先至ingredients搜尋name是否存在
-		$query = "SELECT iID,count(name) FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
+		//先至ingredients搜尋iID
+		$query = "SELECT iID FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
 		$result = $link->query($query);
-		$count = $result->fetchColumn();
-
-		if($count==""){
+		
+		//新增至recipe
+		foreach($result as $row){
 			
-			//先至ingredients搜尋iID
-			$query = "SELECT iID FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
-			$result = $link->query($query);
-			
-			//新增至recipe
-			foreach($result as $row){
-				
-				$iID=$row["iID"];
-				$query = "INSERT INTO `recipe`(`iID`, `portion`, `dishID`) 
-				VALUES ($iID,$new_portion[$i],$dishID)";
-				$count = $link->exec($query);
-			}
-		}else{
-			//先至ingredients搜尋iID
-			$query = "SELECT iID FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
-			$result = $link->query($query);
-			
-			//新增至recipe
-			foreach($result as $row){
-				
-				$iID=$row["iID"];
-				$query = "INSERT INTO `recipe`(`iID`, `portion`, `dishID`) 
-				VALUES ($iID,$new_portion[$i],$dishID)";
-				$count = $link->exec($query);
-			}
+			$iID=$row["iID"];
+			$query = "INSERT INTO `recipe`(`iID`, `portion`, `dishID`) 
+			VALUES ($iID,$new_portion[$i],$dishID)";
+			$count = $link->exec($query);
 		}
 		
 	}

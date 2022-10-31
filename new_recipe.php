@@ -74,7 +74,7 @@
 						$ingredients=$row["ingredients"];
 						$portion=$row["portion"];
 
-						if($ingredients!=0){
+						if($ingredients!=""){
 							echo '<tr class="row_data"><td><input type="text" name="ingredients[]" value="'.$ingredients.'"></td>
 							<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion" value="'.$portion.'"></td></tr>';
 						

@@ -62,7 +62,7 @@
 				$_SESSION['dish_Name']=$dish_Name;
 			}
 			
-			$query = "SELECT count(ID) FROM t_user_histroy_modify WHERE `UID`=$userID";
+			$query = "SELECT count(ID) FROM t_user_histroy_modify WHERE `UID`='$userID'";
 			$result = $link->query($query);
 			$count = $result->fetchColumn();
 
@@ -115,7 +115,7 @@
 			}//if 有資料
 			else{
 				$a=0;
-				$query = "SELECT * FROM t_user_histroy_modify WHERE `UID`=$userID";
+				$query = "SELECT * FROM t_user_histroy_modify WHERE `UID`='$userID'";
 				$result = $link->query($query);
 				//菜名
 				echo '<h5 class="modal-title" id="exampleModalLabel">'.$dish_Name.'</h5>
