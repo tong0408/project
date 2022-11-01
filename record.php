@@ -125,6 +125,7 @@
 				$t_iID=array(array());
 				$t_iportion=array(array());
 				$t_portion=array();
+
 				//連接user_histroy_modify（限制日期）
 				$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' and `date`='$get_date'";
 				$result = $link->query($query);
@@ -169,7 +170,7 @@
 				for($i=0;$i<count($t_dishID);$i++){
 					
 					//取得欄位數量
-					$count = $link->prepare("SELECT * FROM user_histroy_modify WHERE `dishID`='$t_dishID[$i]'");   
+					$count = $link->prepare("SELECT * FROM user_histroy_modify WHERE `dishID`='$t_dishID[$i]' and `date`='$get_date'");   
 					$count->execute();   
 					$count_rows=$count->rowCount(); 
 					
@@ -189,14 +190,14 @@
 					      <td style="height:50px;" rowspan="'.$count_rows.'">'.$t_portion[$i].'</td>';
 
 					//連接user_histroy_modify（限制日期）
-					$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' and `dishID`='$t_dishID[$i]'";
+					$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' and `dishID`='$t_dishID[$i]' and `date`='$get_date'";
 					$result = $link->query($query);
 
 					foreach ($result as $rw){
 						//
 						//取得菜ID使用的食材ID及克數
 						$t_iID=$rw["iID"];
-						$t_iportion=$rw["iportion"];
+						$t_iportion=$rw["iportion"]*$t_portion[$i];
 
 						$query = "SELECT * FROM ingredients where iID='$t_iID'";
 						$re = $link->query($query);
