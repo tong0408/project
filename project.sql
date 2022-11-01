@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-10-22 18:38:15
+-- 產生時間： 2022-11-01 15:10:30
 -- 伺服器版本： 10.4.19-MariaDB
 -- PHP 版本： 8.0.6
 
@@ -44,7 +44,7 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 (2, '醬燒豆腐', '1.豆腐切塊，先使用廚房紙巾擦乾，下鍋才不會油爆。\n蔥白的部分使用刀子拍一拍，有助蔥香釋放。\n2.不沾鍋，些許油，稍微加熱，中小火，豆腐下鍋，煎至金黃微焦（大約4～6分鐘），再繼續翻面。\n3.續煎約三分鐘時，小火，爆香蔥白和蒜片。\n4.中小火，倒入調味料，進行燒煮（不用蓋鍋蓋）。\n5.燒煮的期間，適時將豆腐翻面，讓豆腐兩片都有吸附醬汁。\n6.醬汁燒煮至收汁，轉為濃稠時，加入蔥綠段拌一拌即可。\n'),
 (3, '清炒時蔬', '1.紅蘿蔔、蒜頭、辣椒爆香。\n2.白花椰菜先稍微川燙，下鍋一起炒。\n3.豌豆一起下鍋。\n4.加入鹽巴拌炒。\n5.悶鍋蓋一下，至白花椰菜軟。'),
 (4, '水果鮮奶凍', '1.先將吉利丁粉倒入水中攪拌。\n2.牛奶和糖倒入鍋中小火加熱，不斷攪拌直到糖完全融化拌勻。\n3.再加入吉力丁粉水拌勻，關火放涼。\n4.分裝到容器中，放置冰箱5小時。\n5.要吃前在放芒果丁即可。'),
-(5, '黑芝麻白飯', ''),
+(5, '黑芝麻白飯', '在白飯上撒點黑芝麻'),
 (6, '白木耳紅棗甜湯', '1.先把白木耳用冷水泡發，溫水泡30分鐘，清洗乾淨並切掉較硬的蒂頭，接著把白木耳放入電飯中，水蓋過白木耳即可，大概煮40分鐘。\n2.之後放在瓦斯爐上開中火，加入紅棗和適量的冰糖，不時攪拌，大概三十分鐘後即可關火。\n3.確定紅棗膨脹，甜度也適當後，就可以端上桌享用。一次喝不完這麼多，也可以放進冰箱隔天拿出來，冷飲享用風味更佳。'),
 (7, '金菇炒肉絲', '1.將豬肉切絲，建議使用豬五花肉或是梅花肉，可先用鹽巴拌勻入味。\n2.金針菇洗乾淨後剝成小束。\n3.青蔥（蔥白蔥綠分開）以及胡蘿蔔都切絲。\n4.入油下鍋，放入豬肉絲炒至肉變白。\n5.下切絲的蔥白拌炒，炒至蔥白香氣釋出。\n6.讓入金針菇與胡蘿蔔，燜煮約五分鐘（不需要另外加水）。\n7.燜煮至金針菇熟了之後加入鹽巴及白胡椒調味，最後加入蔥綠拌勻。'),
 (8, '蒜香花椰菜', '1.挑菜：把花椰菜一朵一朵掰開並撕去莖的外皮，洗淨備用，建議泡水5-10分鐘。\n2.起油鍋爆香蒜瓣後倒入花椰菜拌炒均勻，加入適量水悶軟。\n(喜歡有口感的倒入1/2米杯的水，喜歡軟爛點的可以加入1-1.5米杯的水)\n3.加入鹽巴雞粉調味拌炒均勻即完成。'),
@@ -608,7 +608,9 @@ INSERT INTO `dish` (`ID`, `dishName`, `method`) VALUES
 (575, '日式親子丼', '1.雞腿切塊 洋蔥切絲 日式醬油、米酒、味霖倒在一起\n2.首先拿小平底鍋放一丁點油 加熱後皮朝下煎雞腿\n3.雞腿翻面煎上色後加入洋蔥絲略炒一下\n4.再倒入醬汁小火煮三分鐘讓雞腿熟透\n5.雞蛋打散先均勻倒入2/3的量 晃動鍋子使蛋液全熟\n6.將剩餘蛋液淋在表面關火 稍微等十秒後即可倒入飯上\n7.從飯的邊邊慢慢倒入\n8.完成'),
 (576, '清炒大白菜', '1.熱鍋、下一大匙油。\n2.爆香薑絲，然後先放入白菜柄的部分拌炒個兩三分鐘。\n3.最後放入白菜葉子的部分(此時鍋子已經滿滿的了)，壓住鍋蓋燜5分鐘。然後就會看到菜一直縮水了。\n4.開蓋後整鍋大概只剩下一半量，此時放入適量鹽調味，拌勻即可。'),
 (577, '鮭魚炒四季豆', '1.四季豆洗淨切丁\n2.鮭魚稍微煎一下表面\n3.切丁\n4.下油起鍋，蒜末先爆香鍋，再下鮭魚炒熱\n5.下四季豆一起炒\n6.蓋上蓋子悶兩分鐘\n7.打開蓋下醬油調味炒匀即可'),
-(578, '照燒雞腿飯', '1.先將雞腿雙面煎至金黃色，接著下調味料小火煮10分鐘，醬汁黏稠即完成\n2.煮一鍋水，加鹽巴，將花椰菜燙熟\n3.雞腿灑上白芝麻，加上白飯及花椰菜擺盤即完成！');
+(578, '照燒雞腿飯', '1.先將雞腿雙面煎至金黃色，接著下調味料小火煮10分鐘，醬汁黏稠即完成\n2.煮一鍋水，加鹽巴，將花椰菜燙熟\n3.雞腿灑上白芝麻，加上白飯及花椰菜擺盤即完成！'),
+(581, '鴨肉飯', ''),
+(582, '紅燒獅子頭', '');
 
 -- --------------------------------------------------------
 
@@ -622,7 +624,7 @@ CREATE TABLE `history` (
   `date` date NOT NULL,
   `time` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishID` int(11) NOT NULL,
-  `portion` int(11) NOT NULL
+  `portion` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -672,7 +674,30 @@ INSERT INTO `history` (`ID`, `UID`, `date`, `time`, `dishID`, `portion`) VALUES
 (45, '234', '2022-10-09', '19:46', 1, 2),
 (46, '234', '2022-09-22', '20:15', 2, 1),
 (47, '234', '2022-08-31', '20:21', 3, 1),
-(48, '234', '2022-09-04', '20:27', 1, 1);
+(48, '234', '2022-09-04', '20:27', 1, 1),
+(49, '234', '2022-10-25', '22:30', 1, 1),
+(50, '234', '2022-10-25', '22:50', 2, 1),
+(52, '234', '2022-10-27', '23:09', 3, 1),
+(53, '234', '2022-10-27', '23:44', 4, 1),
+(54, '234', '2022-10-27', '23:44', 5, 1),
+(55, '234', '2022-10-27', '23:44', 4, 1),
+(56, '234', '2022-10-27', '23:44', 5, 1),
+(57, '234', '2022-10-27', '23:49', 2, 1),
+(58, '234', '2022-10-27', '23:49', 3, 1),
+(59, '234', '2022-10-27', '23:50', 2, 1),
+(60, '234', '2022-10-27', '23:50', 3, 1),
+(61, '234', '2022-10-27', '23:50', 2, 1),
+(62, '234', '2022-10-27', '23:50', 3, 1),
+(63, '234', '2022-10-27', '23:51', 5, 1),
+(64, '234', '2022-10-27', '23:51', 6, 1),
+(65, '234', '2022-10-28', '12:47', 581, 1),
+(66, '234', '2022-10-28', '12:48', 581, 1),
+(67, '234', '2022-10-28', '12:48', 1, 1),
+(68, '234', '2022-10-28', '12:49', 581, 1),
+(69, '234', '2022-10-28', '12:49', 2, 1),
+(70, '234', '2022-10-28', '12:52', 581, 2),
+(71, 'Q123456789', '2022-10-27', '19:17', 3, 1),
+(72, 'Q123456789', '2022-10-27', '19:17', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -2963,7 +2988,7 @@ INSERT INTO `ingredients` (`iID`, `name`, `NID`, `cal`, `protein`, `fat`, `satur
 (2346, '麥芽糖粉', 7, 380, 0, 0, 0, 95.1, 95.1, 0),
 (2347, '柴魚湯包', 8, 28, 1, 0.1, 0, 5.8, 2.4, 943),
 (2348, '豆鼓', 8, 11.9, 1.1, 0.6, 0.1, 0.5, 0, 313),
-(2349, 'Array', 1, 1, 1, 1, NULL, 1, 1, 1);
+(2352, '獅子頭', 2, 400, 35, 10, NULL, 10, 0.5, 0.5);
 
 -- --------------------------------------------------------
 
@@ -6261,7 +6286,10 @@ INSERT INTO `recipe` (`ID`, `iID`, `portion`, `dishID`) VALUES
 (3247, 417, 45, 578),
 (3248, 418, 45, 578),
 (3249, 599, 150, 578),
-(3250, 437, 30, 578);
+(3250, 437, 30, 578),
+(3258, 41, 180, 581),
+(3259, 128, 100, 581),
+(3260, 2352, 200, 582);
 
 -- --------------------------------------------------------
 
@@ -6284,8 +6312,15 @@ CREATE TABLE `t_newrecipe` (
   `UID` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `dishName` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `ingredients` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `portion` int(11) NOT NULL
+  `portion` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 傾印資料表的資料 `t_newrecipe`
+--
+
+INSERT INTO `t_newrecipe` (`ID`, `UID`, `dishName`, `ingredients`, `portion`) VALUES
+(50, '234', '醬燒', '', 0);
 
 -- --------------------------------------------------------
 
@@ -6299,13 +6334,6 @@ CREATE TABLE `t_user_add` (
   `dishName` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- 傾印資料表的資料 `t_user_add`
---
-
-INSERT INTO `t_user_add` (`ID`, `UID`, `dishName`) VALUES
-(9, '234', '鴨肉飯');
-
 -- --------------------------------------------------------
 
 --
@@ -6317,7 +6345,7 @@ CREATE TABLE `t_user_histroy_modify` (
   `UID` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `dishID` int(11) NOT NULL,
   `iID` int(11) NOT NULL,
-  `portion` int(11) NOT NULL
+  `portion` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -6362,7 +6390,8 @@ INSERT INTO `user` (`ID`, `userid`, `password`, `name`, `gender`, `date`, `age`,
 (8, '555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '123', '生理男', '2022-09-29', 0, 111, 111, 90.0901, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (9, '5555', '$2y$10$iIgLX9I5unKuEfilOKxt4.reHPPdwTjyjyJJa/QGucqa7btKkAbiC', '111', '生理男', '2022-09-29', 0, 111, 11, 8.92785, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
 (10, '3322', '$2y$10$tb0OCE9.KQTuh//UuCJo/u3tNNNo0hhPtyI/LEAnh5iCXCnNWPv06', '321', '生理男', '2022-09-29', 0, 111, 1, 0.811622, '輕度活動', '肝硬化', '0', '0', '0', '0', '0', '0'),
-(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2022-10-07', 0, 123, 123, 81.3008, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0');
+(11, '234', '$2y$10$.eIIXwU5JkxNtDCTb8DceOi5Jg.DfIN5QA8FK0Ff57Wdta25fuXUO', '333', '生理男', '2002-10-31', 19, 176, 75, 24.2123, '輕度活動', '肺炎', '0', '0', '0', '0', '0', '0'),
+(12, 'Q123456789', '$2y$10$.IxUd2STTKB62Yf2zl1xPOl1t5rwkTTG56YsO3I6B8cQUJYs2s4sG', 'test', '生理男', '2001-05-17', 21, 180, 75, 23.1481, '輕度活動', '無', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -6377,8 +6406,8 @@ CREATE TABLE `user_histroy_modify` (
   `time` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `dishID` int(11) NOT NULL,
   `iID` int(11) NOT NULL,
-  `iportion` int(11) NOT NULL,
-  `portion` int(11) NOT NULL
+  `iportion` float NOT NULL,
+  `portion` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -6392,7 +6421,16 @@ INSERT INTO `user_histroy_modify` (`ID`, `UID`, `date`, `time`, `dishID`, `iID`,
 (20, '234', '2022-10-20', '22:50', 330, 61, 250, 1),
 (21, '234', '2022-10-20', '22:50', 330, 208, 25, 1),
 (22, '234', '2022-10-20', '22:50', 330, 212, 50, 1),
-(23, '234', '2022-10-20', '22:50', 330, 17, 30, 1);
+(23, '234', '2022-10-20', '22:50', 330, 17, 30, 1),
+(24, '234', '2022-10-28', '11:48', 5, 41, 180, 1),
+(25, '234', '2022-10-28', '11:48', 5, 398, 100, 1),
+(26, 'Q123456789', '2022-10-30', '18:39', 1, 7, 45, 2),
+(27, 'Q123456789', '2022-10-30', '18:39', 1, 62, 20, 2),
+(28, 'Q123456789', '2022-10-30', '18:39', 1, 224, 100, 2),
+(29, 'Q123456789', '2022-10-30', '18:48', 582, 2352, 200, 1),
+(30, 'Q123456789', '2022-11-01', '20:41', 1, 7, 45, 1),
+(31, 'Q123456789', '2022-11-01', '20:41', 1, 62, 20, 1),
+(32, 'Q123456789', '2022-11-01', '20:41', 1, 224, 100, 1);
 
 --
 -- 已傾印資料表的索引
@@ -6466,55 +6504,55 @@ ALTER TABLE `user_histroy_modify`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `dish`
 --
 ALTER TABLE `dish`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=579;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=583;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `history`
 --
 ALTER TABLE `history`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `iID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2350;
+  MODIFY `iID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2353;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3251;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3261;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_newrecipe`
 --
 ALTER TABLE `t_newrecipe`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_add`
 --
 ALTER TABLE `t_user_add`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `t_user_histroy_modify`
 --
 ALTER TABLE `t_user_histroy_modify`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user_histroy_modify`
 --
 ALTER TABLE `user_histroy_modify`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
