@@ -98,6 +98,8 @@
     #先找到ingredients.NID為需求類的食材
     #ingredients.iID=recipe.iID 找到食譜dishID
     #dish.ID=recipe.dishID 推回食譜推薦
+    ##1029 更新
+    ##如果有些類別的攝取已經達標/超過 就不再推薦有包含那類別的食譜
 
     $search = array_search(min($now_category),$now_category);
     $recommend_dishID = array();
@@ -106,149 +108,2098 @@
 
     if($search==0){ 
     #全榖雜糧量最少
-    #$m=0;
+        #撈出食材有包含全榖雜糧類的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='1'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如2超標
+                if($now_category[1]>$goal_category[1]){
+                    #撈出食材資訊且不能有2的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如2,3超標
+                    if($now_category[2]>$goal_category[2]){ 
+                        #撈出食材資訊且不能有2.3的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如2,3,4超標
+                        if($now_category[3]>$goal_category[3]){ 
+                            #撈出食材資訊且不能有2,3,4的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3 
+                            and `ingredients`.`NID`=4)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如2,3,4,5超標                
+                            if($now_category[4]>$goal_category[4]){ 
+                                #撈出食材資訊且不能有2,3,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3 
+                                and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如2,3,4,5,6超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有2,3,4,5,6的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3 
+                                    and `ingredients`.`NID`=4 and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如3超標
+                else if($now_category[2]>$goal_category[2]){ 
+                    #撈出食材資訊且不能有3的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如3,4超標
+                    if($now_category[3]>$goal_category[3]){ 
+                        #撈出食材資訊且不能有3,4的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如3,4,5超標
+                        if($now_category[4]>$goal_category[4]){ 
+                            #撈出食材資訊且不能有3,4,5的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                            and `ingredients`.`NID`=5)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如3,4,5,6超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有3,4,5,6的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                                and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如4超標
+                else if($now_category[3]>$goal_category[3]){
+                    #撈出食材資訊且不能有4的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如4,5超標
+                    if($now_category[4]>$goal_category[4]){ 
+                        #撈出食材資訊且不能有4,5的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如4,5,6超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有4,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5
+                            and `ingredients`.`NID`=6)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如5超標
+                else if($now_category[4]>$goal_category[4]){ 
+                    #撈出食材資訊且不能有5的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如5,6超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有5,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如6超標
+                else if($now_category[5]>$goal_category[5]){
+                    #撈出食材資訊且不能有6的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=6)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
         }
     }
-    else if($search==1){
+    ###
     #蛋豆魚肉量最少
+    else if($search==1){
+        #撈出食材有包含蛋豆魚肉類的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='2'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如1超標
+                if($now_category[0]>$goal_category[0]){
+                    #撈出食材資訊且不能有1的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如1,3超標
+                    if($now_category[2]>$goal_category[2]){ 
+                        #撈出食材資訊且不能有1.3的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=3)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如1,3,4超標
+                        if($now_category[3]>$goal_category[3]){ 
+                            #撈出食材資訊且不能有1,3,4的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=3 
+                            and `ingredients`.`NID`=4)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如1,3,4,5超標                
+                            if($now_category[4]>$goal_category[4]){ 
+                                #撈出食材資訊且不能有1,3,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=3 
+                                and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如1,3,4,5,6超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有1,3,4,5,6的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=3 
+                                    and `ingredients`.`NID`=4 and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如3超標
+                else if($now_category[2]>$goal_category[2]){ 
+                    #撈出食材資訊且不能有3的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如3,4超標
+                    if($now_category[3]>$goal_category[3]){ 
+                        #撈出食材資訊且不能有3,4的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如3,4,5超標
+                        if($now_category[4]>$goal_category[4]){ 
+                            #撈出食材資訊且不能有3,4,5的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                            and `ingredients`.`NID`=5)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如3,4,5,6超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有3,4,5,6的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                                and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如4超標
+                else if($now_category[3]>$goal_category[3]){
+                    #撈出食材資訊且不能有4的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如4,5超標
+                    if($now_category[4]>$goal_category[4]){ 
+                        #撈出食材資訊且不能有4,5的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如4,5,6超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有4,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5
+                            and `ingredients`.`NID`=6)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如5超標
+                else if($now_category[4]>$goal_category[4]){ 
+                    #撈出食材資訊且不能有5的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如5,6超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有5,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如6超標
+                else if($now_category[5]>$goal_category[5]){
+                    #撈出食材資訊且不能有6的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=6)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
         }
     }
-    else if($search==2){
+    ###
     #乳品類量最少
+    else if($search==2){
+        #撈出食材有包含乳品類的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='3'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如1超標
+                if($now_category[0]>$goal_category[0]){
+                    #撈出食材資訊且不能有1的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如1,2超標
+                    if($now_category[1]>$goal_category[1]){ 
+                        #撈出食材資訊且不能有1.2的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        echo $database_recommend_dish_Name."<br>";
+                        ####
+                        ##假如1,2,4超標
+                        if($now_category[3]>$goal_category[3]){
+                            #撈出食材資訊且不能有1,2,4的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                            and `ingredients`.`NID`=4)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如1,2,4,5超標                
+                            if($now_category[4]>$goal_category[4]){ 
+                                #撈出食材資訊且不能有1,2,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如1,2,4,5,6超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有1,2,4,5,6的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                    and `ingredients`.`NID`=4 and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如2超標
+                else if($now_category[1]>$goal_category[1]){ 
+                    #撈出食材資訊且不能有2的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如2,4超標
+                    if($now_category[3]>$goal_category[3]){ 
+                        #撈出食材資訊且不能有3,4的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=4)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如2,4,5超標
+                        if($now_category[4]>$goal_category[4]){ 
+                            #撈出食材資訊且不能有2,4,5的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=4
+                            and `ingredients`.`NID`=5)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如2,4,5,6超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有2,4,5,6的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=4
+                                and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如4超標
+                else if($now_category[3]>$goal_category[3]){
+                    #撈出食材資訊且不能有4的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如4,5超標
+                    if($now_category[4]>$goal_category[4]){ 
+                        #撈出食材資訊且不能有4,5的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如4,5,6超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有4,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5
+                            and `ingredients`.`NID`=6)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如5超標
+                else if($now_category[4]>$goal_category[4]){ 
+                    #撈出食材資訊且不能有5的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如5,6超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有5,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如6超標
+                else if($now_category[5]>$goal_category[5]){
+                    #撈出食材資訊且不能有6的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=6)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
         }
     }
-    else if($search==3){
+    ###
     #蔬菜類量最少
+    else if($search==3){
+        #撈出食材有包含蔬菜類的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='4'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如1超標
+                if($now_category[0]>$goal_category[0]){
+                    #撈出食材資訊且不能有1的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如1,2超標
+                    if($now_category[1]>$goal_category[1]){ 
+                        #撈出食材資訊且不能有1.2的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如1,2,3超標
+                        if($now_category[2]>$goal_category[2]){ 
+                            #撈出食材資訊且不能有1,2,3的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                            and `ingredients`.`NID`=3)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如1,2,3,5超標                
+                            if($now_category[4]>$goal_category[4]){ 
+                                #撈出食材資訊且不能有1,2,3,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                and `ingredients`.`NID`=3 and `ingredients`.`NID`=5)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如1,2,3,5,6超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有1,2,3,5,6的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                    and `ingredients`.`NID`=3 and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如2超標
+                else if($now_category[1]>$goal_category[1]){ 
+                    #撈出食材資訊且不能有2的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如2,3超標
+                    if($now_category[2]>$goal_category[2]){ 
+                        #撈出食材資訊且不能有2,3的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如2,3,5超標
+                        if($now_category[4]>$goal_category[4]){ 
+                            #撈出食材資訊且不能有2,3,5的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                            and `ingredients`.`NID`=5)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如2,3,5,6超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有2,3,5,6的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                                and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如3超標
+                else if($now_category[2]>$goal_category[2]){
+                    #撈出食材資訊且不能有3的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如3,5超標
+                    if($now_category[4]>$goal_category[4]){ 
+                        #撈出食材資訊且不能有3,5的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=5)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如3,5,6超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有3,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=5
+                            and `ingredients`.`NID`=6)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如5超標
+                else if($now_category[4]>$goal_category[4]){ 
+                    #撈出食材資訊且不能有5的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如5,6超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有5,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5 and `ingredients`.`NID`=6)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如6超標
+                else if($now_category[5]>$goal_category[5]){
+                    #撈出食材資訊且不能有6的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=6)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
         }
     }
-    else if($search==4){
+    ###
     #水果類量最少
+    else if($search==4){
+        #撈出食材有包含水果類的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='5'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如1超標
+                if($now_category[0]>$goal_category[0]){
+                    #撈出食材資訊且不能有1的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如1,2超標
+                    if($now_category[1]>$goal_category[1]){ 
+                        #撈出食材資訊且不能有1.2的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如1,2,3超標
+                        if($now_category[2]>$goal_category[2]){ 
+                            #撈出食材資訊且不能有1,2,3的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                            and `ingredients`.`NID`=3)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如1,2,3,4超標                
+                            if($now_category[3]>$goal_category[3]){ 
+                                #撈出食材資訊且不能有1,2,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如1,2,3,4,6超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有1,2,3,5,6的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                    and `ingredients`.`NID`=3 and `ingredients`.`NID`=4 and `ingredients`.`NID`=6)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如2超標
+                else if($now_category[1]>$goal_category[1]){ 
+                    #撈出食材資訊且不能有2的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如2,3超標
+                    if($now_category[2]>$goal_category[2]){ 
+                        #撈出食材資訊且不能有2,3的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如2,3,4超標
+                        if($now_category[3]>$goal_category[3]){ 
+                            #撈出食材資訊且不能有2,3,4的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                            and `ingredients`.`NID`=4)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如2,3,4,6超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有2,3,4,6的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                                and `ingredients`.`NID`=4 and `ingredients`.`NID`=6)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如3超標
+                else if($now_category[2]>$goal_category[2]){
+                    #撈出食材資訊且不能有3的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如3,4超標
+                    if($now_category[3]>$goal_category[3]){ 
+                        #撈出食材資訊且不能有3,4的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如3,4,6超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有3,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                            and `ingredients`.`NID`=6)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如4超標
+                else if($now_category[3]>$goal_category[3]){ 
+                    #撈出食材資訊且不能有4的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如4,6超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有4,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=6)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如6超標
+                else if($now_category[5]>$goal_category[5]){
+                    #撈出食材資訊且不能有6的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=6)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
         }
     }
-    else if($search==5){
+    ###
     #油脂與堅果種子類量最少
+    else if($search==5){  
+        #撈出食材有包含油脂與堅果種子類量的菜
         $query = "SELECT * FROM `ingredients` WHERE `NID`='6'";
         $result = $link->query($query);
         foreach ($result as $row){
             $recommend_ingredients_iID=$row["iID"];
-
+            #撈出該食材編號
             $query = "SELECT * FROM `recipe` WHERE `iID`='$recommend_ingredients_iID'";
             $result = $link->query($query);
             foreach ($result as $row){
                 $recommend_recipe_dishID=$row["dishID"];
-                $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
-                $result = $link->query($query);
-                foreach ($result as $row){
-                    $database_recommend_dish_ID=$row["ID"];
-                    $database_recommend_dish_Name=$row["dishName"];
-                    $database_recommend_dish_method=$row["method"];
-                    array_push($recommend_dishID,$database_recommend_dish_ID);
-                    array_push($recommend_dishName,$database_recommend_dish_Name);
-                    array_push($recommend_method,$database_recommend_dish_method);
+                ######
+                ##假如1超標
+                if($now_category[0]>$goal_category[0]){
+                    #撈出食材資訊且不能有1的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如1,2超標
+                    if($now_category[1]>$goal_category[1]){ 
+                        #撈出食材資訊且不能有1.2的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如1,2,3超標
+                        if($now_category[2]>$goal_category[2]){ 
+                            #撈出食材資訊且不能有1,2,3的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                            and `ingredients`.`NID`=3)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }            
+                            ####
+                            ##假如1,2,3,4超標                
+                            if($now_category[3]>$goal_category[3]){ 
+                                #撈出食材資訊且不能有1,2,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }            
+                                ####
+                                ##假如1,2,3,4,5超標
+                                if($now_category[5]>$goal_category[5]){ 
+                                    #撈出食材資訊且不能有1,2,3,4,5的食材在內
+                                    $query = "SELECT DISTINCT `dish`.*
+                                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                    (SELECT `dish`.`ID`
+                                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=1 and `ingredients`.`NID`=2 
+                                    and `ingredients`.`NID`=3 and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                                    $result = $link->query($query);
+                                    foreach ($result as $row){
+                                        $database_recommend_dish_ID=$row["ID"];
+                                        $database_recommend_dish_Name=$row["dishName"];
+                                        $database_recommend_dish_method=$row["method"];
+                                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                                        array_push($recommend_method,$database_recommend_dish_method);
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
+                ##假如2超標
+                else if($now_category[1]>$goal_category[1]){ 
+                    #撈出食材資訊且不能有2的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
+                    ####
+                    ##假如2,3超標
+                    if($now_category[2]>$goal_category[2]){ 
+                        #撈出食材資訊且不能有2,3的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ####
+                        ##假如2,3,4超標
+                        if($now_category[3]>$goal_category[3]){ 
+                            #撈出食材資訊且不能有2,3,4的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                            and `ingredients`.`NID`=4)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                            ####
+                            ##假如2,3,4,5超標
+                            if($now_category[5]>$goal_category[5]){ 
+                                #撈出食材資訊且不能有2,3,4,5的食材在內
+                                $query = "SELECT DISTINCT `dish`.*
+                                FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                                (SELECT `dish`.`ID`
+                                FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                                INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                                WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=2 and `ingredients`.`NID`=3
+                                and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                                $result = $link->query($query);
+                                foreach ($result as $row){
+                                    $database_recommend_dish_ID=$row["ID"];
+                                    $database_recommend_dish_Name=$row["dishName"];
+                                    $database_recommend_dish_method=$row["method"];
+                                    array_push($recommend_dishID,$database_recommend_dish_ID);
+                                    array_push($recommend_dishName,$database_recommend_dish_Name);
+                                    array_push($recommend_method,$database_recommend_dish_method);
+                                }                            
+                            }
+                        }
+                    }
+                }
+                ##假如3超標
+                else if($now_category[2]>$goal_category[2]){
+                    #撈出食材資訊且不能有3的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }                   
+                    ####
+                    ##假如3,4超標
+                    if($now_category[3]>$goal_category[3]){ 
+                        #撈出食材資訊且不能有3,4的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }
+                        ######假如3,4,5超標
+                        if($now_category[5]>$goal_category[5]){ 
+                            #撈出食材資訊且不能有3,5,6的食材在內
+                            $query = "SELECT DISTINCT `dish`.*
+                            FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                            (SELECT `dish`.`ID`
+                            FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                            INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                            WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=3 and `ingredients`.`NID`=4
+                            and `ingredients`.`NID`=5)";
+                            $result = $link->query($query);
+                            foreach ($result as $row){
+                                $database_recommend_dish_ID=$row["ID"];
+                                $database_recommend_dish_Name=$row["dishName"];
+                                $database_recommend_dish_method=$row["method"];
+                                array_push($recommend_dishID,$database_recommend_dish_ID);
+                                array_push($recommend_dishName,$database_recommend_dish_Name);
+                                array_push($recommend_method,$database_recommend_dish_method);
+                            }
+                        }
+                    }
+                }
+                ##假如4超標
+                else if($now_category[3]>$goal_category[3]){ 
+                    #撈出食材資訊且不能有4的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                    ####
+                    ##假如4,5超標
+                    if($now_category[5]>$goal_category[5]){ 
+                        #撈出食材資訊且不能有4,6的食材在內
+                        $query = "SELECT DISTINCT `dish`.*
+                        FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                        (SELECT `dish`.`ID`
+                        FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                        INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                        WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=4 and `ingredients`.`NID`=5)";
+                        $result = $link->query($query);
+                        foreach ($result as $row){
+                            $database_recommend_dish_ID=$row["ID"];
+                            $database_recommend_dish_Name=$row["dishName"];
+                            $database_recommend_dish_method=$row["method"];
+                            array_push($recommend_dishID,$database_recommend_dish_ID);
+                            array_push($recommend_dishName,$database_recommend_dish_Name);
+                            array_push($recommend_method,$database_recommend_dish_method);
+                        }  
+                    }
+                }
+                ##假如5超標
+                else if($now_category[4]>$goal_category[4]){
+                    #撈出食材資訊且不能有5的食材在內
+                    $query = "SELECT DISTINCT `dish`.*
+                    FROM `dish` INNER JOIN `recipe` ON `dish`.`ID` = `recipe`.`dishID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `dish`.`ID` NOT IN
+                    (SELECT `dish`.`ID`
+                    FROM `dish` INNER JOIN `recipe` ON `recipe`.`dishID`=`dish`.`ID`
+                    INNER JOIN `ingredients` ON `ingredients`.`iID`=`recipe`.`iID`
+                    WHERE `dish`.`ID`='$recommend_recipe_dishID' and `ingredients`.`NID`=5)";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }  
+                }
+                else{
+                    ##假如沒人超標
+                    $query = "SELECT * FROM `dish` WHERE `ID`='$recommend_recipe_dishID'";
+                    $result = $link->query($query);
+                    foreach ($result as $row){
+                        $database_recommend_dish_ID=$row["ID"];
+                        $database_recommend_dish_Name=$row["dishName"];
+                        $database_recommend_dish_method=$row["method"];
+                        array_push($recommend_dishID,$database_recommend_dish_ID);
+                        array_push($recommend_dishName,$database_recommend_dish_Name);
+                        array_push($recommend_method,$database_recommend_dish_method);
+                    }
                 }
             }
-        }
+        }        
     }
+
+    ######疾病
+    #高血壓 
+        #紅肉代替白肉
+        #鈉含量極高ㄉ食物不推薦(標準是??)
+    #慢性下呼吸道疾病
+        #高脂肪含量的肥肉(標準是??)
+        #海產品
+        #生禽肉
+        #辛辣或過甜過鹹食物
+    #慢性腎臟疾病
+        #肉臟類
+        #全穀類
+        #含鉀量較高之水果(標準??)
+        #少豆類
+        #少麵筋
+        #少乳製品
+        #少堅果
+    #肝硬化
+        #澱粉類攝取 450g 薯類60g
+		#蔬菜類攝取 黃綠色蔬菜100g 淺色蔬菜200g
+		#水果類調整 200g
+        #紅蘿蔔 罐頭 加工食品 紫菜 鈉含量較高的(標準??)
+
     #$use_recommend_dishID = array_unique($recommend_dishID);
     #$use_recommend_dishName = array_unique($recommend_dishName);
     #$use_recommend_method = array_unique($recommend_method);

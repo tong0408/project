@@ -312,9 +312,8 @@
 		$goal_suger=($user_cal*0.1)/4;
 	}
 	else if($user_disease=="高血壓"){
-		#白肉代替紅肉
-		#低鈉飲食 每日食鹽量<6g!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!待修正
-		$goal_sodium=6;
+		#低鈉飲食 每日食鹽量<6g (1g食鹽量包含0.4g鈉含量)
+		$goal_sodium=6*0.4;
 	}
 	else if($user_disease=="慢性下呼吸道疾病"){
 		#蛋白質調整 體重*1.5g
@@ -327,9 +326,6 @@
 	else if($user_disease=="肝硬化"){
 		#蛋白質調整 100g
 		$goal_protein=100;
-		#澱粉類攝取 450g 薯類60g
-		#蔬菜類攝取 黃綠色蔬菜100g 淺色蔬菜200g
-		#水果類調整 200g
 		#脂肪調整 總熱量的25%/9
 		$goal_fat=($user_cal*0.25)/9;
 		$goal_fat=round($goal_fat);
