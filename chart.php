@@ -67,6 +67,7 @@
 </style>
 
 <script>
+
 var sqlmdate=[];
 var sqlwdate=[];
 var sqlportion1=[];
@@ -135,7 +136,7 @@ var iID_NID1=[];
 		}
 
 		//取得所有需要的資料
-		$query = "SELECT count(`ID`),`iID`, `portion` FROM recipe where dishID='$dishID'";
+		$query = "SELECT count(`ID`) FROM recipe where dishID='$dishID' ";
 		$res = $link->query($query);
 		$c = $res->fetchColumn();
 		
@@ -152,13 +153,15 @@ var iID_NID1=[];
 		foreach ($re as $r){
 			$iID=$r['iID'];
 			$dishportion=$r['portion'];
-			$portion=$dishportion*$hisportion;
 			
 			//從iID取得NID和食材名稱<使用>
-			$query = "SELECT NID FROM ingredients where iID='$iID'";
+			//依據NID拿值
+			$query = "SELECT * FROM ingredients where iID='$iID'";
 			$re = $link->query($query);
 			foreach ($re as $r){
 				$iID_NID=$r['NID'];
+
+				//放NID
 				//if 月份>=10月
 				if(substr($sqldate,5,2)>=10){
 ?>
@@ -174,21 +177,157 @@ var iID_NID1=[];
 					</script>
 <?php
 				}
-			}
-			//if 月份>=10月
-			if(substr($sqldate,5,2)>=10){
+
+				//依照NID去給相對應的欄位
+				//if 月份>=10月
+				
+				if($iID_NID==1){
+					$p=$dishportion/100;
+					$ip=$r['carbohydrate'];
+					$portion=$p*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
 ?>
-				<script>
-				sqlportion10.push('<?php echo $portion;?>');
-				</script>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
 <?php
-			//if 月份<10月
-			}else{
+					//if 月份<10月
+					}else{
 ?>
-				<script>
-				sqlportion1.push('<?php echo $portion;?>');
-				</script>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
 <?php
+					}
+				}else if($iID_NID==2){
+					$ip=$r['protein'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==3){
+					$ip=$r['protein'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==4){
+					$ip=$r['cal'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==5){
+					$ip=$r['cal'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==6){
+					$ip=$r['fat'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==7){
+					$ip=$r['cal'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+					
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}else if($iID_NID==8){
+					$ip=$r['cal'];
+					$portion=($dishportion/100)*$ip*$hisportion;
+
+					if(substr($sqldate,5,2)>=10){
+?>
+						<script>
+						sqlportion10.push('<?php echo $portion;?>');
+						
+						</script>
+<?php
+					//if 月份<10月
+					}else{
+?>
+						<script>
+						sqlportion1.push('<?php echo $portion;?>');
+						</script>
+<?php
+					}
+				}
 			}
 		}
 	}
@@ -205,7 +344,7 @@ var iID_NID1=[];
 	$d=0;
     //連接user_histroy_modify資料表
 	$count=0;
-	$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' order by `date` desc";
+	$query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' order by `date` DESC";
 	$result = $link->query($query);
 	
 	foreach($result as $row){
@@ -316,7 +455,7 @@ var iID_NID1=[];
 
 		if($b==1){
 			//取得所有需要的資料
-			$query = "SELECT count(`ID`) FROM user_histroy_modify where `UID`='$userID' and dishID='$t_dishID[$d]' ";
+			$query = "SELECT count(`ID`) FROM user_histroy_modify where `UID`='$userID' and dishID='$t_dishID[$d]' and `date`='$sqldate'";
 			$res = $link->query($query);
 			$c = $res->fetchColumn();
 	
@@ -325,6 +464,7 @@ var iID_NID1=[];
 			//取得dishID使用的iID&portion
 			$query = "SELECT * FROM user_histroy_modify where `UID`='$userID' and dishID='$t_dishID[$d]'";
 			$re = $link->query($query);
+			
 	?>		
 			<script>
 				iIDcount.push('<?php echo $c;?>');
@@ -334,11 +474,10 @@ var iID_NID1=[];
 			foreach ($re as $r){
 				$iID=$r['iID'];
 				$iportion=$r['iportion'];
-				$dishportion=$r['portion'];
-				$portion=$dishportion*$iportion;
+				$hportion=$r['portion'];
 
 				//從iID取得NID和食材名稱<使用>
-				$query = "SELECT NID FROM ingredients where iID='$iID'";
+				$query = "SELECT * FROM ingredients where iID='$iID'";
 				$re = $link->query($query);
 				foreach ($re as $r){
 					$iID_NID=$r['NID'];
@@ -357,22 +496,162 @@ var iID_NID1=[];
 					</script>
 	<?php
 					}
+					//依照NID去給相對應的欄位
+					//if 月份>=10月
+					if($iID_NID==1){
+						$p=$iportion/100;
+						$ip=$r['carbohydrate'];
+						$portion=$p*$ip*$hportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+					}else if($iID_NID==2){
+						$ip=$r['protein'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+					}else if($iID_NID==3){
+						$ip=$r['protein'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+					
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+					}
+					}else if($iID_NID==4){
+						$ip=$r['cal'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+					}else if($iID_NID==5){
+						$ip=$r['cal'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+					}else if($iID_NID==6){
+						$ip=$r['fat'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+						//7我不知道拿甚麼欄位
+					}else if($iID_NID==7){
+						$ip=$r['cal'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+						//8我不知道拿甚麼欄位
+					}else if($iID_NID==8){
+						$ip=$r['cal'];
+						$portion=($dishportion/100)*$ip*$hisportion;
+
+						if(substr($sqldate,5,2)>=10){
+?>
+							<script>
+							sqlportion10.push('<?php echo $portion;?>');
+							
+							</script>
+<?php
+						//if 月份<10月
+						}else{
+?>
+							<script>
+							sqlportion1.push('<?php echo $portion;?>');
+							</script>
+<?php
+						}
+					}
 				}
-				//if 月份>=10月
-				if(substr($sqldate,5,2)>=10){
-	?>
-				<script>
-				sqlportion10.push('<?php echo $portion;?>');
-				</script>
-	<?php
-				//if 月份<10月
-				}else{
-	?>
-				<script>
-				sqlportion1.push('<?php echo $portion;?>');
-				</script>
-	<?php
-				}
+				
 			}
 			$a=$a+1;
 			$d=$d+1;
@@ -1011,11 +1290,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==1){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1025,11 +1302,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==1){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1043,11 +1318,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==1){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/15;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/15;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1062,19 +1335,17 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 								}
 							}else{
 								var a=1;
-								var rcount=0;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==1){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1084,11 +1355,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==1){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1102,11 +1371,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==1){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/15;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1177,25 +1445,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==2){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
-												rcount=parseInt(iIDcount[z]);
-												a=a+1;
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==2){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1208,13 +1472,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==2){//六大類ID
-													document.write(sqlportion1[m]+",");
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/7;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/7;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1224,21 +1485,22 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
+										
 									}
 								}
 							}else{
+								var a=1;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==2){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1248,11 +1510,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==2){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1266,11 +1526,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==2){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/7;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1332,7 +1591,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var rcount=0;
 
 						for(var i=0;i<7;i++){
-							if(mmdd[i]<10){
+							if(mmdd[i]<10){//判斷月份
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==9){
@@ -1340,25 +1599,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==3){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
-												rcount=parseInt(iIDcount[z]);
-												a=a+1;
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==3){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1371,13 +1626,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										}else{
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==3){//六大類ID
-													document.write(sqlportion1[m]+",");
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/8;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/8;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1387,21 +1639,22 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
+										
 									}
 								}
 							}else{
+								var a=1;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==3){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1411,11 +1664,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==3){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1429,11 +1680,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==3){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/8;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1495,7 +1745,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var rcount=0;
 
 						for(var i=0;i<7;i++){
-							if(mmdd[i]<10){
+							if(mmdd[i]<10){//判斷月份
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==9){
@@ -1503,25 +1753,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==4){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
-												rcount=parseInt(iIDcount[z]);
-												a=a+1;
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==4){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1535,11 +1781,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==4){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/25;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/25;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1549,21 +1793,22 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
+										
 									}
 								}
 							}else{
+								var a=1;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==4){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1573,11 +1818,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==4){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1591,11 +1834,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==4){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/25;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1657,7 +1899,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var rcount=0;
 
 						for(var i=0;i<7;i++){
-							if(mmdd[i]<10){
+							if(mmdd[i]<10){//判斷月份
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==9){
@@ -1665,25 +1907,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==5){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
-												rcount=parseInt(iIDcount[z]);
-												a=a+1;
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==5){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1697,11 +1935,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==5){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/60;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/60;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1711,21 +1947,22 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
+										
 									}
 								}
 							}else{
+								var a=1;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==5){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1735,11 +1972,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==5){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1753,11 +1988,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==5){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/60;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1819,7 +2053,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 						var rcount=0;
 
 						for(var i=0;i<7;i++){
-							if(mmdd[i]<10){
+							if(mmdd[i]<10){//判斷月份
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==9){
@@ -1827,25 +2061,21 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID1[m]==6){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
-												rcount=parseInt(iIDcount[z]);
-												a=a+1;
+											rcount=parseInt(iIDcount[z]);
+											a=a+1;
 											}else{
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID1[m]==6){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion1[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion1[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion1[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 														}
 													}
 												}
@@ -1859,11 +2089,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID1[m]==6){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion1[m])/5;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion1[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion1[m])/5;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 													}
 												}
 											}
@@ -1873,21 +2101,22 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												rcount=rcount+parseInt(iIDcount[z]);
 											}
 										}
+										
 									}
 								}
 							}else{
+								var a=1;
 								for(var z=0;z<sqlmdate.length;z++){
 									if(mmdd[i]==sqlmdate[z]){//判斷月份相符
 										if(mmdd[i]==12){
 											if(a==1){
 												for(var m=0;m<iIDcount[z];m++){
 													if(iID_NID10[m]==6){//六大類ID
+														
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1897,11 +2126,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 												for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 													if(iID_NID10[m]==6){//六大類ID
 														if(portion[i]==null){
-															r=parseInt(sqlportion10[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(sqlportion10[m]);
 														}else{
-															r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
-															portion[i]=Math.round(r*10)/10;
+															portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 														}
 													}
 												}
@@ -1915,11 +2142,10 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 											for(var m=rcount;m<(parseInt(iIDcount[z])+rcount);m++){
 												if(iID_NID10[m]==6){//六大類ID
 													if(portion[i]==null){
-														r=parseInt(sqlportion10[m])/5;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(sqlportion10[m]);
 													}else{
-														r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
-														portion[i]=Math.round(r*10)/10;
+														portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
+														
 													}
 												}
 											}
@@ -1990,11 +2216,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<iIDcount[z]+wcount;m++){
 											if(iID_NID1[m]==1){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/15;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/15;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2012,11 +2236,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==1){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/15;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/15;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2040,7 +2262,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2086,11 +2308,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==2){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/7;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/7;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2108,11 +2328,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==2){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/7;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/7;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2136,7 +2354,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2182,11 +2400,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==3){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/8;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/8;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2204,11 +2420,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==3){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/8;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/8;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2232,7 +2446,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2281,11 +2495,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<iIDcount[z]+wcount;m++){
 											if(iID_NID1[m]==4){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/25;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/25;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2303,11 +2515,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==4){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/25;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/25;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2331,7 +2541,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2377,11 +2587,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==5){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/60;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/60;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2399,11 +2607,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==5){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/60;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/60;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2427,7 +2633,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
@@ -2473,11 +2679,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=rcount;m<iIDcount[z]+rcount;m++){
 											if(iID_NID1[m]==6){
 												if(portion[i]==null){
-													r=parseInt(sqlportion1[m])/5;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion1[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion1[m])/5;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion1[m]);
 												}
 											}
 										}
@@ -2495,11 +2699,9 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 										for(var m=wcount;m<p;m++){
 											if(iID_NID10[m]==6){
 												if(portion[i]==null){
-													r=parseInt(sqlportion10[m])/5;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(sqlportion10[m]);
 												}else{
-													r=parseInt(portion[i])+parseInt(sqlportion10[m])/5;
-													portion[i]=Math.round(r*10)/10;
+													portion[i]=parseFloat(portion[i])+parseFloat(sqlportion10[m]);
 												}
 											}
 										}
@@ -2523,7 +2725,7 @@ function Show_div(bm1,bw2,showmmddiv,divm2,divm3,divm4,divm5,divm6,showwdiv,divw
 							data: {
 								labels: [mmdd[13],mmdd[12], mmdd[11], mmdd[10], mmdd[9], mmdd[8], mmdd[7]],//改日期
 								datasets: [{
-									label: '六大類圖表-月 / 單位:克',
+									label: '六大類圖表-週 / 單位:克',
 									data: [portion[13], portion[12], portion[11], portion[10], portion[9], portion[8],portion[7]],//改數值
 									backgroundColor: [
 										'rgba(54, 162, 235, 0.2)',
