@@ -185,11 +185,10 @@
 							$Nid=$row["NID"];
 							
 							echo '<option value="'.$Name.'" id="'.$iID.'">';
-							echo $Nid;
 						}
 					?>
 					</datalist></td>
-					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion"></td>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" id="new_portion"></td>
 					
 					<td style="width:20px;"><input type="button" value="-" id="remove_row" class="btn"/></td>
 				</tr>
