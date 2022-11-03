@@ -42,7 +42,7 @@
 			$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
 			$result = $link->query($query);
 			$count = $result->fetchColumn();
-	
+			echo $count;
 			if($count==0){
 				if(count($new_ingredients)==0){
 					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
@@ -79,7 +79,7 @@
 							if($new_ingredients[$i]!=null){
 									
 								if($t_ingredients==0){
-									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`=dishName";
+									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`='$dishName'";
 									$count = $link->exec($query);
 								}
 							}
