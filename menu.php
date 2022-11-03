@@ -171,7 +171,8 @@
 		$user_disease6 = $row["disease6"];
 		$user_disease7 = $row["disease7"];
 	}
-
+	
+	$user_water=$user_weight*40;
     $user_cal=0;
     #計算出每日應攝取大卡
     ##先判斷出活動量&BMI型態再去判斷
@@ -406,7 +407,7 @@
 	if($user_disease4!=0){echo "、".$user_disease4;}
 	if($user_disease5!=0){echo "、".$user_disease5;}
 	if($user_disease6!=0){echo "、".$user_disease6;}
-	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".$user_goal_cal."大卡。<br>
+	echo "」，目前BMI為：".$user_BMI."。一天建議攝取".$user_goal_cal."大卡，飲水量為".$user_water."毫升。<br>
     <hr><h4><b>每日建議攝取量－目標熱量 ";if($now_cal>$user_goal_cal){echo "<font color='red'>";}; echo "$now_cal</font> / $user_goal_cal 大卡</b></h4>
 	<table width='95%'>
 	<tr>
