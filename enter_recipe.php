@@ -12,53 +12,53 @@
 	$query = "SELECT `dishName` FROM `dish` WHERE `dishName`='$new_dish'";
 	$result = $link->query($query);
 
-	foreach($result as $row){
-		if($row["dishName"]==$new_dish){
-			echo "<script>alert('該道菜已存在囉！')</script>";
-			echo "<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>";
-			break;
-		}else{
-			//新增至dish
-			$query = "INSERT INTO `dish`(`dishName`, `method`) 
-			VALUES('$new_dish','')";
-			$count = $link->exec($query);
-
-			//新增至t_user_add
-			$query = "INSERT INTO `t_user_add`(`UID`, `dishName`) 
-			VALUES('$userid','$new_dish')";
-			$count = $link->exec($query);
-
-			//先至dish搜尋ID
-			$query = "SELECT ID FROM `dish` WHERE `dishName`='$new_dish'";
-			$result = $link->query($query);
-
-			foreach($result as $row){
-				$dishID=$row["ID"];
-				$_SESSION['dID']=$dishID;
-			}
-
-
-			for($i=0;$i<count($new_ingredients);$i++){
-
-				//先至ingredients搜尋iID
-				$query = "SELECT iID FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
-				$result = $link->query($query);
-
-				//新增至recipe
-				foreach($result as $row){
-
-					$iID=$row["iID"];
-					$query = "INSERT INTO `recipe`(`iID`, `portion`, `dishID`) 
-					VALUES ($iID,$new_portion[$i],$dishID)";
-					$count = $link->exec($query);
-				}
-
-			}
-			$sql = "DELETE FROM `t_newrecipe` WHERE `UID`='$userid'";
-			// 用mysqli_query方法執行(sql語法)將結果存在變數中
-			$count = $link->exec($sql);
-				
-			header("Location: enter_diet_platform.php");
-			}
+	foreach($result as $row){}
+	if($row["dishName"]==$new_dish){
+		echo "<script>alert('該道菜已存在囉！')</script>";
+		echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";			
 		}
+	
+	else{
+			//新增至dish
+		$query = "INSERT INTO `dish`(`dishName`, `method`) 
+		VALUES('$new_dish','')";
+		$count = $link->exec($query);
+	
+		//新增至t_user_add
+		$query = "INSERT INTO `t_user_add`(`UID`, `dishName`) 
+		VALUES('$userid','$new_dish')";
+		$count = $link->exec($query);
+	
+		//先至dish搜尋ID
+		$query = "SELECT ID FROM `dish` WHERE `dishName`='$new_dish'";
+		$result = $link->query($query);
+	
+		foreach($result as $row){
+			$dishID=$row["ID"];
+			$_SESSION['dID']=$dishID;
+		}
+	
+		for($i=0;$i<count($new_ingredients);$i++){
+	
+			//先至ingredients搜尋iID
+			$query = "SELECT iID FROM `ingredients` WHERE `name`='$new_ingredients[$i]'";
+			$result = $link->query($query);
+	
+			//新增至recipe
+			foreach($result as $row){
+	
+				$iID=$row["iID"];
+				$query = "INSERT INTO `recipe`(`iID`, `portion`, `dishID`) 
+				VALUES ($iID,$new_portion[$i],$dishID)";
+				$count = $link->exec($query);
+			}
+	
+		}
+		$sql = "DELETE FROM `t_newrecipe` WHERE `UID`='$userid'";
+		// 用mysqli_query方法執行(sql語法)將結果存在變數中
+		$count = $link->exec($sql);
+			
+		header("Location: enter_diet_platform.php");
+			}
+			
   ?>
