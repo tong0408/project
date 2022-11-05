@@ -110,7 +110,7 @@
 		header("Location: record.php");
 		
 	}else{
-		echo "<script>alert('份量要記得輸入喔！')</script>";
+		echo "<script>alert('勾選料理數量與輸入的份量數量不同喔！')</script>";
 	    echo "<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>";
 		
 	}
