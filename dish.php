@@ -174,7 +174,7 @@
 		<div id="template" style="display:none;">
 			<table>
 				<tr class="row_data">
-					<td><input list="brow" name="ingredients[]" id="idata" style="width:70%;"><datalist id="brow">
+					<td><input list="brow" name="new_ingredients[]" id="idata" style="width:70%;"><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `ingredients` ";
 						$result = $link->query($query);
@@ -188,7 +188,7 @@
 						}
 					?>
 					</datalist></td>
-					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="new_portion[]" id="new_portion"></td>
+					<td><input type="number" step="0.1" min="0.1" max="1000.0" name="portion[]" id="new_portion"></td>
 					
 					<td style="width:20px;"><input type="button" value="-" id="remove_row" class="btn"/></td>
 				</tr>
