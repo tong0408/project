@@ -42,17 +42,19 @@
 			$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
 			$result = $link->query($query);
 			$count = $result->fetchColumn();
-			echo $count;
+			
 			if($count==0){
-				if(count($new_ingredients)==0){
+				if(count($new_ingredients)==1){
+					
 					$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
-					VALUES('$userid','$new_dish','0','0')";
-					$count = $link->exec($query);
+					VALUES('$userid','$new_dish','',0)";
+					$cou = $link->exec($query);
 				}else{
 					for($i=0;$i<count($new_ingredients);$i++){
+						
 						$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
 						VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
-						$count = $link->exec($query);
+						$cou = $link->exec($query);
 					}
 				}
 					
@@ -64,25 +66,44 @@
 					$dN=$row['dishName'];
 					if($dN!=$new_dish){
 						$query = "UPDATE `t_newrecipe` SET `dishName`='$new_dish' WHERE `UID`='$userid'";
-						$count = $link->exec($query);
+						$cou = $link->exec($query);
 					}
 				}
 				
 				if(count($new_ingredients)!=0){
+					
 					for($i=0;$i<count($new_ingredients);$i++){
-						$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid'";
+						$query = "SELECT * FROM `t_newrecipe` WHERE `UID`='$userid' and `dishName`='$new_dish'";
 						$result = $link->query($query);
-			
+
 						foreach($result as $row){
 							$t_ingredients=$row["ingredients"];
-								
+
+							//echo count($new_ingredients);
 							if($new_ingredients[$i]!=null){
 									
-								if($t_ingredients==0){
-									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`='$dishName'";
-									$count = $link->exec($query);
+								if($row["portion"]==0){
+									
+									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`='$dishName' and `UID`='$userid'";
+									$cou = $link->exec($query);
+
+								}else{
+									if($t_ingredients==$new_ingredients[$i]){
+										echo $new_ingredients[$i];
+										$q=1;
+										break;
+									}else{
+										$q=0;
+									}
 								}
 							}
+
+							
+						}
+						if($q==0){
+							$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
+							VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
+							$cou = $link->exec($query);
 						}
 					}
 				}

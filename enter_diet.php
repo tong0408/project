@@ -39,6 +39,42 @@
 	$n = isset($_SESSION['n']) ? $_SESSION['n'] : null;
 
 	if($d==0){
+		//去判斷要新增的時間是否相同 如果不同在新增
+		$query= "SELECT `time`,`dishaID` FROM `t_user_histroy_modify` WHERE `UID`='$userid' ";
+		$resu = $link->query($query);
+
+		foreach($resu as $rww){
+			$dishID=$rww["dishID"];
+			$t=$rww["time"];
+			
+			$query= "SELECT `name` FROM `dish` WHERE `ID`='$dishID' ";
+			$resul = $link->query($query);
+
+			foreach($resul as $rrw){
+				$dname=$rrw["name"];
+				
+				if($dname==$dishname and $t==$new_time){
+					echo '<script>
+					var x; 
+					var r=confirm("你在同一時間新增兩道一樣的菜，確定要新增嗎？");
+					if (r==true){
+    
+    
+						x="你按下的是\"確定\"按鈕。";
+					}else{
+    
+    
+						x="你按下的是\"取消\"按鈕。";
+					}
+					document.write(x)
+					</script>';
+				}
+				
+	
+			}
+
+		}
+
   		//搜尋t_user_histroy_modify裡面有沒有東西
 		$query = "SELECT count(`ID`) FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
 		$res = $link->query($query);
@@ -83,7 +119,7 @@
 				}else{
 					for($m=0;$m<$n;$m++){
 						if($new_portion[$m]!=null){
-							echo $dishID;
+							
 							//新增至使用者history
 							$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
 							VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$m])";
@@ -96,7 +132,7 @@
 				}
 			}
 		}
-		
+
 		//刪除t_user_add
 		$sql = "DELETE FROM `t_user_add` WHERE `UID`='$userid'";
 		// 用mysqli_query方法執行(sql語法)將結果存在變數中
