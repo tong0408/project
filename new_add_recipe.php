@@ -84,8 +84,10 @@
 									
 								if($row["portion"]==0){
 									
-									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`=$new_portion[$i] WHERE `dishName`='$dishName' and `UID`='$userid'";
-									$cou = $link->exec($query);
+									$query = "UPDATE `t_newrecipe` SET `ingredients`='$new_ingredients[$i]',`portion`='$new_portion[$i]' WHERE `dishName`='$new_dish' and `UID`='$userid'";
+									$count = $link->exec($query);
+									echo $new_ingredients[$i];
+									$q=1;
 
 								}else{
 									if($t_ingredients==$new_ingredients[$i]){
@@ -138,7 +140,7 @@
 				<table style="margin:auto;" id="append_position">
 				<tr><td>分類</td><td>食材</td><td>份量(克)</td><td>熱量(克)</td><td>蛋白質(克)</td><td>脂肪(克)</td><td>碳水化合物/<br>醣類(克)</td><td>糖類(克)</td><td>鈉(毫克)</td></tr>
 				<tr class="row_data">
-                <td><input list="brow" name="new_nutrient[]" id="ndata" style="width:80%;"><datalist id="brow">
+                <td><input list="brow" name="new_nutrient[]" id="ndata" style="width:80%;" required><datalist id="brow">
 					<?php
 						$query = "SELECT * FROM `nutrient` ";
 						$result = $link->query($query);

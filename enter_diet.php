@@ -40,7 +40,7 @@
 
 	if($d==0){
 		//去判斷要新增的時間是否相同 如果不同在新增
-		$query= "SELECT `time`,`dishaID` FROM `t_user_histroy_modify` WHERE `UID`='$userid' ";
+		/*$query= "SELECT `time`,`dishaID` FROM `t_user_histroy_modify` WHERE `UID`='$userid' ";
 		$resu = $link->query($query);
 
 		foreach($resu as $rww){
@@ -52,28 +52,21 @@
 
 			foreach($resul as $rrw){
 				$dname=$rrw["name"];
-				
+				$z=1;
 				if($dname==$dishname and $t==$new_time){
-					echo '<script>
+					echo "<script>
 					var x; 
-					var r=confirm("你在同一時間新增兩道一樣的菜，確定要新增嗎？");
+					var r=confirm('你在同一時間新增兩道一樣的菜，確定要新增嗎？');
 					if (r==true){
-    
-    
-						x="你按下的是\"確定\"按鈕。";
+						
 					}else{
-    
-    
-						x="你按下的是\"取消\"按鈕。";
+						<meta http-equiv=REFRESH CONTENT=0;url='enter_diet_platform.php'>;
 					}
-					document.write(x)
-					</script>';
+					</script>";
 				}
-				
-	
 			}
 
-		}
+		}*/
 
   		//搜尋t_user_histroy_modify裡面有沒有東西
 		$query = "SELECT count(`ID`) FROM `t_user_histroy_modify` WHERE `UID`='$userid'";
