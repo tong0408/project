@@ -129,7 +129,7 @@
 										if($i!=0){
 											
 											if($sqldishID[$i]!=$sqldishID[$i-1]){
-												ECHO $sqldishID[$i];
+												//ECHO $sqldishID[$i];
 												$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
 												$result = $link->query($query);
 												foreach($result as $row){
@@ -144,10 +144,8 @@
 										}
 										
 									}else {
-										
-										
 										if($b==0){
-											ECHO $sqldishID[$i];
+											//ECHO $sqldishID[$i];
 												$query = "SELECT * FROM dish where `ID`=$sqldishID[$i]";
 												$result = $link->query($query);
 												foreach($result as $row){
