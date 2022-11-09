@@ -42,14 +42,12 @@
 		//去判斷要新增的時間是否相同 如果不同在新增
 		/*$query= "SELECT `time`,`dishaID` FROM `t_user_histroy_modify` WHERE `UID`='$userid' ";
 		$resu = $link->query($query);
-
 		foreach($resu as $rww){
 			$dishID=$rww["dishID"];
 			$t=$rww["time"];
 			
 			$query= "SELECT `name` FROM `dish` WHERE `ID`='$dishID' ";
 			$resul = $link->query($query);
-
 			foreach($resul as $rrw){
 				$dname=$rrw["name"];
 				$z=1;
@@ -65,7 +63,6 @@
 					</script>";
 				}
 			}
-
 		}*/
 
   		//搜尋t_user_histroy_modify裡面有沒有東西
@@ -77,7 +74,7 @@
 		$res = $link->query($query);
 
 		$a=0;
-
+		$q=0;
 		//存t_user_histroy_modify資料
 		if($cou!=0){
 			foreach($res as $rw){
@@ -88,12 +85,14 @@
 				$a=$a+1;
 			}
 		}
-	
+		$arr2 = array_count_values ( $t_dishID );
+		$m_dishcou= count($arr2 );
+
 		FOR($i=0;$i<count($dishname);$i++){
 			//搜尋相對應的dishID
 			$query = "SELECT `ID` FROM `dish` WHERE `dishName`='$dishname[$i]'";
 			$result = $link->query($query);
-
+			
 			//拿dish的dishID
 			foreach($result as $row){
 				$dishID=$row["ID"];
@@ -103,22 +102,46 @@
 					for($m=0;$m<count($t_dishID);$m++){
 						//當勾選的dishID=t_user_histroy_modify的dishID
 						if($dishID==$t_dishID[$m]){
+							//echo $t_dishID[$m]." ".$m." 數量".count($t_dishID)."<br>";
 							//新增至使用者user_histroy_modify
 							$query = "INSERT INTO `user_histroy_modify`(`UID`, `date`, `time`, `dishID`, `iID`, `iportion`, `portion`)
 							VALUES('$userid','$new_date','$new_time',$t_dishID[$m],$t_iID[$m],$t_portion[$m],$new_portion[$i])";
 							$count = $link->exec($query);
-						}
+						}						
+						
 					}
+					for($m=0;$m<count($t_dishID);$m++){						
+						if(!in_array($dishID, $t_dishID)){							
+							if($new_portion[$m_dishcou]!=null){
+								//echo $dishID." ".$new_portion[$m_dishcou]."<br>";
+								
+								//新增至使用者history
+								$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
+								VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$m_dishcou])";
+								$count = $link->exec($query);
+								$m_dishcou=$m_dishcou+1;								
+								break;
+							}
+							else{
+									$m_dishcou=$m_dishcou+1;									
+									continue;
+							}
+						}
+						
+
+					}
+					
 				}else{
-					for($m=0;$m<$n;$m++){
-						if($new_portion[$m]!=null){
-							
+					for($m=0;$m<$n;$m++){						
+						if($new_portion[$q]!=null){
 							//新增至使用者history
 							$query = "INSERT INTO `history`(`UID`, `date`, `time`, `dishID`, `portion`)
-							VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$m])";
+							VALUES('$userid','$new_date','$new_time',$dishID,$new_portion[$q])";
 							$count = $link->exec($query);
+							$q=$q+1;
 							break;
 						}else{
+							$q=$q+1;
 							continue;
 						}
 					}
