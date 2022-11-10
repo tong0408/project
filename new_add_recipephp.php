@@ -65,7 +65,7 @@ for($i=0;$i<count($new_ingredients);$i++){
         }else{
             
                 echo "<script>alert('資料庫內已有該筆食材唷！')</script>";
-                echo "<meta http-equiv=REFRESH CONTENT=0;url='new_recipe.php'>";
+                echo "<meta http-equiv=REFRESH CONTENT=0;url='new_add_recipe.php'>";
 
         }
       
