@@ -18,8 +18,8 @@
 </style>
 </head>
 <body>
-<?php include("header.php"); ?>
-<a href="back.php?id=2"><button class="btn1 return">返回</button></a>
+<div onclick="myFunction()"><?php include("header.php"); ?></div>
+<button class="btn1 return" onclick="myFunction()">返回</button>
     <div class="form1">
 		食品：<input type="text" name="search_text" id="search_text" placeholder="請輸入搜尋文字" class="form-control" style="display:inline-block">
 		<div id="search_result"></div>
@@ -50,6 +50,14 @@
                 }
             });
         });
+        
+        
+ 
+        function myFunction() {
+            alert('此頁面資料不會保留') 
+            $.ajax({url: 'back.php'});
+            window.location.href='daily_diet.php'; 
+        };
     </script>
 </body>
 </html>

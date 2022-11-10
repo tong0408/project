@@ -25,7 +25,7 @@
 </head>
 <body>
 <?php include("header.php"); ?>
-<a href="back.php?id=1"><button class="btn1 return">返回</button></a>
+<a href="enter_diet_platform.php"><button class="btn1 return">返回</button></a>
 
 <div class="form1">
 <div style="text-align:left;">若以下沒有，請自行新增食材&emsp;<button type="button" class="btn" id="add" onclick="SubmitForm(this.id)">新增食材</button></div>
