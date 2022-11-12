@@ -9,7 +9,7 @@ $link = new PDO('mysql:host=' . $hostname . ';dbname=' . $database . ';charset=u
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="image/logo.png" rel="icon" type="image/x-icon" />
+<link href="image/icon.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">

@@ -26,7 +26,7 @@
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="image/logo.png" rel="icon" type="image/x-icon" />
+<link href="image/icon.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">
@@ -79,7 +79,7 @@
 					//顯示結果
 					echo '<tbody><tr>'.
 					//時間
-					'<td style="height:50px; border:none;" rowspan="'.$count_rows.'"><input type="button" value="-" class="btn"/></td>
+					'<td style="height:50px; border:none;" rowspan="'.$count_rows.'"><a href="delet.php?ID='.$row["ID"].'"><input type="button" value="-" class="btn"/></a></td>
 					<td style="height:50px;" rowspan="'.$count_rows.'">'.$row["time"].'</td>';
 					
 					//從菜ID取得菜名稱<使用>
@@ -184,6 +184,7 @@
 						$a=$a+1;
 					}
 					$c=0;
+					
 				}
 				
 				//取得所有需要的資料
@@ -193,11 +194,11 @@
 					$count = $link->prepare("SELECT * FROM user_histroy_modify WHERE `UID`='$userID' and `date`='$get_date' and `time`='$t_time[$i]' and `dishID`='$t_dishID[$i]'");   
 					$count->execute();   
 					$count_rows=$count->rowCount();
-
+					
 					//顯示結果
 					echo '<tbody><tr>'.
 					//時間
-					'<td style="height:50px; border:0px;" rowspan="'.$count_rows.'"><input type="button" value="-" class="btn"/></td>
+					'<td style="height:50px; border:0px;" rowspan="'.$count_rows.'"><a href="delet.php?ID1='.$t_dishID[$i].'&time='.$t_time[$i].'"><input type="button" value="-" class="btn"/></a></td>
 					<td style="height:50px;" rowspan="'.$count_rows.'">'.$t_time[$i].'</td>';
 					
 					//從菜ID取得菜名稱<使用>
@@ -220,6 +221,7 @@
 						//取得菜ID使用的食材ID及克數
 						$t_iID=$rw["iID"];
 						$t_iportion=$rw["iportion"]*$t_portion[$i];
+						$_SESSION['t_date']=$rw["date"];
 						
 
 						$query = "SELECT * FROM ingredients where iID='$t_iID'";

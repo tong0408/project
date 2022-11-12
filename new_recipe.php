@@ -11,7 +11,7 @@ $userid = $_SESSION['userID'];
 	<title>疾時養身</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="image/logo.png" rel="icon" type="image/x-icon" />
+	<link href="image/icon.png" rel="icon" type="image/x-icon" />
 	<link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/mine.css">
@@ -20,23 +20,18 @@ $userid = $_SESSION['userID'];
 	<style>
 		input[type=text] {
 			margin: 10px 0px 10px 0px;
-			width: 30%;
+			width: 100%;
 		}
-
 		input[type=number] {
 			margin: 10px 0px 10px 0px;
-			width: 80%;
+			width: 70%;
 		}
-
-		select {
-			margin: 10px 0px 10px 0px;
-			width: 80%;
-			height: 35px;
-		}
-
 		td {
 			height: 50px;
 			width: 150px;
+		}
+		#new_dish{
+			width:30%;
 		}
 	</style>
 </head>

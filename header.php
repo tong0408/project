@@ -4,7 +4,7 @@
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="image/logo.png" rel="icon" type="image/x-icon" />
+<link href="image/icon.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -75,7 +75,7 @@
 <div class="w3-top">
   <div class="w3-white w3-card" id="myNavbar">
     <div class="w3-button"  style="position:absolute; left:0px;"><a href="index.php" ><img src="image/logo.png" height='40px'/></a></div>
-    <div style="position:absolute; left:70px; width:100%; height:56px; background-color:#FFF;"></div>
+    <div style="position:absolute; left:150px; width:100%; height:56px; background-color:#FFF;"></div>
     <!-- Right-sided navbar links -->
 	
     <div class="w3-right w3-hide-small top">

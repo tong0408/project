@@ -7,7 +7,7 @@
     $new_ingredients = isset($_POST["ingredients"]) ? $_POST["ingredients"] : null; //新增食材名稱
     $new_portion = isset($_POST["portion"]) ? $_POST["portion"] : null; //新增份量
     $userid= $_SESSION['userID'];
-
+	$q=0;
 	if($new_dish==null){
 		$query = "SELECT count(ID) FROM `t_newrecipe` WHERE `UID`='$userid'";
 		$result = $link->query($query);
@@ -91,18 +91,18 @@
 
 								}else{
 									if($t_ingredients==$new_ingredients[$i]){
-										echo $new_ingredients[$i];
 										$q=1;
 										break;
 									}else{
-										$q=0;
+										$q=2;
 									}
 								}
 							}
 
 							
 						}
-						if($q==0){
+						if($q==2){
+							echo $i;
 							$query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
 							VALUES('$userid','$new_dish','$new_ingredients[$i]','$new_portion[$i]')";
 							$cou = $link->exec($query);
@@ -119,7 +119,7 @@
 <title>疾時養身</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="image/logo.png" rel="icon" type="image/x-icon" />
+<link href="image/icon.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/bootstrap-3.3.7.css" type="text/css">
 <link rel="stylesheet" href="css/w3.css">
 <link rel="stylesheet" href="css/mine.css">

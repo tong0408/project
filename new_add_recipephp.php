@@ -57,6 +57,8 @@ for($i=0;$i<count($new_ingredients);$i++){
             $count = $link->exec($query);
 
             //新增至t_newrecipe
+            $query1 = "DELETE FROM `t_newrecipe` WHERE `portion`='0' and `UID`='$userid'";
+			$count = $link->exec($query1);
             $query = "INSERT INTO `t_newrecipe`(`UID`, `dishName`, `ingredients`, `portion`) 
             VALUES('$userid','$dishName','$new_ingredients[$i]','$new_portion[$i]')";
             $count = $link->exec($query);

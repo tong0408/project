@@ -113,7 +113,7 @@
         $query = "SELECT count(ID) FROM recipe WHERE `dishID`='$dishid' ";
         $result = $link->query($query);
         $cou = $result->fetchColumn();
-
+        
         //echo $count;
         //拿來跑食材陣列的參數
         $a=0;
@@ -134,8 +134,9 @@
                 $iname=$r["name"];
                 
                 for($i=0;$i<$cou;$i++){
+                    
                     if($ingredients[$i]==$iname){
-                        //eCHO $ingredients[$i].",".$new_portion[$a];
+                        //eCHO $ingredients[$i].",".$new_portion[$a].",".$i."<br>";
                         //新增至t_user_histroy_modify
                         $query = "INSERT INTO `t_user_histroy_modify`(`UID`, `dishID`, `iID`, `portion`) 
                         VALUES('$userid',$dishid,$iID,$new_portion[$a])";
@@ -148,9 +149,29 @@
                     }
                     
                 }
-                    
             }
         }
+                if(count($new_ingredients)!=1){
+                    for($i=0;$i<count($new_ingredients)-1;$i++){
+        
+                        $query = "SELECT `iID` FROM ingredients WHERE `name`= '$new_ingredients[$i]'";
+                        $res = $link->query($query);
+                            
+                        foreach($res as $r){
+                            $iID=$r["iID"];
+                            //echo $new_ingredients[$i].$portion[$i];
+                            //新增至t_user_histroy_modify
+                            $query = "INSERT INTO `t_user_histroy_modify`(`UID`, `dishID`, `iID`, `portion`) 
+                            VALUES('$userid',$dishid,$iID,$portion[$i])";
+                            $count = $link->exec($query);
+                        }
+                    }
+                    
+                    
+                }
+                    
+            
+        
     }
 
 	header("Location: enter_diet_platform.php");
