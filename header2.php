@@ -22,7 +22,7 @@
 	<!-- Navbar (sit on top) -->
 	<div class="w3-top">
 	<div class="w3-bar w3-white w3-card" id="myNavbar">
-		<a href="#home" class="w3-bar-item w3-button w3-wide"><img src="image/logo.png" height='40px'/></a>
+		<a href="#home" class="w3-bar-item w3-button w3-wide"><img src="image/new_logo.png" height='40px'/></a>
 		<!-- Right-sided navbar links -->
 		<div class="w3-right w3-hide-small top">
 		<a href="user_login.php" class="w3-bar-item w3-button"><i class="glyphicon glyphicon-bell"></i>登入</a>

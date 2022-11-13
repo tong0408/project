@@ -74,7 +74,7 @@
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-white w3-card" id="myNavbar">
-    <div class="w3-button"  style="position:absolute; left:0px;"><a href="index.php" ><img src="image/logo.png" height='40px'/></a></div>
+    <div class="w3-button"  style="position:absolute; left:0px;"><a href="index.php" ><img src="image/new_logo.png" height='40px'/></a></div>
     <div style="position:absolute; left:150px; width:100%; height:56px; background-color:#FFF;"></div>
     <!-- Right-sided navbar links -->
 	
