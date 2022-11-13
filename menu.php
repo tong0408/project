@@ -300,14 +300,11 @@
 		$goal_protein=$user_weight*1.5;
 	}
 	else if($user_disease=="糖尿病"){
-		#醣類調整 總熱量的50%/4
-		$goal_glyco=($user_cal*0.5)/4;
-		$goal_glyco=round($goal_glyco);
-		#蛋白質調整 總熱量的25%/4
-		$goal_protein=($user_cal*0.25)/4;
+		#蛋白質調整 總熱量的20%/4
+		$goal_protein=($user_cal*0.2)/4;
 		$goal_protein=round($goal_protein);
-		#脂質調整 總熱量的25%/9
-		$goal_fat=($user_cal*0.25)/9;
+		#脂質調整 總熱量的20%/9
+		$goal_fat=($user_cal*0.2)/9;
 		$goal_fat=round($goal_fat);
 		#世界衛生組織建議糖份攝取低於所需能量(熱量)的10%
 		$goal_suger=($user_cal*0.1)/4;
@@ -358,7 +355,7 @@
 		$user_disease5=="肝硬化" || $user_disease6=="肝硬化" || $user_disease7=="肝硬化"){
 			$goal_protein=100;
 		}
-		else{
+		else if($user_disease2!=0){
 			$goal_protein=($user_cal*0.15)/4;
 			$goal_protein=round($goal_protein);
 		}
