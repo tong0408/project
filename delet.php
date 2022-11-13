@@ -27,5 +27,5 @@
     }    
 	
 
-	//header("Location: record.php");
+	header("Location: record.php");
   ?>
