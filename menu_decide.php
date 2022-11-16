@@ -30,6 +30,7 @@
     #ingredients.carbohydrate /100 * recipe.portion(*history.portion)-> 記錄醣類 glyco
     #ingredients.sodium /100 * recipe.portion(*history.portion) ->紀錄鈉含量
 
+    ## history紀錄
     $today = date("Y-m-d");
     $query = "SELECT * FROM `history` WHERE `UID`='$userID' and `date`='$today'";
     $result = $link->query($query);
@@ -92,6 +93,61 @@
         }
     }
 
+    ## user_histroy_modify 紀錄
+    $query = "SELECT * FROM `user_histroy_modify` WHERE `UID`='$userID' and `date`='$today'";
+    $result = $link->query($query);
+
+    #user_histroy_modify
+    foreach ($result as $row){
+        $modify_history_dishID=$row["dishID"];
+        $modify_history_iID=$row["iID"];
+        $modify_history_iprotion=$row["iportion"];
+        $modify_history_portion=$row["portion"];
+
+        #ingredients
+        $query = "SELECT * FROM `ingredients` WHERE `iID`='$modify_history_iID'";
+        $result = $link->query($query);
+        foreach ($result as $row){
+
+            $modify_ingredients_NID=$row["NID"]; #食材的六大類歸屬
+            $modify_ingredients_cal=$row["cal"]; #食材的卡路里
+            $modify_ingredients_protein=$row["protein"]; #食材的蛋白質
+            $modify_ingredients_fat=$row["fat"]; #食材的脂質
+            $modify_ingredients_saturatedfat=$row["saturatedfat"]; #食材的飽和脂肪
+            $modify_ingredients_glyco=$row["carbohydrate"]; #食材的醣類
+            $modify_ingredients_totalsugar=$row["totalsugar"]; #食材的總糖
+            $modify_ingredients_sodium=$row["sodium"]; #食材的鈉含量
+
+            #獲取六大類份數
+            if($modify_ingredients_NID==1){ #全榖雜糧 醣類/15
+                $now_category[0]=$now_category[0]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_glyco/100))/15,1);
+            }
+            else if($modify_ingredients_NID==2){ #蛋豆魚肉 蛋白質/7
+                $now_category[1]=$now_category[1]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_protein/100))/7,1);
+            }
+            else if($modify_ingredients_NID==3){ #乳品類 蛋白質/8
+                $now_category[2]=$now_category[2]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_protein/100))/8,1);
+            }
+            else if($modify_ingredients_NID==4){ #蔬菜類 熱量/25
+                $now_category[3]=$now_category[3]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_cal/100))/25,1);
+            }
+            else if($modify_ingredients_NID==5){ #水果類 熱量/60
+                $now_category[4]=$now_category[4]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_cal/100))/60,1);
+            }
+            else if($modify_ingredients_NID==6){ #油脂與堅果種子 脂肪/5
+                $now_category[5]=$now_category[5]+round((($modify_history_iprotion*$modify_history_portion)*($modify_ingredients_fat/100))/5,1);
+            }
+
+            #計算三大營養素+熱量(食材都是100g，先算出1g的營養素，再乘上食譜所用的克數及吃了幾份)
+            $now_cal = $now_cal + round(($modify_ingredients_cal / 100) * ($modify_history_iprotion*$modify_history_portion),1);
+            $now_glyco = $now_glyco + round(($modify_ingredients_glyco / 100) * ($modify_history_iprotion*$modify_history_portion),1);
+            $now_fat = $now_fat + round(($modify_ingredients_fat / 100) * ($modify_history_iprotion*$modify_history_portion),1);
+            $now_protein = $now_protein + round(($modify_ingredients_protein / 100) * ($modify_history_iprotion*$modify_history_portion),1);
+            $now_suger = $now_suger + round(($modify_ingredients_totalsugar / 100) * ($modify_history_iprotion*$modify_history_portion),1);
+            $now_sodium = $now_sodium + round((($modify_ingredients_sodium / 100) * ($modify_history_iprotion*$modify_history_portion)/1000),1);
+                
+        }
+    }
     #陣列先找出份數最小值 （目標是把每一類都能夠吃平均）
     #邏輯是0>1>2>3>4>5 同時有兩個量最少的話會以前面的種類先推薦
     #推薦以那類份數為主的食材
@@ -101,6 +157,7 @@
     ##1029 更新
     ##如果有些類別的攝取已經達標/超過 就不再推薦有包含那類別的食譜
 
+    ################################min改成找%數最低
     $search = array_search(min($now_category),$now_category);
     $recommend_dishID = array();
     $recommend_dishName = array();
