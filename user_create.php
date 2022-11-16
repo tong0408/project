@@ -54,7 +54,7 @@
 	</head>	
 	
 	<body>
-		<a href="index.php"><img src="image/logo.png" height='80px'/></a>
+		<a href="index.php"><img src="image/new_logo.png" height='80px'/></a>
 		<div class="form1">
 			<form method="POST" action="user_create_check.php">
 				<table style="margin:auto;">
